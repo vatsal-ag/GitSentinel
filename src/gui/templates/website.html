@@ -301,6 +301,78 @@
       font-weight: 600;
     }
 
+    /* Official Launch Video Player */
+    .video-container-card {
+      background: var(--card-bg);
+      border: 1px solid var(--accent-border);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 25px rgba(56, 189, 248, 0.12);
+      border-radius: 18px;
+      overflow: hidden;
+      max-width: 980px;
+      margin-inline: auto;
+      margin-top: 14px;
+    }
+    .video-frame-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      background: #000;
+    }
+    .video-frame-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border: none;
+    }
+    .video-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: #0b1120;
+      border-top: 1px solid var(--card-border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .video-meta-info {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .video-pill {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      background: var(--accent-muted);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .btn-download-video {
+      background: #111a2e;
+      border: 1px solid #1e2d4a;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.84rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
+    }
+    .btn-download-video:hover {
+      background: var(--accent);
+      color: #080c14;
+      border-color: var(--accent);
+    }
+
     /* Threat Vectors Grid */
     .section-wrap {
       padding-block: 60px;
@@ -610,6 +682,7 @@
         <span class="brand-badge">EDR 2.0</span>
       </a>
       <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#launch-video">Launch Video</a>
         <a href="#vectors">Threat Vectors</a>
         <a href="#comparison">Why GitSentinel</a>
         <a href="#platforms">All Platforms</a>
@@ -654,6 +727,39 @@
 
         <div style="font-size: 0.8rem; color: var(--text-sub);">
           Looking for a different machine? <a href="#platforms" class="alt-platforms-anchor">Browse all 5 platform downloads ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- OFFICIAL LAUNCH VIDEO SECTION -->
+    <section class="section-wrap" id="launch-video" aria-labelledby="video-title">
+      <div class="section-header">
+        <div class="hero-badge" style="margin-inline: auto; margin-bottom: 8px;">
+          <div class="pulse-dot" aria-hidden="true"></div>
+          <span>Official 64s Launch Trailer</span>
+        </div>
+        <h2 class="section-title" id="video-title">Watch GitSentinel In Action</h2>
+        <p class="section-sub">Experience the 64-second behavioral EDR breakdown — from AI sandbox escapes and 'CTRL' surveillance to WannaCry ransomware mutation defense.</p>
+      </div>
+
+      <div class="video-container-card">
+        <div class="video-frame-wrapper">
+          <video id="heroVideo" controls preload="metadata" poster="/brag.jpg" playsinline>
+            <source src="/brag.mp4" type="video/mp4">
+            <source src="/static/brag.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="video-meta-bar">
+          <div class="video-meta-info">
+            <span class="video-pill">1080p Full HD</span>
+            <span class="video-pill">64.0s Runtime</span>
+            <span class="video-pill">124 BPM Electronic Score</span>
+            <span class="video-pill">8 Dynamic Acts</span>
+          </div>
+          <a href="/brag.mp4" download="GitSentinel-Launch-Trailer.mp4" class="btn-download-video">
+            <span aria-hidden="true">⬇️</span> Download Trailer (MP4)
+          </a>
         </div>
       </div>
     </section>

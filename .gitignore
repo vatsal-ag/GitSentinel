@@ -39,6 +39,8 @@ Icon
 .env.local
 
 # IDE
-.idea/
-.vscode/
 *.swp
+
+# Brag video work intermediates
+brag-output/work/
+brag-output/test_frame_*.jpg

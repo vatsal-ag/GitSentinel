@@ -90,6 +90,14 @@ def robots():
 def sitemap():
     return send_from_directory("static", "sitemap.xml")
 
+@app.route("/brag.mp4")
+def brag_video():
+    return send_from_directory("static", "brag.mp4")
+
+@app.route("/brag.jpg")
+def brag_poster():
+    return send_from_directory("static", "brag.jpg")
+
 @app.route("/llms.txt")
 def llmstxt():
     return send_from_directory("static", "llms.txt")
@@ -103,6 +111,7 @@ def apply_security_headers(response):
     response.headers["Content-Security-Policy"] = (
         "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; "
         "img-src 'self' data: https:; "
+        "media-src 'self' data: https: blob:; "
         "font-src 'self' https://fonts.gstatic.com data:;"
     )
     return response

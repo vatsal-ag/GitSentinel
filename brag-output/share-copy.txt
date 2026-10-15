@@ -1,0 +1,8 @@
+Introducing GitSentinel EDR 2.0 🛡️
+
+The universal behavioral endpoint detection & response system built for the AI & supply-chain era. Catches autonomous AI sandbox breakouts, WannaCry ransomware mutations, "CTRL" movie-style surveillance spyware, and unauthorized Git PR tampering before drives lock or credentials leak.
+
+Zero kernel drivers. Compatible with macOS, Windows, Linux, iOS & Android.
+
+Watch the 64s launch trailer & test the live simulator:
+https://github.com/vatsal-ag/GitSentinel
