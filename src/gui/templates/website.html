@@ -483,6 +483,31 @@
       font-size: 1.1rem;
       font-weight: 800;
       color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sys-logo {
+      display: inline-block;
+      vertical-align: -0.2em;
+      width: 1.25em;
+      height: 1.25em;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+    .btn-smart-cta .sys-logo {
+      width: 1.35em;
+      height: 1.35em;
+      vertical-align: -0.22em;
+    }
+    .platform-card h2 .sys-logo {
+      width: 1.3em;
+      height: 1.3em;
+      color: var(--accent);
+    }
+    .btn-download-item .sys-logo {
+      width: 1.15em;
+      height: 1.15em;
     }
     .platform-card p {
       font-size: 0.82rem;
@@ -502,7 +527,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), color 140ms var(--ease-out);
     }
     .btn-download-item:hover {
       background: var(--accent);
@@ -867,46 +892,61 @@
         <!-- macOS -->
         <div class="platform-card" id="card-mac">
           <div>
-            <h2>🍏 macOS</h2>
+            <h2><svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.92-2.87-.93.04-2.02.63-2.67 1.38-.57.65-1.07 1.73-0.93 2.76 1.05.08 2.07-.52 2.68-1.27z"/></svg> macOS</h2>
             <p style="margin-top: 8px;">Native <code>.app</code> bundle with Apple Unified Logging (<code>os_log</code>) integration. Supports Apple Silicon (M1/M2/M3/M4) and Intel.</p>
           </div>
-          <a href="/download/macos" download class="btn-download-item">⬇️ Download macOS App (.zip)</a>
+          <a href="/download/macos" download class="btn-download-item">
+            <svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.92-2.87-.93.04-2.02.63-2.67 1.38-.57.65-1.07 1.73-0.93 2.76 1.05.08 2.07-.52 2.68-1.27z"/></svg>
+            Download macOS App (.zip)
+          </a>
         </div>
 
         <!-- Windows -->
         <div class="platform-card" id="card-win">
           <div>
-            <h2>🪟 Windows</h2>
+            <h2><svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.8"/></svg> Windows</h2>
             <p style="margin-top: 8px;">Windows Event Log & Sysmon monitoring with 1-click launcher batch script (<code>run_app.bat</code>) and native desktop UI.</p>
           </div>
-          <a href="/download/windows" download class="btn-download-item">⬇️ Download Windows Package (.zip)</a>
+          <a href="/download/windows" download class="btn-download-item">
+            <svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.8"/></svg>
+            Download Windows Package (.zip)
+          </a>
         </div>
 
         <!-- Linux -->
         <div class="platform-card" id="card-linux">
           <div>
-            <h2>🐧 Linux</h2>
+            <h2><svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.308 0c-.347 0-.712.029-1.077.087-3.02.484-4.675 2.946-4.228 6.302.054.406.155.807.284 1.196-.462.434-.87.94-1.207 1.503-1.63 2.73-1.35 6.09.68 8.163-.12.636-.18 1.285-.18 1.94 0 1.21.21 2.37.6 3.44H4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-2.67c.39-1.07.6-2.23.6-3.44 0-.655-.06-1.304-.18-1.94 2.03-2.073 2.31-5.433.68-8.163-.337-.563-.745-1.069-1.207-1.503.129-.389.23-.79.284-1.196.447-3.356-1.208-5.818-4.228-6.302-.365-.058-.73-.087-1.077-.087z"/></svg> Linux</h2>
             <p style="margin-top: 8px;">Lightweight user-space daemon with process tree inspection. Includes standalone terminal & web GUI.</p>
           </div>
-          <a href="/download/linux" download class="btn-download-item">⬇️ Download Linux Archive (.tar.gz)</a>
+          <a href="/download/linux" download class="btn-download-item">
+            <svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.308 0c-.347 0-.712.029-1.077.087-3.02.484-4.675 2.946-4.228 6.302.054.406.155.807.284 1.196-.462.434-.87.94-1.207 1.503-1.63 2.73-1.35 6.09.68 8.163-.12.636-.18 1.285-.18 1.94 0 1.21.21 2.37.6 3.44H4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-2.67c.39-1.07.6-2.23.6-3.44 0-.655-.06-1.304-.18-1.94 2.03-2.073 2.31-5.433.68-8.163-.337-.563-.745-1.069-1.207-1.503.129-.389.23-.79.284-1.196.447-3.356-1.208-5.818-4.228-6.302-.365-.058-.73-.087-1.077-.087z"/></svg>
+            Download Linux Archive (.tar.gz)
+          </a>
         </div>
 
         <!-- iOS -->
         <div class="platform-card" id="card-ios">
           <div>
-            <h2>📱 Apple iOS</h2>
+            <h2><svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.92-2.87-.93.04-2.02.63-2.67 1.38-.57.65-1.07 1.73-0.93 2.76 1.05.08 2.07-.52 2.68-1.27z"/></svg> Apple iOS</h2>
             <p style="margin-top: 8px;">Progressive Web App (PWA). Open in Safari and tap <strong>Share ➔ "Add to Home Screen"</strong> for standalone app mode.</p>
           </div>
-          <a href="/dashboard.html" class="btn-download-item">📲 Open iOS Web App</a>
+          <a href="/dashboard.html" class="btn-download-item">
+            <svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.92-2.87-.93.04-2.02.63-2.67 1.38-.57.65-1.07 1.73-0.93 2.76 1.05.08 2.07-.52 2.68-1.27z"/></svg>
+            Open iOS Web App
+          </a>
         </div>
 
         <!-- Android -->
         <div class="platform-card" id="card-android">
           <div>
-            <h2>🤖 Android</h2>
+            <h2><svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.1 12 8.1s-3.5902.3116-5.1367.8497L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg> Android</h2>
             <p style="margin-top: 8px;">Touch-optimized client with bottom navigation. Install directly from Chrome via <strong>"Install App"</strong>.</p>
           </div>
-          <a href="/dashboard.html" class="btn-download-item">📲 Open Android App</a>
+          <a href="/dashboard.html" class="btn-download-item">
+            <svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.1 12 8.1s-3.5902.3116-5.1367.8497L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>
+            Open Android App
+          </a>
         </div>
       </div>
     </section>
@@ -1018,12 +1058,20 @@
 
   <!-- INTELLIGENT DEVICE DETECTION SCRIPT -->
   <script>
+    const SVG_LOGOS = {
+      apple: `<svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.92-2.87-.93.04-2.02.63-2.67 1.38-.57.65-1.07 1.73-0.93 2.76 1.05.08 2.07-.52 2.68-1.27z"/></svg>`,
+      windows: `<svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.8"/></svg>`,
+      linux: `<svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.308 0c-.347 0-.712.029-1.077.087-3.02.484-4.675 2.946-4.228 6.302.054.406.155.807.284 1.196-.462.434-.87.94-1.207 1.503-1.63 2.73-1.35 6.09.68 8.163-.12.636-.18 1.285-.18 1.94 0 1.21.21 2.37.6 3.44H4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-2.67c.39-1.07.6-2.23.6-3.44 0-.655-.06-1.304-.18-1.94 2.03-2.073 2.31-5.433.68-8.163-.337-.563-.745-1.069-1.207-1.503.129-.389.23-.79.284-1.196.447-3.356-1.208-5.818-4.228-6.302-.365-.058-.73-.087-1.077-.087z"/></svg>`,
+      android: `<svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.551 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5676.1521l-2.0223 3.503C15.5902 8.4116 13.8533 8.1 12 8.1s-3.5902.3116-5.1367.8497L4.841 5.4467a.4161.4161 0 00-.5677-.1521.4157.4157 0 00-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/></svg>`,
+      fallback: `<svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 12v7H5v-7H3v7c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zm-6 .67l2.59-2.58L17 11.5l-5 5-5-5 1.41-1.41L11 12.67V3h2z"/></svg>`
+    };
+
     function detectClientEnvironment() {
       const ua = navigator.userAgent || "";
       const platform = navigator.platform || "";
       let client = {
         os: "Universal",
-        icon: "💻",
+        iconSvg: SVG_LOGOS.fallback,
         title: "Download Log Sentry",
         subtext: "Cross-Platform EDR for macOS, Windows, Linux, iOS & Android",
         href: "#platforms",
@@ -1034,7 +1082,7 @@
       if (/iPhone|iPad|iPod/.test(ua) || (platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
         client = {
           os: "Apple iOS",
-          icon: "📱",
+          iconSvg: SVG_LOGOS.apple,
           title: "Install on iOS (iPhone / iPad)",
           subtext: "Progressive Web App • Tap Share ➔ 'Add to Home Screen'",
           href: "/dashboard.html",
@@ -1045,7 +1093,7 @@
       else if (/Android/.test(ua)) {
         client = {
           os: "Android",
-          icon: "🤖",
+          iconSvg: SVG_LOGOS.android,
           title: "Install on Android App",
           subtext: "Touch-Optimized PWA • Install via Chrome Menu",
           href: "/dashboard.html",
@@ -1057,7 +1105,7 @@
         const isArm = /ARM|Apple/i.test(navigator.platform) || (navigator.userAgentData && navigator.userAgentData.architecture === 'arm');
         client = {
           os: "macOS",
-          icon: "🍏",
+          iconSvg: SVG_LOGOS.apple,
           title: `Download for macOS (${isArm ? "Apple Silicon M-Series" : "Universal"})`,
           subtext: "Native LogSentry.app Bundle (.zip) • macOS 11.0+ Big Sur to macOS 15+",
           href: "/download/macos",
@@ -1068,7 +1116,7 @@
       else if (/Win32|Win64|Windows|WinCE/.test(ua) || /Win/.test(platform)) {
         client = {
           os: "Windows",
-          icon: "🪟",
+          iconSvg: SVG_LOGOS.windows,
           title: "Download for Windows 10 / 11",
           subtext: "Windows Standalone Package (.zip with run_app.bat) • 64-bit",
           href: "/download/windows",
@@ -1079,7 +1127,7 @@
       else if (/Linux/.test(ua) || /Linux/.test(platform)) {
         client = {
           os: "Linux",
-          icon: "🐧",
+          iconSvg: SVG_LOGOS.linux,
           title: "Download for Linux (.tar.gz)",
           subtext: "Universal Linux Archive with Python EDR Daemon",
           href: "/download/linux",
@@ -1094,8 +1142,8 @@
       const smartText = document.getElementById('smartText');
       const smartSub = document.getElementById('smartSub');
 
-      smartLabel.innerHTML = `<span aria-hidden="true">⚡</span><span>Detected Operating System: <strong>${client.os}</strong></span>`;
-      smartIcon.textContent = client.icon;
+      smartLabel.innerHTML = `<span aria-hidden="true" style="display:inline-flex;align-items:center;margin-right:6px;">${client.iconSvg}</span><span>Detected Operating System: <strong>${client.os}</strong></span>`;
+      smartIcon.innerHTML = client.iconSvg;
       smartText.textContent = client.title;
       smartBtn.href = client.href;
       if (!client.isMobile && client.href.includes("/download/")) {

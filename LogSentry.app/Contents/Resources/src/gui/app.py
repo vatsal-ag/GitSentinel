@@ -234,7 +234,7 @@ def upload_screenshot_endpoint():
     else:
         data = request.json or {}
         filename = data.get("filename", "pasted_screenshot.png")
-        b64_data = data.get("image_b64", "")
+        b64_data = data.get("image_b64") or data.get("data", "")
         if "," in b64_data:
             b64_data = b64_data.split(",", 1)[1]
         import base64

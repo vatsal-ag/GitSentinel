@@ -17,21 +17,21 @@ Log Sentry is a next-generation Host-Based Endpoint Detection and Response (EDR)
 
 ## 🚀 Quick Start
 
-### 🍏 On macOS
+###  macOS
 Double-click `LogSentry.app` or run:
 ```bash
 python3 src/desktop_main.py
 ```
 
-### 🪟 On Windows
+### ⊞ Windows
 Double-click `run_app.bat` or run:
 ```cmd
 python src\desktop_main.py
 ```
 
-### 🐧 On Linux
+### 🐧 Linux
 ```bash
-python3 src/desktop_main.py
+./run_app.sh # or: python3 src/desktop_main.py
 ```
 
 ### 🌐 Universal Web Dashboard & GUI
