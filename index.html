@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>GitSentinel — Universal Behavioral EDR & Supply-Chain Defense</title>
+  <meta name="description" content="Universal host-based EDR detecting AI sandbox escapes, WannaCry ransomware, 'CTRL' spyware, worms, and rogue PRs from low-level OS event logs.">
+  <meta name="keywords" content="EDR, supply chain security, AI sandbox escape, ransomware detection, WannaCry, Git security, host intrusion detection, endpoint security">
+  <meta name="author" content="Vatsal Agarwal">
+  <link rel="canonical" href="https://gitsentinel.io/">
+
+  <!-- Open Graph & Social Card (1200x630) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gitsentinel.io/">
+  <meta property="og:title" content="GitSentinel — Universal Behavioral EDR & Supply-Chain Defense">
+  <meta property="og:description" content="Next-generation host-based EDR detecting AI sandbox escapes, WannaCry ransomware, 'CTRL' spyware, and unauthorized pull requests.">
+  <meta property="og:image" content="https://gitsentinel.io/static/icon-512.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GitSentinel — Universal Behavioral EDR & Supply-Chain Defense">
+  <meta name="twitter:description" content="Next-generation host-based EDR detecting AI sandbox escapes, WannaCry ransomware, 'CTRL' spyware, and unauthorized pull requests.">
+  <meta name="twitter:image" content="https://gitsentinel.io/static/icon-512.png">
+
+  <!-- Favicons & Mobile Touch Icons -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/static/icon-192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/static/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#080c14">
+
+  <!-- Typography: Geist + Geist Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700&family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- JSON-LD Structured Data Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "GitSentinel EDR",
+    "operatingSystem": "macOS, Windows, Linux, iOS, Android",
+    "applicationCategory": "SecurityApplication",
+    "description": "Universal host-based behavioral endpoint detection & response system intercepting AI sandbox escapes, ransomware, spyware, worms, and rogue Git operations.",
+    "url": "https://gitsentinel.io/",
+    "author": {
+      "@type": "Person",
+      "name": "Vatsal Agarwal"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0.00",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #080c14;
+      --card-bg: #0d1322;
+      --card-border: #162035;
+      --card-border-focus: #1e293b;
+      --accent: #38bdf8;
+      --accent-muted: rgba(56, 189, 248, 0.12);
+      --accent-border: rgba(56, 189, 248, 0.32);
+      --accent-hover: #0284c7;
+      --red: #ef4444;
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --purple: #a855f7;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
+
+    /* Subtle ambient defense grid - Tinted Neutral (No Lila Mesh) */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Container constraints */
+    .container {
+      max-width: 1180px;
+      margin-inline: auto;
+      padding-inline: 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Header Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(8, 12, 20, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      padding-block: 14px;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .brand-icon {
+      font-size: 1.6rem;
+    }
+    .brand-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.03em;
+    }
+    .brand-badge {
+      font-size: 0.7rem;
+      background: var(--accent-muted);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      letter-spacing: 0.04em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-links a {
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: color 140ms var(--ease-out);
+    }
+    .nav-links a:hover {
+      color: #fff;
+    }
+    .btn-header-cta {
+      background: #111a2e;
+      border: 1px solid #1e2d4a;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
+    }
+    .btn-header-cta:hover {
+      background: var(--accent);
+      color: #080c14;
+      border-color: var(--accent);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding-block: 80px 50px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent-muted);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      padding: 5px 14px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite var(--ease-out);
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Strictly exactly ONE H1 on the document with descender clearance */
+    .hero-headline {
+      font-size: clamp(2.4rem, 5.2vw, 3.9rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+      padding-bottom: 6px; /* descender clearance */
+      max-width: 900px;
+      color: #fff;
+    }
+    .accent-emphasis {
+      color: var(--accent);
+      font-style: normal;
+    }
+    .hero-subhead {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-sub);
+      max-width: 65ch; /* strict readability bounds */
+      line-height: 1.7;
+    }
+
+    /* Intelligent Device CTA Card */
+    .smart-device-card {
+      background: var(--card-bg);
+      border: 1px solid var(--accent-border);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+      border-radius: 18px;
+      padding: 26px 32px;
+      margin-top: 16px;
+      max-width: 580px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+    .smart-detected-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-smart-cta {
+      background: var(--accent);
+      color: #080c14;
+      border: none;
+      padding: 15px 32px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      text-decoration: none;
+      transition: background-color 150ms var(--ease-out), transform 150ms var(--ease-out);
+    }
+    .btn-smart-cta:hover {
+      background: #7dd3fc;
+      transform: translateY(-2px);
+    }
+    .btn-smart-cta:active {
+      transform: scale(0.98);
+    }
+    .smart-subtext {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+    }
+    .alt-platforms-anchor {
+      color: var(--accent);
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    /* Threat Vectors Grid */
+    .section-wrap {
+      padding-block: 60px;
+      border-top: 1px solid var(--card-border);
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      padding-bottom: 4px;
+    }
+    .section-sub {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      max-width: 65ch;
+      margin-inline: auto;
+    }
+    .vectors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .vector-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .vector-card:hover {
+      border-color: #2a3a5a;
+      transform: translateY(-2px);
+    }
+    .vector-card h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .vector-card p {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* Comparison Table Section */
+    .table-container {
+      overflow-x: auto;
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      background: var(--card-bg);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    th, td {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--card-border);
+      text-align: left;
+    }
+    th {
+      background: #0b1120;
+      color: var(--text-sub);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* All Platforms Grid */
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .platform-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+    }
+    .platform-card:hover {
+      border-color: #2a3a5a;
+      transform: translateY(-2px);
+    }
+    .platform-card h2 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .platform-card p {
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+    .btn-download-item {
+      background: #111a2e;
+      border: 1px solid #1e2d4a;
+      color: #fff;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
+    }
+    .btn-download-item:hover {
+      background: var(--accent);
+      color: #080c14;
+      border-color: var(--accent);
+    }
+
+    /* FAQ Grid */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 16px;
+    }
+    .faq-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .faq-item h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .faq-item p {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    /* GDPR Art. 6 Cookie Consent Banner (CMP) */
+    .cookie-banner {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      max-width: 440px;
+      width: calc(100% - 40px);
+      background: #0d1424;
+      border: 1px solid var(--accent-border);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+      border-radius: 14px;
+      padding: 18px;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 0.84rem;
+      animation: bannerIn 240ms var(--ease-out);
+    }
+    @keyframes bannerIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .cookie-banner-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .btn-cookie {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background-color 140ms var(--ease-out);
+    }
+    .btn-cookie-primary { background: var(--accent); color: #080c14; font-weight: 700; }
+    .btn-cookie-primary:hover { background: #7dd3fc; }
+    .btn-cookie-secondary { background: #162035; color: var(--text-sub); }
+    .btn-cookie-secondary:hover { color: #fff; }
+
+    /* Modals for Privacy & Terms */
+    .legal-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 120;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .legal-modal-overlay.active { display: flex; }
+    .legal-modal {
+      background: #0d1424;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
+      animation: modalScale 200ms var(--ease-out);
+    }
+    @keyframes modalScale {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .legal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .legal-body {
+      padding: 20px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.65;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .legal-body strong { color: #fff; }
+    .legal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      background: #05080e;
+      padding-block: 40px;
+      color: var(--text-sub);
+      font-size: 0.82rem;
+      text-align: center;
+    }
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 18px;
+    }
+    .footer-links button, .footer-links a {
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      cursor: pointer;
+      font-size: 0.82rem;
+      text-decoration: underline;
+    }
+    .footer-links button:hover, .footer-links a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .faq-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- Header Nav -->
+  <header>
+    <div class="container nav-inner">
+      <a href="#" class="brand">
+        <span class="brand-icon" aria-hidden="true">🛡️</span>
+        <span class="brand-text">GitSentinel</span>
+        <span class="brand-badge">EDR 2.0</span>
+      </a>
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#vectors">Threat Vectors</a>
+        <a href="#comparison">Why GitSentinel</a>
+        <a href="#platforms">All Platforms</a>
+        <a href="#faq">FAQ</a>
+        <a href="/dashboard.html" class="btn-header-cta">Open Web GUI ➔</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO SECTION -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-badge">
+        <div class="pulse-dot" aria-hidden="true"></div>
+        <span>Behavioral Host Telemetry Engine</span>
+      </div>
+
+      <!-- Exactly ONE H1 on the whole page, descender-padded -->
+      <h1 class="hero-headline" id="hero-title">
+        The Behavioral EDR For The <span class="accent-emphasis">AI & Supply-Chain Era</span>
+      </h1>
+
+      <p class="hero-subhead">
+        Detect and quarantine AI agent sandbox breakouts, WannaCry ransomware, "CTRL" movie surveillance, and unauthorized Git commits directly from low-level OS event logs.
+      </p>
+
+      <!-- INTELLIGENT DEVICE DETECTION CTA -->
+      <div class="smart-device-card" id="smartCard">
+        <div class="smart-detected-label" id="smartLabel">
+          <span aria-hidden="true">⚡</span>
+          <span>Detecting your client environment...</span>
+        </div>
+
+        <a href="#" class="btn-smart-cta" id="smartBtn">
+          <span id="smartIcon" aria-hidden="true">⬇️</span>
+          <span id="smartText">Download GitSentinel</span>
+        </a>
+
+        <div class="smart-subtext" id="smartSub">
+          Verifiable Local Telemetry • Zero Kernel Extensions • Free & Open Source
+        </div>
+
+        <div style="font-size: 0.8rem; color: var(--text-sub);">
+          Looking for a different machine? <a href="#platforms" class="alt-platforms-anchor">Browse all 5 platform downloads ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 THREAT VECTORS -->
+    <section class="section-wrap" id="vectors" aria-labelledby="vectors-title">
+      <div class="section-header">
+        <h2 class="section-title" id="vectors-title">Universal Threat Interception</h2>
+        <p class="section-sub">Standard antivirus tools scan static file hashes. GitSentinel audits execution behaviors in real time.</p>
+      </div>
+
+      <div class="vectors-grid">
+        <article class="vector-card">
+          <h2>🤖 AI Sandbox & Agent Breakouts</h2>
+          <p>Intercepts autonomous LLM agents or containers mounting <code>/var/run/docker.sock</code>, breaking chroot isolation, or spawning unsanctioned host shells.</p>
+        </article>
+
+        <article class="vector-card">
+          <h2>🔒 WannaCry-Style Ransomware</h2>
+          <p>Canary tripwires and disk write entropy monitors catch mass encryption bursts and volume shadow copy deletion (<code>vssadmin</code>) before drives lock.</p>
+        </article>
+
+        <article class="vector-card">
+          <h2>👁️ 'CTRL' Movie Surveillance</h2>
+          <p>Passively flags background screen capture, microphone/webcam snooping, and browser credential theft from <code>~/.ssh</code> and keychain stores.</p>
+        </article>
+
+        <article class="vector-card">
+          <h2>🐙 Unauthorized Git & PR Shield</h2>
+          <p>Traces process lineage and TTY states to catch headless background scripts secretly altering <code>user.email</code> and creating unauthorized Pull Requests.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE COMPARISON -->
+    <section class="section-wrap" id="comparison" aria-labelledby="comp-title">
+      <div class="section-header">
+        <h2 class="section-title" id="comp-title">Traditional Antivirus vs. GitSentinel EDR</h2>
+        <p class="section-sub">Why legacy file scanners have a complete blindspot against modern developer and AI-age attacks.</p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Security Capability</th>
+              <th>Legacy Antivirus</th>
+              <th style="color: var(--accent);">GitSentinel EDR</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Detection Methodology</strong></td>
+              <td>Static file hashes on disk (.exe, .dmg)</td>
+              <td style="color: var(--accent);">Real-time OS process lineage & behavioral logs</td>
+            </tr>
+            <tr>
+              <td><strong>Legitimate CLI Abuse (Git, gh, ssh)</strong></td>
+              <td>❌ Blind (Trusts signed Apple/Microsoft binaries)</td>
+              <td style="color: var(--accent);">✅ 100% Behavioral Interception</td>
+            </tr>
+            <tr>
+              <td><strong>AI Sandbox / Container Escape</strong></td>
+              <td>❌ Unaware of container/agent IPC sockets</td>
+              <td style="color: var(--accent);">✅ Audits host socket mounts & unauthorized subshells</td>
+            </tr>
+            <tr>
+              <td><strong>Mutated / Zero-Day Malware</strong></td>
+              <td>❌ Bypassed when file hash changes</td>
+              <td style="color: var(--accent);">✅ Behaviorally matches TTPs even with zero-day hashes</td>
+            </tr>
+            <tr>
+              <td><strong>Headless Trojan PR Creation</strong></td>
+              <td>❌ 0% Visibility into SCM repositories</td>
+              <td style="color: var(--accent);">✅ Enforces TTY interactivity & author session validation</td>
+            </tr>
+            <tr>
+              <td><strong>Workstation Overhead</strong></td>
+              <td>Heavy CPU hog (>20% overhead)</td>
+              <td style="color: var(--accent);">Ultra-lightweight user-space daemon (&lt;0.5% CPU)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ALL PLATFORMS -->
+    <section class="section-wrap" id="platforms" aria-labelledby="plat-title">
+      <div class="section-header">
+        <h2 class="section-title" id="plat-title">Download For Any Device</h2>
+        <p class="section-sub">Zero kernel drivers. Safe, user-space architecture available across all major operating systems.</p>
+      </div>
+
+      <div class="platforms-grid">
+        <!-- macOS -->
+        <div class="platform-card" id="card-mac">
+          <div>
+            <h2>🍏 macOS</h2>
+            <p style="margin-top: 8px;">Native <code>.app</code> bundle with Apple Unified Logging (<code>os_log</code>) integration. Supports Apple Silicon (M1/M2/M3/M4) and Intel.</p>
+          </div>
+          <a href="/download/macos" download class="btn-download-item">⬇️ Download macOS App (.zip)</a>
+        </div>
+
+        <!-- Windows -->
+        <div class="platform-card" id="card-win">
+          <div>
+            <h2>🪟 Windows</h2>
+            <p style="margin-top: 8px;">Windows Event Log & Sysmon monitoring with 1-click launcher batch script (<code>run_app.bat</code>) and native desktop UI.</p>
+          </div>
+          <a href="/download/windows" download class="btn-download-item">⬇️ Download Windows Package (.zip)</a>
+        </div>
+
+        <!-- Linux -->
+        <div class="platform-card" id="card-linux">
+          <div>
+            <h2>🐧 Linux</h2>
+            <p style="margin-top: 8px;">Lightweight user-space daemon with process tree inspection. Includes standalone terminal & web GUI.</p>
+          </div>
+          <a href="/download/linux" download class="btn-download-item">⬇️ Download Linux Archive (.tar.gz)</a>
+        </div>
+
+        <!-- iOS -->
+        <div class="platform-card" id="card-ios">
+          <div>
+            <h2>📱 Apple iOS</h2>
+            <p style="margin-top: 8px;">Progressive Web App (PWA). Open in Safari and tap <strong>Share ➔ "Add to Home Screen"</strong> for standalone app mode.</p>
+          </div>
+          <a href="/dashboard.html" class="btn-download-item">📲 Open iOS Web App</a>
+        </div>
+
+        <!-- Android -->
+        <div class="platform-card" id="card-android">
+          <div>
+            <h2>🤖 Android</h2>
+            <p style="margin-top: 8px;">Touch-optimized client with bottom navigation. Install directly from Chrome via <strong>"Install App"</strong>.</p>
+          </div>
+          <a href="/dashboard.html" class="btn-download-item">📲 Open Android App</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section-wrap" id="faq" aria-labelledby="faq-title">
+      <div class="section-header">
+        <h2 class="section-title" id="faq-title">Frequently Asked Questions</h2>
+        <p class="section-sub">Technical details on GitSentinel's behavioral telemetry engine.</p>
+      </div>
+
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h2>How does it catch mutated malware without signatures?</h2>
+          <p>Attackers frequently mutate source code or change hashes, but they cannot hide operating system behavior. A ransomware must perform rapid file modifications; an AI escape must touch host sockets; a worm must scan ports. GitSentinel matches these immutable behavioral patterns.</p>
+        </div>
+
+        <div class="faq-item">
+          <h2>Does GitSentinel slow down developer builds?</h2>
+          <p>No. GitSentinel runs entirely in user-space using non-blocking stream filters (macOS <code>log stream</code> and Windows Sysmon). It consumes &lt;0.5% CPU and ~40MB RAM.</p>
+        </div>
+
+        <div class="faq-item">
+          <h2>What happens when a threat is flagged?</h2>
+          <p>GitSentinel displays an instant desktop alert detailing the offending PID, command line, and ancestor process tree. In Active Defense mode, it sends SIGSTOP or SIGKILL to freeze the process before completion.</p>
+        </div>
+
+        <div class="faq-item">
+          <h2>Can it monitor remote devices or mobile phones?</h2>
+          <p>Yes. GitSentinel serves a secure REST API and responsive PWA web client, allowing authorized access over your local network or private VPN.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- GDPR Art. 6 Cookie Consent Management (CMP) -->
+  <aside class="cookie-banner" id="cookieBanner" aria-label="Cookie Consent">
+    <div>
+      <strong style="color: #fff;">Privacy & Local Telemetry Notice</strong>
+      <p style="margin-top: 4px; color: var(--text-sub);">
+        GitSentinel operates with 100% local processing. We use only essential cookies to preserve your threat filter preferences. No personal telemetry is exported.
+      </p>
+    </div>
+    <div class="cookie-banner-actions">
+      <button class="btn-cookie btn-cookie-secondary" onclick="dismissCookies('essential')">Essential Only</button>
+      <button class="btn-cookie btn-cookie-primary" onclick="dismissCookies('accept')">Accept All</button>
+    </div>
+  </aside>
+
+  <!-- Legal Modal: Privacy Policy (GDPR Art. 6 Compliant) -->
+  <div class="legal-modal-overlay" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+    <div class="legal-modal">
+      <div class="legal-header">
+        <strong id="privacyTitle" style="color: #fff; font-size: 1.05rem;">Privacy Policy & GDPR Disclosure</strong>
+        <button onclick="closeLegalModal('privacyModal')" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+      <div class="legal-body">
+        <p><strong>1. Data Minimization & Local Processing (GDPR Art. 5 & 6)</strong></p>
+        <p>GitSentinel operates strictly on a local-first paradigm. System log telemetry ingested from macOS Unified Logging, Windows Event Logs, and Linux auditd is processed entirely within local memory and committed exclusively to your local SQLite database (<code>sentinel.db</code>). No process trees, command lines, or telemetry are transmitted to external servers.</p>
+        <p><strong>2. User Rights & Data Erasure</strong></p>
+        <p>You retain absolute ownership of all logged forensics. At any time, you can purge the local audit history by deleting <code>sentinel.db</code> or via the EDR dashboard settings.</p>
+        <p><strong>3. Contact & Inquiries</strong></p>
+        <p>For research and compliance questions: privacy@gitsentinel.io (Maintained by Vatsal Agarwal).</p>
+      </div>
+      <div class="legal-footer">
+        <button class="btn-header-cta" onclick="closeLegalModal('privacyModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legal Modal: Terms of Service -->
+  <div class="legal-modal-overlay" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+    <div class="legal-modal">
+      <div class="legal-header">
+        <strong id="termsTitle" style="color: #fff; font-size: 1.05rem;">Terms of Service & Usage License</strong>
+        <button onclick="closeLegalModal('termsModal')" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer;">&times;</button>
+      </div>
+      <div class="legal-body">
+        <p><strong>1. License & Permitted Use</strong></p>
+        <p>GitSentinel is provided as academic and open research software under the MIT License. Users are authorized to deploy, audit, and run GitSentinel on workstations and servers under their direct control.</p>
+        <p><strong>2. Defensive & Diagnostic Purpose</strong></p>
+        <p>GitSentinel is designed exclusively for defense, supply-chain monitoring, and incident mitigation. Automated process quarantine actions (SIGKILL) should be configured in compliance with organizational operational guidelines.</p>
+      </div>
+      <div class="legal-footer">
+        <button class="btn-header-cta" onclick="closeLegalModal('termsModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span aria-hidden="true">🛡️</span>
+        <strong style="color: #fff; font-size: 0.95rem;">GitSentinel EDR</strong>
+      </div>
+      <p>Universal Endpoint Detection, Threat Mutation Profiler & Remediation System</p>
+      <div class="footer-links">
+        <button onclick="openLegalModal('privacyModal')">Privacy Policy</button>
+        <button onclick="openLegalModal('termsModal')">Terms of Service</button>
+        <a href="/static/llms.txt" target="_blank">llms.txt</a>
+        <a href="/static/robots.txt" target="_blank">robots.txt</a>
+      </div>
+      <p style="font-size: 0.75rem; color: #64748b;">
+        Designed & Engineered by Vatsal Agarwal | Academic Research & Supply Chain Defense 2026–2027
+      </p>
+    </div>
+  </footer>
+
+  <!-- INTELLIGENT DEVICE DETECTION SCRIPT -->
+  <script>
+    function detectClientEnvironment() {
+      const ua = navigator.userAgent || "";
+      const platform = navigator.platform || "";
+      let client = {
+        os: "Universal",
+        icon: "💻",
+        title: "Download GitSentinel",
+        subtext: "Cross-Platform EDR for macOS, Windows, Linux, iOS & Android",
+        href: "#platforms",
+        isMobile: false
+      };
+
+      // 1. Apple iOS (iPhone/iPad)
+      if (/iPhone|iPad|iPod/.test(ua) || (platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
+        client = {
+          os: "Apple iOS",
+          icon: "📱",
+          title: "Install on iOS (iPhone / iPad)",
+          subtext: "Progressive Web App • Tap Share ➔ 'Add to Home Screen'",
+          href: "/dashboard.html",
+          isMobile: true
+        };
+      }
+      // 2. Android
+      else if (/Android/.test(ua)) {
+        client = {
+          os: "Android",
+          icon: "🤖",
+          title: "Install on Android App",
+          subtext: "Touch-Optimized PWA • Install via Chrome Menu",
+          href: "/dashboard.html",
+          isMobile: true
+        };
+      }
+      // 3. macOS
+      else if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(ua) || /Mac/.test(platform)) {
+        const isArm = /ARM|Apple/i.test(navigator.platform) || (navigator.userAgentData && navigator.userAgentData.architecture === 'arm');
+        client = {
+          os: "macOS",
+          icon: "🍏",
+          title: `Download for macOS (${isArm ? "Apple Silicon M-Series" : "Universal"})`,
+          subtext: "Native GitSentinel.app Bundle (.zip) • macOS 11.0+ Big Sur to macOS 15+",
+          href: "/download/macos",
+          isMobile: false
+        };
+      }
+      // 4. Windows
+      else if (/Win32|Win64|Windows|WinCE/.test(ua) || /Win/.test(platform)) {
+        client = {
+          os: "Windows",
+          icon: "🪟",
+          title: "Download for Windows 10 / 11",
+          subtext: "Windows Standalone Package (.zip with run_app.bat) • 64-bit",
+          href: "/download/windows",
+          isMobile: false
+        };
+      }
+      // 5. Linux
+      else if (/Linux/.test(ua) || /Linux/.test(platform)) {
+        client = {
+          os: "Linux",
+          icon: "🐧",
+          title: "Download for Linux (.tar.gz)",
+          subtext: "Universal Linux Archive with Python EDR Daemon",
+          href: "/download/linux",
+          isMobile: false
+        };
+      }
+
+      // Update CTA without layout jump
+      const smartLabel = document.getElementById('smartLabel');
+      const smartBtn = document.getElementById('smartBtn');
+      const smartIcon = document.getElementById('smartIcon');
+      const smartText = document.getElementById('smartText');
+      const smartSub = document.getElementById('smartSub');
+
+      smartLabel.innerHTML = `<span aria-hidden="true">⚡</span><span>Detected Operating System: <strong>${client.os}</strong></span>`;
+      smartIcon.textContent = client.icon;
+      smartText.textContent = client.title;
+      smartBtn.href = client.href;
+      if (!client.isMobile && client.href.includes("/download/")) {
+        smartBtn.setAttribute("download", "");
+      }
+      smartSub.textContent = client.subtext;
+
+      // Card highlight
+      if (client.os.includes("macOS")) highlightCard('card-mac');
+      else if (client.os.includes("Windows")) highlightCard('card-win');
+      else if (client.os.includes("Linux")) highlightCard('card-linux');
+      else if (client.os.includes("iOS")) highlightCard('card-ios');
+      else if (client.os.includes("Android")) highlightCard('card-android');
+    }
+
+    function highlightCard(cardId) {
+      const card = document.getElementById(cardId);
+      if (card) {
+        card.style.borderColor = "var(--accent-border)";
+        card.style.boxShadow = "0 0 20px rgba(56, 189, 248, 0.15)";
+        const badge = document.createElement("div");
+        badge.style.fontSize = "0.7rem";
+        badge.style.fontWeight = "800";
+        badge.style.fontFamily = "var(--font-mono)";
+        badge.style.color = "var(--accent)";
+        badge.style.textTransform = "uppercase";
+        badge.textContent = "★ Recommended for Your Current Machine";
+        card.prepend(badge);
+      }
+    }
+
+    // Cookie CMP dismissal
+    function dismissCookies(choice) {
+      document.getElementById('cookieBanner').style.display = 'none';
+      try {
+        localStorage.setItem('gitsentinel_consent', choice);
+      } catch (e) {}
+    }
+
+    // Check existing consent
+    try {
+      if (localStorage.getItem('gitsentinel_consent')) {
+        document.getElementById('cookieBanner').style.display = 'none';
+      }
+    } catch (e) {}
+
+    // Legal Modals
+    function openLegalModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.add('active');
+    }
+    function closeLegalModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.remove('active');
+    }
+
+    // Initialize detection
+    document.addEventListener("DOMContentLoaded", detectClientEnvironment);
+  </script>
+</body>
+</html>

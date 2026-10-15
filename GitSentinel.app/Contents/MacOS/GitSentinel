@@ -1,0 +1,12 @@
+#!/bin/bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
+cd "$DIR"
+
+# Ensure Python path
+export PATH="/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/opt/homebrew/bin:$PATH"
+
+if which python3 >/dev/null 2>&1; then
+    exec python3 "$DIR/src/desktop_main.py"
+else
+    exec /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 "$DIR/src/desktop_main.py"
+fi
