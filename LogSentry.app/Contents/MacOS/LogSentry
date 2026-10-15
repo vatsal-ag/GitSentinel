@@ -7,7 +7,7 @@ CONTENTS_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
 RESOURCES_DIR="$CONTENTS_DIR/Resources"
 
 # Log file for debugging
-LOG_FILE="$HOME/Library/Logs/GitSentinel.log"
+LOG_FILE="$HOME/Library/Logs/LogSentry.log"
 mkdir -p "$HOME/Library/Logs"
 
 # Choose entry point: self-contained Resources or repo root
@@ -53,9 +53,9 @@ if [ -z "$SELECTED_PYTHON" ]; then
 fi
 
 if [ -z "$SELECTED_PYTHON" ] || ! "$SELECTED_PYTHON" -c "import flask, webview" >/dev/null 2>&1; then
-    osascript -e 'display alert "GitSentinel Dependency Check" message "Python 3 with Flask and PyWebview is required.\n\nPlease open Terminal and run:\npip3 install flask pywebview"'
+    osascript -e 'display alert "Log Sentry Dependency Check" message "Python 3 with Flask and PyWebview is required.\n\nPlease open Terminal and run:\npip3 install flask pywebview"'
     exit 1
 fi
 
-echo "[$(date)] Launching GitSentinel using $SELECTED_PYTHON from $APP_ROOT" >> "$LOG_FILE"
+echo "[$(date)] Launching Log Sentry using $SELECTED_PYTHON from $APP_ROOT" >> "$LOG_FILE"
 exec "$SELECTED_PYTHON" "$APP_ROOT/src/desktop_main.py" >> "$LOG_FILE" 2>&1

@@ -52,5 +52,5 @@ class SentinelEngine:
         }
 
 if __name__ == "__main__":
-    print("GitSentinel Universal Threat Detection & Remediation Engine initialized.")
+    print("Log Sentry Universal Threat Detection & Remediation Engine initialized.")
     print("Ready to process system log streams and real-time telemetry.")

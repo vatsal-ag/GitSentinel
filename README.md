@@ -1,6 +1,6 @@
-# GitSentinel EDR — Universal Threat Detection & Remediation System
+# Log Sentry EDR — Universal Threat Detection & Remediation System
 
-GitSentinel is a next-generation Host-Based Endpoint Detection and Response (EDR) agent that protects developer workstations and enterprise systems from **Ransomware (WannaCry-style)**, **AI Sandbox & Runtime Escapes**, **"CTRL"-style Spyware & Surveillance**, **Network Worms**, **Binary Viruses**, and **Unauthorized Git/PR Tampering**.
+Log Sentry is a next-generation Host-Based Endpoint Detection and Response (EDR) agent that protects developer workstations and enterprise systems from **Ransomware (WannaCry-style)**, **AI Sandbox & Runtime Escapes**, **"CTRL"-style Spyware & Surveillance**, **Network Worms**, **Binary Viruses**, and **Unauthorized Git/PR Tampering**.
 
 ---
 
@@ -18,7 +18,7 @@ GitSentinel is a next-generation Host-Based Endpoint Detection and Response (EDR
 ## 🚀 Quick Start
 
 ### 🍏 On macOS
-Double-click `GitSentinel.app` or run:
+Double-click `LogSentry.app` or run:
 ```bash
 python3 src/desktop_main.py
 ```

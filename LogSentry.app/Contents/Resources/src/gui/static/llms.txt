@@ -1,8 +1,8 @@
-# GitSentinel EDR
+# Log Sentry EDR
 > Universal Behavioral Endpoint Detection & Response System for macOS, Windows, Linux, Android, and iOS.
 
 ## Project Summary
-GitSentinel is a host-based behavioral security system designed to detect and quarantine:
+Log Sentry is a host-based behavioral security system designed to detect and quarantine:
 - AI Sandbox & Runtime Breakouts (e.g. Docker socket mounts, unauthorized host subshells).
 - Ransomware (WannaCry-style mass file encryption, canary file triggers, volume shadow copy deletion).
 - Covert Spyware & Surveillance ("CTRL" movie-style background screen recorders, keyloggers, credential theft).
@@ -17,5 +17,5 @@ GitSentinel is a host-based behavioral security system designed to detect and qu
 
 ## Author & Research
 Designed and engineered by Vatsal Agarwal (Academic Year 2026-2027).
-Documentation: https://gitsentinel.io/dashboard
-Repository: https://github.com/vatsalagarwal/GitSentinel
+Documentation: https://logsentry.io/dashboard
+Repository: https://github.com/vatsalagarwal/Log Sentry

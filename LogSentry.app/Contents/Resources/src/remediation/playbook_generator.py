@@ -56,7 +56,7 @@ class PlaybookGenerator:
             lines.append(f"   {step}")
 
         lines.append("------------------------------------------------------------------")
-        lines.append("ℹ️ GitSentinel Defense Agent has logged this forensic incident to sentinel.db")
+        lines.append("ℹ️ Log Sentry Defense Agent has logged this forensic incident to sentinel.db")
         lines.append("==================================================================")
 
         return "\n".join(lines)

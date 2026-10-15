@@ -1,6 +1,6 @@
 {
-  "name": "GitSentinel EDR",
-  "short_name": "GitSentinel",
+  "name": "Log Sentry EDR",
+  "short_name": "Log Sentry",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#070b12",

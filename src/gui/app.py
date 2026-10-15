@@ -69,13 +69,13 @@ def dashboard():
 def download_package(target):
     target = target.lower()
     mapping = {
-        "macos": "GitSentinel-macOS.zip",
-        "mac": "GitSentinel-macOS.zip",
-        "windows": "GitSentinel-Windows.zip",
-        "win": "GitSentinel-Windows.zip",
-        "linux": "GitSentinel-Linux.tar.gz"
+        "macos": "LogSentry-macOS.zip",
+        "mac": "LogSentry-macOS.zip",
+        "windows": "LogSentry-Windows.zip",
+        "win": "LogSentry-Windows.zip",
+        "linux": "LogSentry-Linux.tar.gz"
     }
-    filename = mapping.get(target, "GitSentinel-macOS.zip")
+    filename = mapping.get(target, "LogSentry-macOS.zip")
     return send_from_directory("static/downloads", filename, as_attachment=True)
 
 @app.route("/manifest.json")
@@ -205,7 +205,7 @@ def remediate_process(pid):
 
 if __name__ == "__main__":
     port = 5050
-    print(f"🚀 GitSentinel Universal Web GUI running on http://0.0.0.0:{port}")
+    print(f"🚀 Log Sentry Universal Web GUI running on http://0.0.0.0:{port}")
     print("Accessible on:")
     print(f"• macOS / Windows / Linux (Local): http://localhost:{port}")
     print(f"• Mobile (iOS / Android):          http://<YOUR_LAN_IP>:{port}")

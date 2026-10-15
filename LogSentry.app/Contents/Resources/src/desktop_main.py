@@ -1,5 +1,5 @@
 """
-src/desktop_main.py - Native Desktop Window Launcher for GitSentinel.
+src/desktop_main.py - Native Desktop Window Launcher for Log Sentry.
 Uses native WebKit on macOS and WebView2 on Windows to run as a standalone desktop application.
 """
 import sys
@@ -45,10 +45,10 @@ def launch_native_app():
 
     # Launch Native App Window pointing directly to the EDR dashboard
     target_url = f"http://127.0.0.1:{port}/dashboard"
-    print(f"[*] GitSentinel Desktop running on {target_url}")
+    print(f"[*] Log Sentry Desktop running on {target_url}")
 
     window = webview.create_window(
-        title="GitSentinel EDR — Universal Behavioral Defense",
+        title="Log Sentry EDR — Universal Behavioral Defense",
         url=target_url,
         width=1320,
         height=880,

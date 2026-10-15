@@ -1,6 +1,6 @@
 @echo off
-title GitSentinel EDR App Launcher
-echo Starting GitSentinel Universal EDR Desktop App...
+title Log Sentry EDR App Launcher
+echo Starting Log Sentry Universal EDR Desktop App...
 cd /d "%~dp0"
 python src/desktop_main.py
 if errorlevel 1 (
