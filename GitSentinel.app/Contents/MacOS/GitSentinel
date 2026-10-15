@@ -1,12 +1,61 @@
 #!/bin/bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../../.." && pwd )"
-cd "$DIR"
+set -e
 
-# Ensure Python path
-export PATH="/Library/Frameworks/Python.framework/Versions/3.13/bin:/usr/local/bin:/opt/homebrew/bin:$PATH"
+# Get directory of this script (Contents/MacOS)
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CONTENTS_DIR="$( cd "$SCRIPT_DIR/.." && pwd )"
+RESOURCES_DIR="$CONTENTS_DIR/Resources"
 
-if which python3 >/dev/null 2>&1; then
-    exec python3 "$DIR/src/desktop_main.py"
+# Log file for debugging
+LOG_FILE="$HOME/Library/Logs/GitSentinel.log"
+mkdir -p "$HOME/Library/Logs"
+
+# Choose entry point: self-contained Resources or repo root
+if [ -f "$RESOURCES_DIR/src/desktop_main.py" ]; then
+    APP_ROOT="$RESOURCES_DIR"
 else
-    exec /Library/Frameworks/Python.framework/Versions/3.13/bin/python3 "$DIR/src/desktop_main.py"
+    APP_ROOT="$( cd "$CONTENTS_DIR/../.." && pwd )"
 fi
+
+cd "$APP_ROOT"
+
+# Search for a working python3 binary that has flask and pywebview installed
+SELECTED_PYTHON=""
+CANDIDATE_PYTHONS=(
+    "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3"
+    "/usr/local/bin/python3"
+    "/opt/homebrew/bin/python3"
+    "$(which python3 2>/dev/null || true)"
+    "$(which python 2>/dev/null || true)"
+    "/usr/bin/python3"
+)
+
+for py in "${CANDIDATE_PYTHONS[@]}"; do
+    if [ -n "$py" ] && [ -x "$py" ]; then
+        if "$py" -c "import flask, webview" >/dev/null 2>&1; then
+            SELECTED_PYTHON="$py"
+            break
+        fi
+    fi
+done
+
+# If not found, try any available python3 and attempt to install dependencies or alert user
+if [ -z "$SELECTED_PYTHON" ]; then
+    for py in "${CANDIDATE_PYTHONS[@]}"; do
+        if [ -n "$py" ] && [ -x "$py" ]; then
+            SELECTED_PYTHON="$py"
+            "$py" -m pip install --break-system-packages flask pywebview >> "$LOG_FILE" 2>&1 || true
+            if "$py" -c "import flask, webview" >/dev/null 2>&1; then
+                break
+            fi
+        fi
+    done
+fi
+
+if [ -z "$SELECTED_PYTHON" ] || ! "$SELECTED_PYTHON" -c "import flask, webview" >/dev/null 2>&1; then
+    osascript -e 'display alert "GitSentinel Dependency Check" message "Python 3 with Flask and PyWebview is required.\n\nPlease open Terminal and run:\npip3 install flask pywebview"'
+    exit 1
+fi
+
+echo "[$(date)] Launching GitSentinel using $SELECTED_PYTHON from $APP_ROOT" >> "$LOG_FILE"
+exec "$SELECTED_PYTHON" "$APP_ROOT/src/desktop_main.py" >> "$LOG_FILE" 2>&1

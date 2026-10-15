@@ -1,0 +1,111 @@
+{
+  "version": "1.0.0",
+  "archetypes": {
+    "RANSOMWARE": {
+      "name": "Ransomware / Cryptor",
+      "description": "Actively encrypts user files at high frequency, alters extensions, deletes shadow copies, and extorts victims.",
+      "mode": "ACTIVE",
+      "known_families": ["WannaCry", "LockBit", "Ryuk", "BlackCat", "Conti"],
+      "indicators": {
+        "file_rename_burst": { "threshold_files_per_sec": 15, "weight": 35 },
+        "canary_tampered": { "weight": 40 },
+        "shadow_copy_deletion": { "commands": ["vssadmin", "tmutil delete", "wbadmin", "bcdedit"], "weight": 30 },
+        "ransom_note_created": { "patterns": ["readme_to_decrypt", "how_to_recover", "decrypt_files"], "weight": 25 }
+      },
+      "remediation_playbook": [
+        "1. IMMEDIATE ISOLATION: Terminate the offending process tree immediately (kill -9 <PID> / taskkill /F /T /PID <PID>).",
+        "2. NETWORK CUT: Sever all network interfaces (Wi-Fi, Ethernet) to prevent C2 encryption key synchronization and network share traversal.",
+        "3. RESTORATION: Check Volume Shadow Copies and local Time Machine backups taken prior to the timestamp of infection.",
+        "4. CANARY RECOVERY: Inspect canary tripwire folder to identify the first encrypted file and locate any unencrypted backups in memory.",
+        "5. SYSTEM REBOOT: Boot into Safe Mode to remove secondary persistence runners."
+      ]
+    },
+    "WORM": {
+      "name": "Network Worm / Lateral Propagator",
+      "description": "Self-replicating malware scanning local subnets and brute-forcing open ports (SMB, SSH, RDP) to infect neighboring machines.",
+      "mode": "ACTIVE",
+      "known_families": ["Conficker", "ILOVEYOU", "Stuxnet", "Mirai", "Sasser"],
+      "indicators": {
+        "rapid_port_scanning": { "target_ports": [445, 139, 22, 3389, 8080], "threshold_conns_per_sec": 8, "weight": 40 },
+        "external_mount_replication": { "paths": ["/Volumes", "D:\\", "E:\\", "\\\\*"], "weight": 30 },
+        "process_spawning_network_tool": { "binaries": ["nmap", "masscan", "smbclient", "psexec"], "weight": 30 }
+      },
+      "remediation_playbook": [
+        "1. NETWORK ISOLATION: Immediately disconnect the host from the local LAN / Wi-Fi to stop propagation to other network nodes.",
+        "2. PROCESS TERMINATION: Kill the scanning PID and all child subprocesses.",
+        "3. FIREWALL RULE: Block inbound and outbound SMB (port 445/139) and RDP (port 3389) immediately.",
+        "4. REMOVABLE MEDIA: Disconnect all attached USB drives and network-attached storage (NAS) to prevent drive-by file replication.",
+        "5. CREDENTIAL ROTATION: Invalidate and rotate all SSH keys, Active Directory, and local administrator passwords on this machine."
+      ]
+    },
+    "SPYWARE_INFOSTEALER": {
+      "name": "Spyware / Infostealer / Surveillance",
+      "description": "Passively captures user input, keystrokes, webcam/microphone feeds, screen recordings, and extracts browser passwords.",
+      "mode": "PASSIVE",
+      "known_families": ["Pegasus", "RedLine Stealer", "Vidar", "AgentTesla", "CTRL-Trojan"],
+      "indicators": {
+        "credential_store_access": { "targets": ["~/.ssh", "Keychains", "Login Data", "Cookies", "Local State"], "weight": 35 },
+        "screen_or_input_capture": { "apis": ["CoreGraphics", "AVFoundation", "DirectX", "GetAsyncKeyState", "SetWindowsHookEx"], "weight": 35 },
+        "headless_browser_dump": { "commands": ["sqlite3", "cryptdump", "mimikatz"], "weight": 30 }
+      },
+      "remediation_playbook": [
+        "1. PROCESS KILL: Terminate the background surveillance process immediately.",
+        "2. HARDWARE REVOCATION: Revoke application camera and microphone permissions in OS Privacy settings.",
+        "3. SESSION TERMINATION: Force-log out of all active web sessions and invalidate browser session cookies from a separate clean device.",
+        "4. PASSWORD & KEY ROTATION: Rotate all stored passwords, master passwords, SSH keys, and cryptocurrency wallet seeds immediately.",
+        "5. PERSISTENCE REMOVAL: Check and remove hidden LaunchAgents (`~/Library/LaunchAgents`) and Windows Registry Run keys."
+      ]
+    },
+    "AI_SANDBOX_ESCAPE": {
+      "name": "AI Agent Sandbox & Runtime Escape",
+      "description": "An autonomous AI agent or sandboxed container escaping containment, accessing host sockets, or spawning unauthorized host shells.",
+      "mode": "ACTIVE",
+      "known_families": ["DockerSocketEscape", "LLM-PromptInject-Spawn", "ChrootBreakout", "Agent-ReverseShell"],
+      "indicators": {
+        "host_socket_tampering": { "targets": ["/var/run/docker.sock", "host.docker.internal", "/proc/sys"], "weight": 40 },
+        "unauthorized_subshell": { "parent_process": ["python", "node", "llm-runtime", "ollama"], "spawned": ["bash -i", "/bin/sh", "cmd.exe", "powershell"], "weight": 35 },
+        "sensitive_host_path_read": { "paths": ["/etc/shadow", "/etc/passwd", "C:\\Windows\\System32\\config\\SAM"], "weight": 25 }
+      },
+      "remediation_playbook": [
+        "1. CONTAINER FREEZE: Immediately pause and freeze the container/agent PID (`docker pause <id>` or `kill -STOP <PID>`).",
+        "2. UNMOUNT SOCKETS: Remove all host docker socket mounts (`/var/run/docker.sock`) and sensitive volume binds.",
+        "3. PROMPT & TOOL AUDIT: Review the AI agent's tool execution logs to identify the injected prompt or tool payload that triggered the breakout.",
+        "4. NETWORK RESTRICTION: Enforce strict egress firewall filtering on the agent container so it cannot beacon out to external C2 servers."
+      ]
+    },
+    "VIRUS": {
+      "name": "Binary Infector / Code Injector",
+      "description": "Injects malicious shellcode into legitimate system executables or memory spaces to propagate within the operating system.",
+      "mode": "ACTIVE",
+      "known_families": ["Sality", "Virut", "Nimda", "CodeRed"],
+      "indicators": {
+        "memory_injection": { "calls": ["ptrace", "CreateRemoteThread", "VirtualAllocEx", "task_for_pid"], "weight": 45 },
+        "system_binary_modification": { "paths": ["/usr/bin", "/bin", "/usr/sbin", "C:\\Windows\\System32"], "weight": 35 },
+        "dylib_dll_hijacking": { "weight": 20 }
+      },
+      "remediation_playbook": [
+        "1. PROCESS FREEZE: Suspend the host process and the injecting process tree.",
+        "2. INTEGRITY VERIFICATION: Run OS system file integrity checks (`sfc /scannow` on Windows, `pkgutil --verify` on macOS).",
+        "3. MEMORY SCRUB: Flush and terminate injected memory processes.",
+        "4. PERMISSION RESTORATION: Re-lock system directories and verify executable write protections."
+      ]
+    },
+    "BACKDOOR_C2": {
+      "name": "Backdoor / Reverse Shell / C2 Beacon",
+      "description": "Maintains persistent stealth access to the machine, establishing periodic command-and-control beacons and interactive shells.",
+      "mode": "PASSIVE",
+      "known_families": ["CobaltStrike", "Metasploit Meterpreter", "Netcat-ReverseShell", "Mythic"],
+      "indicators": {
+        "reverse_shell_spawn": { "patterns": ["/dev/tcp/", "nc -e", "bash -i >&", "powershell -nop -w hidden -enc"], "weight": 45 },
+        "unauthorized_listening_port": { "weight": 30 },
+        "periodic_beaconing": { "weight": 25 }
+      },
+      "remediation_playbook": [
+        "1. SEVER SHELL: Immediately kill the reverse shell PID and close associated network sockets.",
+        "2. FIREWALL DROP: Add an explicit firewall drop rule for the remote C2 IP and destination port.",
+        "3. AUDIT RUNNING SERVICES: Check all listening ports using `lsof -i -P -n` or `netstat -ano` and terminate unauthorized servers.",
+        "4. REMOVE PERSISTENCE: Check cron jobs (`crontab -l`), macOS LaunchDaemons, and Windows Task Scheduler for recurring beacons."
+      ]
+    }
+  }
+}

