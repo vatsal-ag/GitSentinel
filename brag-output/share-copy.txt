@@ -1,8 +1,8 @@
 Introducing Log Sentry EDR 2.0 🛡️
 
-The universal behavioral endpoint detection & response system built for the AI & supply-chain era. Catches autonomous AI sandbox breakouts, WannaCry ransomware mutations, "CTRL" movie-style surveillance spyware, and unauthorized Git PR tampering before drives lock or credentials leak.
+The first universal behavioral endpoint detection & response system built for the AI & supply-chain era. Features Netflix/UPI-grade Anti-Screen Sharing Call Privacy Shield (automatic window blackout during Zoom/Meet/Teams), Screenshot Forensics with Cmd+V clipboard paste, 1-2-3 Log Uploader with automatic secret/PII sanitization, autonomous AI sandbox escape prevention, and WannaCry ransomware mutation containment.
 
-Zero kernel drivers. Compatible with macOS, Windows, Linux, iOS & Android.
+Zero kernel drivers. 100% auditable open source. Compatible with macOS, Windows, Linux, iOS & Android.
 
 Watch the 64s launch trailer & test the live simulator:
 https://github.com/vatsal-ag/GitSentinel

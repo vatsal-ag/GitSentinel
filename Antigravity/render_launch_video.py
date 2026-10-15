@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-GitSentinel EDR 2.0 — Official High-Energy Launch Video Generator
+Log Sentry EDR 2.0 — Official High-Energy Launch Video Generator
 ================================================================
 Renders a 64-second, 30fps (1920 frames), 1080p Full HD launch video
 with pixel-perfect typography, aligned geometric cards, dynamic radar sweeps,
-live kernel telemetry tickers, and an upbeat 124 BPM electronic soundtrack.
+live kernel telemetry tickers, Call Privacy DRM Shield, Screenshot Forensics,
+and an upbeat 124 BPM electronic soundtrack.
 
 Deliverables:
 - brag-output/brag.mp4 (64.0 seconds, 1080p H.264 + AAC)
@@ -335,7 +336,7 @@ def draw_header_footer(draw, frame_idx, act_num, act_title):
     """Draws top system bar and bottom timeline progress bar with guaranteed glyphs and alignment."""
     # Top Header Vector Shield
     draw_shield_icon(draw, 100, 52, size=18, color=COLOR_ACCENT)
-    draw.text((120, 42), "GITSENTINEL EDR // BEHAVIORAL THREAT MATRIX", font=FONT_MONO_BOLD, fill=COLOR_TEXT_MAIN)
+    draw.text((120, 42), "LOG SENTRY EDR // BEHAVIORAL THREAT MATRIX", font=FONT_MONO_BOLD, fill=COLOR_TEXT_MAIN)
     
     # Act Pill (Center)
     act_str = f"ACT {act_num:02d} // {act_title.upper()}"
@@ -454,13 +455,13 @@ def render_frame(frame_idx, base_canvas):
                   badge_text="ACTIVE ATTACK TTPs")
 
     # =========================================================================
-    # SCENE 3: THE REVEAL // GITSENTINEL EDR 2.0 (16.0s - 24.0s, Frames 480 - 720)
+    # SCENE 3: THE REVEAL // LOG SENTRY EDR 2.0 (16.0s - 24.0s, Frames 480 - 720)
     # =========================================================================
     elif sec < 24.0:
-        draw_header_footer(draw, frame_idx, 3, "The Solution // GitSentinel EDR 2.0")
+        draw_header_footer(draw, frame_idx, 3, "The Solution // Log Sentry EDR 2.0")
         
         # Perfectly Centered Hero Headline & Subhead
-        draw_centered_text(draw, 115, "INTRODUCING GITSENTINEL EDR 2.0", FONT_HERO, COLOR_TEXT_MAIN)
+        draw_centered_text(draw, 115, "INTRODUCING LOG SENTRY EDR 2.0", FONT_HERO, COLOR_TEXT_MAIN)
         draw_centered_text(draw, 185, "The Universal Behavioral Threat Hunter Built for the AI & Supply-Chain Era", FONT_SUBTITLE, COLOR_ACCENT)
         
         # 3 Pillar Cards in Center (Width 540, Gap 40 -> Total 1700px, Start 110px)
@@ -508,41 +509,41 @@ def render_frame(frame_idx, base_canvas):
                   badge_text="ACTIVE CONTAINMENT")
 
     # =========================================================================
-    # SCENE 4: DEEP THREAT 1 // AI ESCAPE & 'CTRL' SPYWARE (24.0s - 33.0s, Frames 720 - 990)
+    # SCENE 4: CALL PRIVACY SHIELD // NETFLIX-GRADE DRM BLACKOUT (24.0s - 33.0s, Frames 720 - 990)
     # =========================================================================
     elif sec < 33.0:
-        draw_header_footer(draw, frame_idx, 4, "Threat Deep Dive // AI Escape & Surveillance")
+        draw_header_footer(draw, frame_idx, 4, "Call Privacy Shield // Anti-Screen Sharing")
         
-        draw.text((100, 115), "DEEP THREAT ANALYSIS: AI BREAKOUTS & 'CTRL' SPYWARE", font=FONT_TITLE, fill=COLOR_TEXT_MAIN)
-        draw.text((100, 168), "Catching the threats portrayed in movies — now manifesting in production AI environments.", font=FONT_SUBTITLE, fill=COLOR_TEXT_SUB)
+        draw.text((100, 115), "ANTI-SCREEN SHARING CALL PRIVACY SHIELD", font=FONT_TITLE, fill=COLOR_TEXT_MAIN)
+        draw.text((100, 168), "Netflix & UPI-grade DRM blackout protects confidential data during online calls & screen recording.", font=FONT_SUBTITLE, fill=COLOR_TEXT_SUB)
         
         draw_card(draw, 100, 220, 830, 770,
-                  title="THREAT #01: AI AGENT SANDBOX BREAKOUT",
-                  subtitle="Autonomous LLM agents attempting privilege escalation to access host environment.",
+                  title="NETFLIX-GRADE CALL PRIVACY DRM",
+                  subtitle="When an active call or video meeting is detected, window sharing is automatically blinded.",
                   items=[
-                      {"prefix": "[BEHAVIOR]", "text": "Agent mounts /var/run/docker.sock to spawn privileged root sibling containers.", "color": COLOR_TEXT_MAIN},
-                      {"prefix": "[INDICATOR]", "text": "Unsanctioned host bash execution outside virtualized chroot boundaries.", "color": COLOR_WARNING},
-                      {"prefix": "[RISK LEVEL]", "text": "CRITICAL (Active Host Hijacking & Sandbox Escape)", "color": COLOR_DANGER},
-                      {"prefix": "[ACTION]", "text": "Docker socket pipe instantly severed; container frozen; host alert triggered.", "color": COLOR_SUCCESS},
-                      {"prefix": "[REMEDIAL]", "text": "chmod 000 /var/run/docker.sock && docker stop --time 0 agent_box", "color": COLOR_ACCENT, "mono": True}
+                      {"prefix": "[CALL SENSING]", "text": "Proactively intercepts Zoom, Google Meet, Microsoft Teams, FaceTime, Discord, & UPI apps.", "color": COLOR_TEXT_MAIN},
+                      {"prefix": "[NATIVE macOS DRM]", "text": "AppKit win.setSharingType_(0) (NSWindowSharingNone) enforces OS-level window blackout.", "color": COLOR_ACCENT},
+                      {"prefix": "[UNINTERRUPTED AUDIO]", "text": "Voice conversation flows with crystal clarity while screen share renders 100% pitch black.", "color": COLOR_SUCCESS},
+                      {"prefix": "[ZERO LEAKAGE]", "text": "Guarantees zero accidental leaks of API tokens, customer PII, confidential code, and terminal logs.", "color": COLOR_TEXT_MAIN},
+                      {"prefix": "[STATUS PILL]", "text": "Top-bar indicator dynamically reflects 'SHIELD: ACTIVE' with instant 1-click test curtain.", "color": COLOR_WARNING}
                   ],
-                  accent_color=COLOR_DANGER,
-                  badge_text="AI THREAT DETECTED",
-                  border_color=(140, 40, 50))
+                  accent_color=COLOR_ACCENT,
+                  badge_text="CALL PRIVACY ACTIVE",
+                  border_color=(30, 80, 120))
                   
         draw_card(draw, 990, 220, 830, 770,
-                  title="THREAT #02: 'CTRL' MOVIE PERSISTENT SPYWARE",
-                  subtitle="Covert background surveillance software recording screen, webcam, and keystrokes.",
+                  title="STEALTH SCREEN RECORDER BLOCKADE",
+                  subtitle="Real-time neutralization of covert background screen recorders and surveillance tools.",
                   items=[
-                      {"prefix": "[BEHAVIOR]", "text": "Spawns detached background daemon listening on audio taps and screen captures.", "color": COLOR_TEXT_MAIN},
-                      {"prefix": "[INDICATOR]", "text": "Iterates ~/.ssh/id_rsa, ~/.aws/credentials, and keychain databases without user prompt.", "color": COLOR_WARNING},
-                      {"prefix": "[RISK LEVEL]", "text": "HIGH (Passive Data Harvesting & Covert Exfiltration)", "color": COLOR_DANGER},
-                      {"prefix": "[ACTION]", "text": "Unauthorized audio/video capture threads killed; network egress blackholed.", "color": COLOR_SUCCESS},
-                      {"prefix": "[REMEDIAL]", "text": "killall -9 screencapture && iptables -A OUTPUT -d c2.exfil -j DROP", "color": COLOR_ACCENT, "mono": True}
+                      {"prefix": "[RECORDER DETECT]", "text": "Real-time audit of screencapture, obs-studio, QuickTime, AnyDesk, and unauthorized recorders.", "color": COLOR_TEXT_MAIN},
+                      {"prefix": "[BLACKOUT CURTAIN]", "text": "Browser dashboard deploys high-contrast blackout overlay within 40 milliseconds.", "color": COLOR_WARNING},
+                      {"prefix": "[FORENSIC AUDIT]", "text": "Logs caller PID, recorder name, and exact timestamp to the encrypted incident ledger.", "color": COLOR_SUCCESS},
+                      {"prefix": "[CROSS-PLATFORM]", "text": "Universal enforcement across macOS AppKit, Windows DWM display affinity, and Linux.", "color": COLOR_ACCENT},
+                      {"prefix": "[SIMULATOR]", "text": "Built-in 'Test Blackout' toggle lets security teams audit screen-blanking immediately.", "color": COLOR_TEXT_SUB}
                   ],
-                  accent_color=COLOR_WARNING,
-                  badge_text="SPYWARE INTERCEPTED",
-                  border_color=(120, 80, 30))
+                  accent_color=COLOR_SUCCESS,
+                  badge_text="DRM ENFORCED",
+                  border_color=(20, 100, 60))
 
     # =========================================================================
     # SCENE 5: DEEP THREAT 2 // WANNACRY MUTATION (33.0s - 42.0s, Frames 990 - 1260)
@@ -568,7 +569,7 @@ def render_frame(frame_idx, base_canvas):
                   border_color=(140, 30, 40))
                   
         draw_card(draw, 990, 220, 830, 770,
-                  title="GITSENTINEL RESPONSE: ZERO-TRUST LOCKDOWN",
+                  title="LOG SENTRY RESPONSE: ZERO-TRUST LOCKDOWN",
                   subtitle="Autonomous intervention within 1.4 milliseconds of canary tripwire access.",
                   items=[
                       {"prefix": "[TRIPWIRE]", "text": "Canary decoy files deployed in common directories detect unauth access.", "color": COLOR_SUCCESS},
@@ -582,37 +583,41 @@ def render_frame(frame_idx, base_canvas):
                   border_color=(20, 100, 60))
 
     # =========================================================================
-    # SCENE 6: DEEP THREAT 3 // SUPPLY-CHAIN & ROGUE GIT (42.0s - 50.0s, Frames 1260 - 1500)
+    # SCENE 6: FORENSIC EVIDENCE // SCREENSHOTS & 3-STEP LOG WORKFLOW (42.0s - 50.0s, Frames 1260 - 1500)
     # =========================================================================
     elif sec < 50.0:
-        draw_header_footer(draw, frame_idx, 6, "Threat Deep Dive // Git & Supply Chain")
+        draw_header_footer(draw, frame_idx, 6, "Forensic Evidence // Screenshots & Ingestion")
         
-        draw.text((100, 115), "SUPPLY-CHAIN INTEGRITY & UNAUTHORIZED GIT INTERCEPTION", font=FONT_TITLE, fill=COLOR_TEXT_MAIN)
-        draw.text((100, 168), "Protecting your source code, CI/CD pipelines, and upstream packages from covert tampering.", font=FONT_SUBTITLE, fill=COLOR_TEXT_SUB)
+        draw.text((100, 115), "FORENSIC SCREENSHOT EVIDENCE & 3-STEP LOG INGESTION", font=FONT_TITLE, fill=COLOR_TEXT_MAIN)
+        draw.text((100, 168), "Paste clipboard screenshots directly and auto-sanitize sensitive credentials before export.", font=FONT_SUBTITLE, fill=COLOR_TEXT_SUB)
         
         draw_card(draw, 100, 220, 830, 770,
-                  title="SUPPLY-CHAIN PACKAGE HIJACKING",
-                  subtitle="Malicious dependencies running silent execution hooks during npm/pip install.",
+                  title="1-2-3 EFFORTLESS LOG WORKFLOW",
+                  subtitle="Automated host log collection and instant client-side PII redactor.",
                   items=[
-                      {"prefix": "[VECTOR]", "text": "Malicious npm 'postinstall' script executes curl | bash in background.", "color": COLOR_DANGER},
-                      {"prefix": "[EXFIL]", "text": "Inspects process environment variables for GITHUB_TOKEN, AWS_KEY, and API secrets.", "color": COLOR_WARNING},
-                      {"prefix": "[DEFENSE]", "text": "GitSentinel detects headless postinstall child process spawning network pipes.", "color": COLOR_SUCCESS},
-                      {"prefix": "[VERDICT]", "text": "Subprocess immediately quarantined before secrets are transmitted.", "color": COLOR_ACCENT}
+                      {"prefix": "[STEP 1: INGEST]", "text": "1-Click 'Auto-Collect Host Logs' pulls live system & audit events into memory.", "color": COLOR_TEXT_MAIN},
+                      {"prefix": "[STEP 2: SANITIZE]", "text": "1-Click secret scrubber redacts GitHub PATs, AWS keys, passwords, and emails.", "color": COLOR_SUCCESS},
+                      {"prefix": "[STEP 3: SECURE]", "text": "Clean audit logs ready for zero-trust review with guaranteed privacy.", "color": COLOR_TEXT_MAIN},
+                      {"prefix": "[PRESET DRILLS]", "text": "Built-in attack vectors (WannaCry, AI escape, Spyware) for security rehearsals.", "color": COLOR_WARNING},
+                      {"prefix": "[PERFORMANCE]", "text": "High-throughput regex engine sanitizes 50,000+ log lines per second with zero lag.", "color": COLOR_ACCENT}
                   ],
-                  accent_color=COLOR_WARNING,
-                  badge_text="SUPPLY-CHAIN SHIELD")
+                  accent_color=COLOR_SUCCESS,
+                  badge_text="1-CLICK WORKFLOW",
+                  border_color=(20, 100, 60))
                   
         draw_card(draw, 990, 220, 830, 770,
-                  title="UNAUTHORIZED GIT COMMITS & ROGUE PRs",
-                  subtitle="Trojans creating malicious PRs using cached developer credentials.",
+                  title="SCREENSHOT FORENSIC EVIDENCE",
+                  subtitle="Multi-image evidence capture with drag-and-drop and instant clipboard paste.",
                   items=[
-                      {"prefix": "[VECTOR]", "text": "Background script silently changes git config user.email to attacker identity.", "color": COLOR_DANGER},
-                      {"prefix": "[INJECTION]", "text": "Creates stealth branch, commits backdoored code, and issues 'gh pr create'.", "color": COLOR_WARNING},
-                      {"prefix": "[DEFENSE]", "text": "GitSentinel verifies interactive TTY session and GPG signing integrity.", "color": COLOR_SUCCESS},
-                      {"prefix": "[VERDICT]", "text": "Headless Git commits blocked; rogue PR aborted before GitHub sync.", "color": COLOR_ACCENT}
+                      {"prefix": "[CLIPBOARD PASTE]", "text": "Hit Cmd+V / Ctrl+V anywhere in the dashboard to immediately attach screen grabs.", "color": COLOR_ACCENT},
+                      {"prefix": "[DRAG & DROP]", "text": "Interactive dropzone supporting multi-file PNG, JPEG, and WebP evidence up to 10MB.", "color": COLOR_TEXT_MAIN},
+                      {"prefix": "[METADATA PARSER]", "text": "Automatic SHA-256 integrity hashing and resolution extraction on ingest.", "color": COLOR_SUCCESS},
+                      {"prefix": "[GALLERY VIEW]", "text": "High-res thumbnail previews with 1-click removal and evidence tags.", "color": COLOR_WARNING},
+                      {"prefix": "[INCIDENT BUNDLE]", "text": "1-Click 'Export Incident Package' packages sanitized logs + screenshots into JSON.", "color": COLOR_ACCENT}
                   ],
                   accent_color=COLOR_ACCENT,
-                  badge_text="GIT PR INTEGRITY")
+                  badge_text="IMAGE FORENSICS",
+                  border_color=(30, 80, 120))
 
     # =========================================================================
     # SCENE 7: UNIVERSAL CROSS-PLATFORM (50.0s - 58.0s, Frames 1500 - 1740)
@@ -688,7 +693,7 @@ def render_frame(frame_idx, base_canvas):
             
         draw_header_footer(draw, frame_idx, 8, "Deploy // Get Started")
         
-        draw_centered_text(draw, 170, "GITSENTINEL EDR 2.0", FONT_HERO, COLOR_TEXT_MAIN)
+        draw_centered_text(draw, 170, "LOG SENTRY EDR 2.0", FONT_HERO, COLOR_TEXT_MAIN)
         draw_centered_text(draw, 245, "THE BEHAVIORAL THREAT MATRIX FOR DEVELOPERS & SECURITY RESEARCHERS", FONT_SUBTITLE, COLOR_ACCENT)
         
         center_w = 1100
@@ -698,14 +703,15 @@ def render_frame(frame_idx, base_canvas):
                   subtitle="Free, open source, and verifiable. Protect your code, workstations, and AI pipelines today.",
                   items=[
                       {"prefix": "[DOWNLOAD]", "text": "Download the native app bundle for macOS, Windows, and Linux.", "color": COLOR_TEXT_MAIN},
-                      {"prefix": "[WEB GUI]", "text": "Open the live web GUI dashboard in your browser instantly.", "color": COLOR_TEXT_MAIN},
+                      {"prefix": "[CALL SHIELD]", "text": "Anti-Screen Sharing DRM blackout for Zoom, Meet, Teams, and UPI apps.", "color": COLOR_TEXT_MAIN},
+                      {"prefix": "[FORENSICS]", "text": "1-2-3 Log Uploader, PII Sanitizer, and Cmd+V Screenshot multi-attachments.", "color": COLOR_ACCENT},
                       {"prefix": "[SOURCE]", "text": "Inspect the complete source code on GitHub: https://github.com/vatsal-ag/GitSentinel", "color": COLOR_ACCENT, "mono": True},
                       {"prefix": "[PRIVACY]", "text": "Zero telemetry leaves your machine. Absolute privacy and local behavioral sovereignty.", "color": COLOR_SUCCESS}
                   ],
                   accent_color=COLOR_SUCCESS,
                   badge_text="OFFICIAL LAUNCH v2.0")
                   
-        draw_centered_text(draw, 910, "JOIN THE SENTINEL NETWORK • GITSENTINEL.IO", FONT_MONO_BOLD, COLOR_TEXT_SUB)
+        draw_centered_text(draw, 910, "JOIN THE SENTRY NETWORK • LOGSENTRY.IO", FONT_MONO_BOLD, COLOR_TEXT_SUB)
         
         if fade_factor < 1.0:
             overlay = Image.new("RGBA", (WIDTH, HEIGHT), (8, 12, 20, int(255 * (1.0 - fade_factor))))
@@ -719,7 +725,7 @@ def render_frame(frame_idx, base_canvas):
 # ---------------------------------------------------------------------------
 def main():
     print("==================================================================")
-    print(" GITSENTINEL EDR 2.0 — HIGH-ENERGY LAUNCH VIDEO RENDERER")
+    print(" LOG SENTRY EDR 2.0 — HIGH-ENERGY LAUNCH VIDEO RENDERER")
     print(f" Target: {WIDTH}x{HEIGHT} @ {FPS}fps, Duration: {DURATION_SEC}s ({TOTAL_FRAMES} frames)")
     print("==================================================================")
     
@@ -819,11 +825,12 @@ def main():
     # 5. Write Share Copy
     share_path = os.path.join(OUTPUT_DIR, "share-copy.txt")
     share_text = (
-        "Introducing GitSentinel EDR 2.0 🛡️\n\n"
+        "Introducing Log Sentry EDR 2.0 🛡️\n\n"
         "The first universal behavioral endpoint detection & response system built for the AI & supply-chain era. "
-        "Catches autonomous AI sandbox breakouts, WannaCry ransomware mutations, 'CTRL' movie-style surveillance spyware, "
-        "and unauthorized Git PR tampering before drives lock or credentials leak.\n\n"
-        "Zero kernel drivers. Compatible with macOS, Windows, Linux, iOS & Android.\n\n"
+        "Features Netflix/UPI-grade Anti-Screen Sharing Call Privacy Shield (automatic window blackout during Zoom/Meet/Teams), "
+        "Screenshot Forensics with Cmd+V clipboard paste, 1-2-3 Log Uploader with automatic secret/PII sanitization, "
+        "autonomous AI sandbox escape prevention, and WannaCry ransomware mutation containment.\n\n"
+        "Zero kernel drivers. 100% auditable open source. Compatible with macOS, Windows, Linux, iOS & Android.\n\n"
         "Watch the 64s launch trailer & test the live simulator:\n"
         "https://github.com/vatsal-ag/GitSentinel\n"
     )

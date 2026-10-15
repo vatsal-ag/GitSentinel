@@ -33,6 +33,13 @@ def start_server(port):
     """Run backend Flask server silently on localhost."""
     app.run(host="127.0.0.1", port=port, debug=False, use_reloader=False)
 
+from src.privacy.call_shield import call_shield
+
+def on_window_ready():
+    """Initializes native DRM screen sharing protection once the AppKit window is mapped."""
+    time.sleep(0.5)
+    call_shield.apply_macos_native_drm(not call_shield.active_call_detected)
+
 def launch_native_app():
     port = find_free_port(5050)
     
@@ -56,7 +63,7 @@ def launch_native_app():
         text_select=True,
         confirm_close=False
     )
-    webview.start()
+    webview.start(on_window_ready)
 
 if __name__ == "__main__":
     launch_native_app()

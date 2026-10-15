@@ -791,6 +791,16 @@
           <h2>🐙 Unauthorized Git & PR Shield</h2>
           <p>Traces process lineage and TTY states to catch headless background scripts secretly altering <code>user.email</code> and creating unauthorized Pull Requests.</p>
         </article>
+
+        <article class="vector-card" style="border-color: rgba(56, 189, 248, 0.4);">
+          <h2>🛡️ Anti-Screen Sharing Call Shield</h2>
+          <p>Blacks out your window (Netflix/UPI banking style) when Zoom, Google Meet, Teams, or screen recorders are active. Audio flows normally while sensitive logs remain 100% invisible.</p>
+        </article>
+
+        <article class="vector-card" style="border-color: rgba(16, 185, 129, 0.4);">
+          <h2>📸 Screenshot Forensics & 3-Step Ingestion</h2>
+          <p>Paste screenshots directly via <code>Cmd+V</code> / <code>Ctrl+V</code>, auto-collect host OS logs in 1-click, and scrub private tokens and passwords before generating forensic incident packages.</p>
+        </article>
       </div>
     </section>
 
@@ -1121,13 +1131,13 @@
     function dismissCookies(choice) {
       document.getElementById('cookieBanner').style.display = 'none';
       try {
-        localStorage.setItem('gitsentinel_consent', choice);
+        localStorage.setItem('logsentry_consent', choice);
       } catch (e) {}
     }
 
     // Check existing consent
     try {
-      if (localStorage.getItem('gitsentinel_consent')) {
+      if (localStorage.getItem('logsentry_consent')) {
         document.getElementById('cookieBanner').style.display = 'none';
       }
     } catch (e) {}
