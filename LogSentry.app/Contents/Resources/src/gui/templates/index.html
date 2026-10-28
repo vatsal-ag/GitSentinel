@@ -3,12 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Log Sentry - Universal Threat Detection & Remediation EDR</title>
-  <meta name="theme-color" content="#090e17">
+  <title>Log Sentry — Universal Threat Detection & Remediation EDR</title>
+  <meta name="description" content="Autonomous behavioral EDR console: real-time process monitoring, anti-screen sharing DRM privacy shield, and forensic evidence analysis.">
+  <link rel="canonical" href="https://logsentry.io/dashboard">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta name="theme-color" content="#070b12">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Log Sentry">
   <link rel="manifest" href="/manifest.json">
+
+  <!-- Typography: Geist + Geist Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700&family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg: #070b12;
@@ -24,13 +35,17 @@
       --purple: #a855f7;
       --text-main: #f8fafc;
       --text-sub: #94a3b8;
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     }
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: var(--font-sans);
       -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
     }
     body {
       background-color: var(--bg);
@@ -72,6 +87,8 @@
       font-weight: 800;
       letter-spacing: -0.02em;
       color: #fff;
+      margin: 0;
+      line-height: 1.2;
     }
     .brand-sub {
       font-size: 0.7rem;
@@ -101,7 +118,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s;
+      transition: color 140ms var(--ease-out), background-color 140ms var(--ease-out), box-shadow 140ms var(--ease-out);
     }
     .nav-btn:hover {
       color: #fff;
@@ -132,7 +149,7 @@
       font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), color 140ms var(--ease-out);
     }
     .btn-privacy-shield:hover {
       background: rgba(16, 185, 129, 0.2);
@@ -368,7 +385,7 @@
       text-align: center;
       background: rgba(8, 14, 26, 0.7);
       cursor: pointer;
-      transition: all 0.2s;
+      transition: border-color 140ms var(--ease-out), background-color 140ms var(--ease-out);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -451,7 +468,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: all 0.2s;
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), transform 140ms var(--ease-out);
     }
     .btn-action:hover {
       background: #1e2d4a;
@@ -495,7 +512,7 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-      transition: all 0.2s;
+      transition: transform 0.16s var(--ease-out), box-shadow 0.16s var(--ease-out), border-color 0.16s var(--ease-out);
     }
     .btn-sim:hover {
       transform: translateY(-2px);
@@ -607,7 +624,7 @@
       font-size: 0.88rem;
       cursor: pointer;
       border: none;
-      transition: all 0.2s;
+      transition: background-color 0.16s var(--ease-out), color 0.16s var(--ease-out), transform 0.16s var(--ease-out);
     }
     .btn-secondary { background: #1e293b; color: #fff; }
     .btn-danger { background: #dc2626; color: #fff; }
@@ -688,7 +705,7 @@
       font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background-color 0.16s var(--ease-out), color 0.16s var(--ease-out), border-color 0.16s var(--ease-out);
     }
     .btn-resume-view:hover {
       background: var(--accent);
@@ -764,7 +781,7 @@
     <div class="brand" onclick="switchTab('dashboard')">
       <span class="brand-icon">🛡️</span>
       <div>
-        <div class="brand-name">Log Sentry EDR</div>
+        <h1 class="brand-name">Log Sentry EDR</h1>
         <div class="brand-sub">UNIVERSAL THREAT DETECTION & CALL PRIVACY SHIELD</div>
       </div>
     </div>

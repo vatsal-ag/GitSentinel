@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/remediate/
+
+Sitemap: https://logsentry.io/sitemap.xml

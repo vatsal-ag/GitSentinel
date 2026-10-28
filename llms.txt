@@ -1,0 +1,15 @@
+# Log Sentry
+> Log Sentry is a unified endpoint detection and response (EDR) platform, log scanner, threat remediation engine, and DRM-style call privacy shield across macOS, Windows, and Linux.
+
+## Core Capabilities
+- **Real-Time Threat Detection**: Continuously monitors endpoint telemetry, system logs, and running processes against MITRE ATT&CK patterns.
+- **Log & Screenshot Telemetry**: Ingests multiline raw system logs (Syslog, EVTX, JSON, auditd) and user-attached screenshots for OCR and automated pattern extraction.
+- **Netflix-Style Call Privacy Shield**: Intercepts active online video conferencing calls (Zoom, Google Meet, Teams, Discord, WebRTC) and blacks out window/screen capture streams via native DRM flags (`NSWindowSharingNone` on macOS, `SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)` on Windows) while preserving audio uninhibited.
+- **Threat Simulation**: Interactive multi-vector adversarial simulation testing anti-tamper, credential stuffing, privilege escalation, and zero-day defense playbooks.
+
+## Key URLs
+- Homepage & Documentation: https://logsentry.io/
+- Interactive Web App Console: https://logsentry.io/dashboard
+- Privacy Policy (GDPR Art. 6 Compliant): https://logsentry.io/privacy
+- Terms of Service: https://logsentry.io/terms
+- Structured Sitemap: https://logsentry.io/sitemap.xml

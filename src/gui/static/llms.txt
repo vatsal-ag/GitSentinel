@@ -1,21 +1,15 @@
-# Log Sentry EDR
-> Universal Behavioral Endpoint Detection & Response System for macOS, Windows, Linux, Android, and iOS.
+# Log Sentry
+> Log Sentry is a unified endpoint detection and response (EDR) platform, log scanner, threat remediation engine, and DRM-style call privacy shield across macOS, Windows, and Linux.
 
-## Project Summary
-Log Sentry is a host-based behavioral security system designed to detect and quarantine:
-- AI Sandbox & Runtime Breakouts (e.g. Docker socket mounts, unauthorized host subshells).
-- Ransomware (WannaCry-style mass file encryption, canary file triggers, volume shadow copy deletion).
-- Covert Spyware & Surveillance ("CTRL" movie-style background screen recorders, keyloggers, credential theft).
-- Network Worms (SMB port 445 / RDP 3389 lateral propagation).
-- Unauthorized Git Commits and Headless Pull Request generation.
+## Core Capabilities
+- **Real-Time Threat Detection**: Continuously monitors endpoint telemetry, system logs, and running processes against MITRE ATT&CK patterns.
+- **Log & Screenshot Telemetry**: Ingests multiline raw system logs (Syslog, EVTX, JSON, auditd) and user-attached screenshots for OCR and automated pattern extraction.
+- **Netflix-Style Call Privacy Shield**: Intercepts active online video conferencing calls (Zoom, Google Meet, Teams, Discord, WebRTC) and blacks out window/screen capture streams via native DRM flags (`NSWindowSharingNone` on macOS, `SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)` on Windows) while preserving audio uninhibited.
+- **Threat Simulation**: Interactive multi-vector adversarial simulation testing anti-tamper, credential stuffing, privilege escalation, and zero-day defense playbooks.
 
-## Technical Architecture
-- Ingestion Layer: Native macOS Unified Logging (`os_log`), Windows Sysmon (Event ID 1, 3, 4104), Linux auditd.
-- Analysis Engine: Active vs. Passive operational profiler, MITRE ATT&CK TTP mapping, mutation & zero-day similarity scoring.
-- Mitigation Layer: Instant native desktop notifications, automated SIGSTOP / SIGKILL process freeze, and local SQLite forensics (`sentinel.db`).
-- Platforms Supported: macOS (Universal), Windows 10/11 (64-bit), Linux, iOS (PWA), Android (PWA).
-
-## Author & Research
-Designed and engineered by Vatsal Agarwal (Academic Year 2026-2027).
-Documentation: https://logsentry.io/dashboard
-Repository: https://github.com/vatsalagarwal/Log Sentry
+## Key URLs
+- Homepage & Documentation: https://logsentry.io/
+- Interactive Web App Console: https://logsentry.io/dashboard
+- Privacy Policy (GDPR Art. 6 Compliant): https://logsentry.io/privacy
+- Terms of Service: https://logsentry.io/terms
+- Structured Sitemap: https://logsentry.io/sitemap.xml

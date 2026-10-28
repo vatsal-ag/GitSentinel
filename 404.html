@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>404 // Telemetry Route Not Found — Log Sentry</title>
+  <meta name="description" content="The requested security telemetry route or resource could not be located in Log Sentry EDR.">
+  <link rel="canonical" href="https://logsentry.io/404.html">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <meta name="theme-color" content="#070b12">
+
+  <!-- Typography: Geist + Geist Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700&family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #070b12;
+      --card-bg: #0d1424;
+      --card-border: #162035;
+      --accent: #38bdf8;
+      --accent-muted: rgba(56, 189, 248, 0.12);
+      --accent-border: rgba(56, 189, 248, 0.32);
+      --red: #ef4444;
+      --text-main: #f8fafc;
+      --text-sub: #94a3b8;
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Cyber Background Grid */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 580px;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: var(--red);
+    }
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 10px var(--red);
+      animation: pulse 1.6s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .error-code {
+      font-size: clamp(4.5rem, 14vw, 7rem);
+      font-weight: 900;
+      font-family: var(--font-mono);
+      letter-spacing: -0.06em;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 35px rgba(56, 189, 248, 0.25);
+    }
+
+    h1 {
+      font-size: clamp(1.4rem, 4vw, 1.85rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      padding-bottom: 4px;
+      color: #fff;
+    }
+
+    p {
+      color: var(--text-sub);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      max-width: 50ch;
+    }
+
+    .terminal-box {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+    }
+    .terminal-row {
+      display: flex;
+      gap: 10px;
+    }
+    .terminal-label {
+      color: var(--text-sub);
+      min-width: 110px;
+    }
+
+    .actions-grid {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .btn-action-primary {
+      flex: 1;
+      min-width: 220px;
+      background: var(--accent);
+      color: #080c14;
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 14px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+      transition: background-color 140ms var(--ease-out), transform 140ms var(--ease-out);
+    }
+    .btn-action-primary:hover {
+      background: #7dd3fc;
+      transform: translateY(-2px);
+    }
+    .btn-action-secondary {
+      flex: 1;
+      min-width: 220px;
+      background: #111a2e;
+      border: 1px solid #1e2d4a;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 14px 24px;
+      border-radius: 10px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), transform 140ms var(--ease-out);
+    }
+    .btn-action-secondary:hover {
+      background: #1a2744;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <main class="container">
+    <div class="status-badge">
+      <span class="pulse-dot" aria-hidden="true"></span>
+      <span>HTTP_404_TELEMETRY_DROP</span>
+    </div>
+
+    <div class="error-code">404</div>
+
+    <h1>Telemetry Route Not Found</h1>
+
+    <p>
+      The security endpoint, report identifier, or telemetry artifact you requested does not exist on this node or has been quarantined.
+    </p>
+
+    <div class="terminal-box" aria-label="Incident Diagnostic Output">
+      <div class="terminal-row">
+        <span class="terminal-label">DIAGNOSTIC:</span>
+        <span>ERR_ROUTE_NON_EXISTENT</span>
+      </div>
+      <div class="terminal-row">
+        <span class="terminal-label">INSPECTOR:</span>
+        <span>Log Sentry Host Core v2.0</span>
+      </div>
+      <div class="terminal-row">
+        <span class="terminal-label">REMEDIATION:</span>
+        <span>Route back to safe console or verified launchpad</span>
+      </div>
+    </div>
+
+    <div class="actions-grid">
+      <a href="/" class="btn-action-primary">
+        <span>🏠 Return to Homepage</span>
+      </a>
+      <a href="/dashboard.html" class="btn-action-secondary">
+        <span>⚡ Launch App Console</span>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    Log Sentry Universal EDR • Local-First Forensic Defense
+  </footer>
+</body>
+</html>

@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/remediate/
 
-Sitemap: https://gitsentinel.io/sitemap.xml
+Sitemap: https://logsentry.io/sitemap.xml
