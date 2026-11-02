@@ -17,6 +17,7 @@ if PROJECT_ROOT not in sys.path:
 from src.main import SentinelEngine
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 engine = SentinelEngine()
 
 # In-memory history for live feed
