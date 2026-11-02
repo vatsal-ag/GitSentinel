@@ -391,7 +391,7 @@ def render_frame(frame_idx, base_canvas):
                   subtitle="Modern attacks don't drop obvious binary payloads. They abuse signed CLI tools and low-level system sockets.",
                   items=[
                       {"prefix": "[AI ESCAPE]", "text": "LLM agents breaking out of docker sandbox sockets into host user space.", "color": COLOR_DANGER},
-                      {"prefix": "[SPYWARE]", "text": "Covert 'CTRL' movie-style webcam, microphone, and keystroke interceptors.", "color": COLOR_WARNING},
+                      {"prefix": "[SPYWARE]", "text": "Covert zero-day spyware, webcam, microphone, and keystroke interceptors.", "color": COLOR_WARNING},
                       {"prefix": "[MUTATION]", "text": "WannaCry-style polymorphic encryptors altering hashes every 30 seconds.", "color": COLOR_DANGER},
                       {"prefix": "[SUPPLY-CHAIN]", "text": "Rogue git commits and postinstall package hooks exfiltrating API tokens.", "color": COLOR_WARNING},
                       {"prefix": "[TELEMETRY]", "text": "Standard AV cannot detect these because legitimate binaries are being abused.", "color": COLOR_TEXT_SUB}
@@ -831,7 +831,7 @@ def main():
         "Screenshot Forensics with Cmd+V clipboard paste, 1-2-3 Log Uploader with automatic secret/PII sanitization, "
         "autonomous AI sandbox escape prevention, and WannaCry ransomware mutation containment.\n\n"
         "Zero kernel drivers. 100% auditable open source. Compatible with macOS, Windows, Linux, iOS & Android.\n\n"
-        "Watch the 64s launch trailer & test the live simulator:\n"
+        "Watch the architecture briefing & test the live simulator:\n"
         "https://github.com/vatsal-ag/GitSentinel\n"
     )
     with open(share_path, "w") as sf:
