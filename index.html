@@ -315,7 +315,7 @@
       gap: 14px;
     }
     .smart-detected-label {
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 600;
       font-family: var(--font-mono);
       color: var(--accent);
@@ -323,22 +323,51 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      line-height: 1.2;
+      line-height: 1;
+      margin-inline: auto;
+    }
+    .smart-detected-label .sys-logo,
+    .smart-detected-label svg {
+      width: 15px;
+      height: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      fill: currentColor;
+      margin: 0;
+      position: relative;
+      top: -1px; /* Optical center alignment with font cap-height */
+    }
+    .smart-detected-label span {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+    }
+    .btn-launch-hero,
+    .btn-download-hero {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 0.96rem;
+      font-weight: 700;
+      text-decoration: none;
+      min-height: 52px;
+      white-space: nowrap;
+      flex: 1 1 0;
+      min-width: 0;
+      box-sizing: border-box;
+      line-height: 1;
+      text-align: center;
+      cursor: pointer;
     }
     .btn-launch-hero {
       background: var(--accent);
       color: #04120a;
       border: none;
-      padding: 15px 28px;
-      border-radius: 10px;
-      font-size: 1.05rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      text-decoration: none;
       box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
       transition: background-color 150ms var(--ease-out), transform 150ms var(--ease-out);
     }
@@ -350,22 +379,36 @@
       background: #18181b;
       border: 1px solid var(--card-border);
       color: #fff;
-      padding: 15px 28px;
-      border-radius: 10px;
-      font-size: 1.05rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      text-decoration: none;
       transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out), transform 150ms var(--ease-out);
     }
     .btn-download-hero:hover {
       background: #27272a;
       border-color: var(--accent);
       transform: translateY(-2px);
+    }
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .btn-icon .sys-logo,
+    .btn-icon svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+      fill: currentColor;
+      flex-shrink: 0;
+      margin: 0;
+    }
+    .btn-text {
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+      white-space: nowrap;
     }
     .btn-smart-cta {
       background: var(--accent);
@@ -1359,13 +1402,13 @@
         </div>
 
         <div class="smart-device-btns">
-          <a href="/dashboard.html" class="btn-launch-hero" style="flex:1 1 0;min-width:0;">
-            <span aria-hidden="true">🚀</span>
-            <span>Launch Live App in Browser</span>
+          <a href="/dashboard.html" class="btn-launch-hero">
+            <span class="btn-icon" aria-hidden="true">🚀</span>
+            <span class="btn-text">Launch Live App in Browser</span>
           </a>
-          <a href="#" class="btn-download-hero" id="smartBtn" style="flex:1 1 0;min-width:0;">
-            <span id="smartIcon" aria-hidden="true">⬇️</span>
-            <span id="smartText">Download Native App</span>
+          <a href="#" class="btn-download-hero" id="smartBtn">
+            <span id="smartIcon" class="btn-icon" aria-hidden="true">⬇️</span>
+            <span id="smartText" class="btn-text">Download Native App</span>
           </a>
         </div>
 
@@ -2042,7 +2085,7 @@
         client = {
           os: "Apple iOS",
           iconSvg: SVG_LOGOS.apple,
-          title: "Install on iOS (iPhone / iPad)",
+          title: "Install on iOS",
           subtext: "Progressive Web App • Tap Share ➔ 'Add to Home Screen'",
           href: "/dashboard.html",
           isMobile: true
@@ -2053,7 +2096,7 @@
         client = {
           os: "Android",
           iconSvg: SVG_LOGOS.android,
-          title: "Install on Android App",
+          title: "Install on Android",
           subtext: "Touch-Optimized PWA • Install via Chrome Menu",
           href: "/dashboard.html",
           isMobile: true
@@ -2061,12 +2104,11 @@
       }
       // 3. macOS
       else if (/Macintosh|MacIntel|MacPPC|Mac68K/.test(ua) || /Mac/.test(platform)) {
-        const isArm = /ARM|Apple/i.test(navigator.platform) || (navigator.userAgentData && navigator.userAgentData.architecture === 'arm');
         client = {
           os: "macOS",
           iconSvg: SVG_LOGOS.apple,
-          title: `Download for macOS (${isArm ? "Apple Silicon M-Series" : "Universal"})`,
-          subtext: "Native LogSentry.app Bundle (.zip) • macOS 11.0+ Big Sur to macOS 15+",
+          title: "Download for macOS",
+          subtext: "Native LogSentry.app Bundle (.zip) • macOS 11.0+ (Apple Silicon & Intel)",
           href: "/download/macos",
           isMobile: false
         };
@@ -2076,7 +2118,7 @@
         client = {
           os: "Windows",
           iconSvg: SVG_LOGOS.windows,
-          title: "Download for Windows 10 / 11",
+          title: "Download for Windows",
           subtext: "Windows Standalone Package (.zip with run_app.bat) • 64-bit",
           href: "/download/windows",
           isMobile: false
@@ -2087,8 +2129,8 @@
         client = {
           os: "Linux",
           iconSvg: SVG_LOGOS.linux,
-          title: "Download for Linux (.tar.gz)",
-          subtext: "Universal Linux Archive with Python EDR Daemon",
+          title: "Download for Linux",
+          subtext: "Universal Linux Archive with Python EDR Daemon (.tar.gz)",
           href: "/download/linux",
           isMobile: false
         };
