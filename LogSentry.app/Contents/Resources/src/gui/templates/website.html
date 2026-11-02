@@ -27,12 +27,14 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="manifest" href="/manifest.json">
-  <meta name="theme-color" content="#070b12">
+  <meta name="theme-color" content="#09090b">
 
-  <!-- Typography: Geist + Geist Mono -->
+  <!-- Typography: Geist Sans + Geist Mono (Direct Preload + Google Fonts Fallback) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.3/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.0.3/index.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700&family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- JSON-LD Structured Data Schema -->
   <script type="application/ld+json">
@@ -58,32 +60,41 @@
 
   <style>
     :root {
-      --bg: #080c14;
-      --card-bg: #0d1322;
-      --card-border: #162035;
-      --card-border-focus: #1e293b;
-      --accent: #38bdf8;
-      --accent-muted: rgba(56, 189, 248, 0.12);
-      --accent-border: rgba(56, 189, 248, 0.32);
-      --accent-hover: #0284c7;
-      --red: #ef4444;
+      --bg: #09090b;
+      --card-bg: #121215;
+      --card-surface: #18181b;
+      --card-border: #27272a;
+      --card-border-focus: #3f3f46;
+      --accent: #10b981;
+      --accent-muted: rgba(16, 185, 129, 0.12);
+      --accent-border: rgba(16, 185, 129, 0.35);
+      --accent-hover: #059669;
+      --accent-glow: rgba(16, 185, 129, 0.22);
+      --red: #f43f5e;
       --green: #10b981;
       --yellow: #f59e0b;
       --purple: #a855f7;
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
-      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --font-mono: 'Geist Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
+      --text-main: #fafafa;
+      --text-sub: #a1a1aa;
+      --font-sans: 'Geist Sans', 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html, body, button, input, select, textarea {
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+    }
+
+    code, pre, .font-mono, [data-mono] {
+      font-family: var(--font-mono) !important;
     }
 
     body {
@@ -118,7 +129,7 @@
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(8, 12, 20, 0.88);
+      background: rgba(18, 18, 21, 0.88);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--card-border);
@@ -171,19 +182,19 @@
       color: #fff;
     }
     .btn-header-cta {
-      background: #111a2e;
-      border: 1px solid #1e2d4a;
+      background: #18181b;
+      border: 1px solid var(--card-border);
       color: #fff;
       padding: 8px 16px;
       border-radius: 8px;
       font-weight: 600;
       font-size: 0.85rem;
       text-decoration: none;
-      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), color 140ms var(--ease-out);
     }
     .btn-header-cta:hover {
       background: var(--accent);
-      color: #080c14;
+      color: #04120a;
       border-color: var(--accent);
     }
 
@@ -273,7 +284,7 @@
     }
     .btn-launch-hero {
       background: var(--accent);
-      color: #080c14;
+      color: #04120a;
       border: none;
       padding: 15px 28px;
       border-radius: 10px;
@@ -285,16 +296,16 @@
       justify-content: center;
       gap: 10px;
       text-decoration: none;
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
       transition: background-color 150ms var(--ease-out), transform 150ms var(--ease-out);
     }
     .btn-launch-hero:hover {
-      background: #7dd3fc;
+      background: var(--accent-hover);
       transform: translateY(-2px);
     }
     .btn-download-hero {
-      background: #111a2e;
-      border: 1px solid #1e2d4a;
+      background: #18181b;
+      border: 1px solid var(--card-border);
       color: #fff;
       padding: 15px 28px;
       border-radius: 10px;
@@ -309,13 +320,13 @@
       transition: background-color 150ms var(--ease-out), border-color 150ms var(--ease-out), transform 150ms var(--ease-out);
     }
     .btn-download-hero:hover {
-      background: #1a2744;
+      background: #27272a;
       border-color: var(--accent);
       transform: translateY(-2px);
     }
     .btn-smart-cta {
       background: var(--accent);
-      color: #080c14;
+      color: #04120a;
       border: none;
       padding: 15px 32px;
       border-radius: 10px;
@@ -328,10 +339,11 @@
       gap: 10px;
       width: 100%;
       text-decoration: none;
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
       transition: background-color 150ms var(--ease-out), transform 150ms var(--ease-out);
     }
     .btn-smart-cta:hover {
-      background: #7dd3fc;
+      background: var(--accent-hover);
       transform: translateY(-2px);
     }
     .btn-smart-cta:active {
@@ -352,7 +364,7 @@
     .video-container-card {
       background: var(--card-bg);
       border: 1px solid var(--accent-border);
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 25px rgba(56, 189, 248, 0.12);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 25px rgba(16, 185, 129, 0.15);
       border-radius: 18px;
       overflow: hidden;
       max-width: 980px;
@@ -379,7 +391,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 16px 24px;
-      background: #0b1120;
+      background: #121215;
       border-top: 1px solid var(--card-border);
       flex-wrap: wrap;
       gap: 12px;
@@ -401,8 +413,8 @@
       border-radius: 6px;
     }
     .btn-download-video {
-      background: #111a2e;
-      border: 1px solid #1e2d4a;
+      background: #18181b;
+      border: 1px solid var(--card-border);
       color: #fff;
       padding: 8px 16px;
       border-radius: 8px;
@@ -412,11 +424,11 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), color 140ms var(--ease-out);
     }
     .btn-download-video:hover {
       background: var(--accent);
-      color: #080c14;
+      color: #04120a;
       border-color: var(--accent);
     }
 
@@ -779,12 +791,12 @@
 
     .beam-reactor-wrapper {
       position: relative;
-      background: #080c14;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: #09090b;
+      border: 1px solid var(--card-border);
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85);
-      background-image: radial-gradient(rgba(56, 189, 248, 0.08) 1.2px, transparent 1.2px);
+      background-image: radial-gradient(rgba(16, 185, 129, 0.08) 1.2px, transparent 1.2px);
       background-size: 20px 20px;
       margin-top: 14px;
     }
@@ -793,7 +805,7 @@
       inset: -1px;
       border-radius: inherit;
       padding: 1px;
-      background: conic-gradient(from var(--beam-angle), transparent 0deg, transparent 60deg, #38bdf8 120deg, #34d399 150deg, transparent 200deg, transparent 360deg);
+      background: conic-gradient(from var(--beam-angle), transparent 0deg, transparent 60deg, #10b981 120deg, #34d399 150deg, transparent 200deg, transparent 360deg);
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
@@ -832,7 +844,7 @@
       stroke-linecap: round;
       stroke-dasharray: 60 220;
       animation: beamFlow 2.6s linear infinite;
-      filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.7));
+      filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.7));
     }
     .beam-col {
       display: flex;
@@ -841,8 +853,8 @@
       z-index: 3;
     }
     .beam-node {
-      background: #0f172a;
-      border: 1px solid #1e293b;
+      background: #121215;
+      border: 1px solid var(--card-border);
       border-radius: 12px;
       padding: 12px 14px;
       display: flex;
@@ -855,23 +867,23 @@
     .beam-node:hover {
       transform: translateY(-2px);
       border-color: var(--accent);
-      background: #131d35;
-      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.2);
+      background: #18181b;
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.2);
     }
     .beam-node:active {
       transform: scale(0.97);
     }
     .beam-node.surge {
-      border-color: #38bdf8 !important;
-      box-shadow: 0 0 20px rgba(56, 189, 248, 0.6) !important;
-      background: #1e293b !important;
+      border-color: #10b981 !important;
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.6) !important;
+      background: #18181b !important;
     }
     .beam-node-icon {
       width: 32px;
       height: 32px;
       border-radius: 8px;
-      background: #111a2e;
-      border: 1px solid #1e2d4a;
+      background: #18181b;
+      border: 1px solid var(--card-border);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -911,7 +923,7 @@
       justify-content: center;
       text-align: center;
       padding: 24px 20px;
-      background: #0d1527;
+      background: #121215;
       border: 1px solid var(--accent-border);
       border-radius: 18px;
       animation: hubGlowPulse 4s infinite ease-in-out;
@@ -934,7 +946,7 @@
     .hub-icon {
       font-size: 2.4rem;
       margin-bottom: 8px;
-      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.4));
+      filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.4));
     }
     .hub-title {
       font-size: 1.05rem;
@@ -959,8 +971,8 @@
 
     /* Diagnostics HUD */
     .beam-hud {
-      background: #090e18;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #09090b;
+      border-top: 1px solid var(--card-border);
       padding: 14px 24px;
       display: flex;
       align-items: center;
@@ -995,8 +1007,8 @@
       color: var(--accent);
     }
     .btn-beam-ping {
-      background: #111a2e;
-      border: 1px solid #1e2d4a;
+      background: #18181b;
+      border: 1px solid var(--card-border);
       color: #fff;
       padding: 8px 16px;
       border-radius: 8px;
@@ -1010,7 +1022,7 @@
     }
     .btn-beam-ping:hover {
       background: var(--accent);
-      color: #080c14;
+      color: #04120a;
       border-color: var(--accent);
       transform: translateY(-1px);
     }
@@ -1019,17 +1031,183 @@
     }
     .beam-log-ticker {
       width: 100%;
-      background: #05080e;
-      border: 1px solid #1e293b;
+      background: #09090b;
+      border: 1px solid var(--card-border);
       border-radius: 6px;
       padding: 8px 12px;
       font-family: var(--font-mono);
       font-size: 0.75rem;
-      color: #94a3b8;
+      color: #a1a1aa;
       display: flex;
       align-items: center;
       gap: 10px;
       overflow: hidden;
+    }
+
+    /* -------------------------------------------------------------
+       21ST.DEV COMPONENT 2: INTERACTIVE CYBER TERMINAL & SOC FORENSICS
+       ------------------------------------------------------------- */
+    .terminal-window {
+      background: #09090b;
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.12);
+      margin-top: 14px;
+      position: relative;
+    }
+    .terminal-header {
+      background: #121215;
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .terminal-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .traffic-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .traffic-red { background: #f43f5e; }
+    .traffic-yellow { background: #f59e0b; }
+    .traffic-green { background: #10b981; }
+
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .terminal-tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .terminal-tab-btn {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--text-sub);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 140ms var(--ease-out), color 140ms var(--ease-out);
+    }
+    .terminal-tab-btn:hover {
+      color: #fff;
+      background: #18181b;
+    }
+    .terminal-tab-btn.active {
+      color: var(--accent);
+      background: #18181b;
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .terminal-body {
+      padding: 20px 24px;
+      min-height: 280px;
+      max-height: 380px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      line-height: 1.6;
+      color: #e4e4e7;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .term-line-prompt { color: var(--accent); font-weight: 700; }
+    .term-line-success { color: #34d399; }
+    .term-line-warn { color: #fbbf24; }
+    .term-line-danger { color: #f43f5e; }
+    .term-line-muted { color: #71717a; }
+
+    .terminal-cli-bar {
+      background: #121215;
+      border-top: 1px solid var(--card-border);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .cli-quick-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .cli-pill {
+      background: #18181b;
+      border: 1px solid var(--card-border);
+      color: #cbd5e1;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), color 140ms var(--ease-out);
+    }
+    .cli-pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: #27272a;
+    }
+    .terminal-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 240px;
+      background: #09090b;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 6px 12px;
+    }
+    .terminal-input-wrap:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
+    }
+    .terminal-input {
+      background: none;
+      border: none;
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      outline: none;
+      width: 100%;
+    }
+
+    /* -------------------------------------------------------------
+       21ST.DEV COMPONENT 3: CURSOR SPOTLIGHT PROXIMITY CARDS
+       ------------------------------------------------------------- */
+    .spotlight-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .spotlight-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(16, 185, 129, 0.1), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s var(--ease-out);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .spotlight-card:hover::before {
+      opacity: 1;
     }
     .beam-log-dot {
       width: 6px;
@@ -1070,11 +1248,12 @@
       <nav class="nav-links" aria-label="Main Navigation">
         <a href="#launch-video">Launch Video</a>
         <a href="#telemetry-beam">Live Architecture</a>
+        <a href="#interactive-terminal">SOC Terminal</a>
         <a href="#vectors">Threat Vectors</a>
         <a href="#comparison">Why Log Sentry</a>
         <a href="#platforms">All Platforms</a>
         <a href="#faq">FAQ</a>
-        <a href="/dashboard.html" class="btn-header-cta" style="background:var(--accent);color:#080c14;font-weight:800;padding:8px 18px;border-radius:8px;text-decoration:none;box-shadow:0 0 15px rgba(56,189,248,0.3);">⚡ Launch App Console ➔</a>
+        <a href="/dashboard.html" class="btn-header-cta" style="background:var(--accent);color:#04120a;font-weight:800;padding:8px 18px;border-radius:8px;text-decoration:none;box-shadow:0 0 15px rgba(16,185,129,0.3);">⚡ Launch App Console ➔</a>
       </nav>
     </div>
   </header>
@@ -1177,10 +1356,10 @@
           <svg class="beam-svg-layer" id="beamSvg" aria-hidden="true">
             <defs>
               <linearGradient id="beamGradActive" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
-                <stop offset="50%" stop-color="#38bdf8" stop-opacity="1" />
+                <stop offset="0%" stop-color="#10b981" stop-opacity="0" />
+                <stop offset="50%" stop-color="#10b981" stop-opacity="1" />
                 <stop offset="85%" stop-color="#34d399" stop-opacity="1" />
-                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+                <stop offset="100%" stop-color="#10b981" stop-opacity="0" />
               </linearGradient>
             </defs>
             <!-- Background Static Tracks -->
@@ -1355,15 +1534,71 @@
           <p>Traces process lineage and TTY states to catch headless background scripts secretly altering <code>user.email</code> and creating unauthorized Pull Requests.</p>
         </article>
 
-        <article class="vector-card" style="border-color: rgba(56, 189, 248, 0.4);">
+        <article class="vector-card spotlight-card" style="border-color: rgba(16, 185, 129, 0.4);">
           <h2>🛡️ Anti-Screen Sharing Call Shield</h2>
           <p>Blacks out your window (Netflix/UPI banking style) when Zoom, Google Meet, Teams, or screen recorders are active. Audio flows normally while sensitive logs remain 100% invisible.</p>
         </article>
 
-        <article class="vector-card" style="border-color: rgba(16, 185, 129, 0.4);">
+        <article class="vector-card spotlight-card" style="border-color: rgba(16, 185, 129, 0.4);">
           <h2>📸 Screenshot Forensics & 3-Step Ingestion</h2>
           <p>Paste screenshots directly via <code>Cmd+V</code> / <code>Ctrl+V</code>, auto-collect host OS logs in 1-click, and scrub private tokens and passwords before generating forensic incident packages.</p>
         </article>
+      </div>
+    </section>
+
+    <!-- 21ST.DEV COMPONENT 2: INTERACTIVE CYBER TERMINAL & SOC FORENSICS -->
+    <section class="section-wrap" id="interactive-terminal" aria-labelledby="terminal-title-heading">
+      <div class="section-header">
+        <div class="hero-badge" style="margin-inline: auto; margin-bottom: 8px;">
+          <div class="pulse-dot" aria-hidden="true"></div>
+          <span>21st.dev Component • Interactive SOC Terminal</span>
+        </div>
+        <h2 class="section-title" id="terminal-title-heading">Live Forensics & Interactive Command Deck</h2>
+        <p class="section-sub">Execute real-time security probes, inspect kernel DRM window privacy states, and test zero-trust process traps directly in the interactive command prompt below.</p>
+      </div>
+
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="terminal-controls">
+            <span class="traffic-dot traffic-red" aria-hidden="true"></span>
+            <span class="traffic-dot traffic-yellow" aria-hidden="true"></span>
+            <span class="traffic-dot traffic-green" aria-hidden="true"></span>
+            <span class="terminal-title" style="margin-left: 8px;">logsentry-agent — zsh (v2.4.0-arm64)</span>
+          </div>
+
+          <div class="terminal-tabs">
+            <button class="terminal-tab-btn active" id="termTab-telemetry" onclick="switchTermTab('telemetry')">>_ telemetry.log</button>
+            <button class="terminal-tab-btn" id="termTab-drm" onclick="switchTermTab('drm')">>_ drm-shield.sh</button>
+            <button class="terminal-tab-btn" id="termTab-canary" onclick="switchTermTab('canary')">>_ memory-canary.sh</button>
+          </div>
+        </div>
+
+        <div class="terminal-body" id="termBody" role="log" aria-live="polite">
+          <div class="term-line-muted"># Log Sentry Autonomous EDR Engine [Session: TLS 1.3 / AES-256-GCM]</div>
+          <div class="term-line-muted"># Type a command below or click a quick action pill. Type 'help' for available commands.</div>
+          <div><span class="term-line-prompt">operator@logsentry:~$</span> sentry audit --realtime</div>
+          <div class="term-line-success">[✓] Hooking macOS os_log stream & Windows Sysmon Event 4688... OK</div>
+          <div class="term-line-success">[✓] Zero-Trust Process Tree Tracker: 42 active lineages monitored</div>
+          <div class="term-line-warn">[!] Ingesting Canary Tripwire: /private/var/root/.canary_sentinel (SHA-256 intact)</div>
+          <div class="term-line-success">[✓] Call Privacy Shield: NSWindowSharingNone DRM standby (0 ms latency)</div>
+          <div><span class="term-line-prompt">operator@logsentry:~$</span> <span class="term-cursor" style="color: var(--accent); animation: pulse 1s infinite;">▌</span></div>
+        </div>
+
+        <div class="terminal-cli-bar">
+          <div class="cli-quick-pills">
+            <span style="font-size: 0.72rem; color: var(--text-sub); font-family: var(--font-mono);">Quick Probes:</span>
+            <button class="cli-pill" onclick="executeTermCommand('sentry audit')">⚡ sentry audit</button>
+            <button class="cli-pill" onclick="executeTermCommand('sentry test-drm')">🛡️ sentry test-drm</button>
+            <button class="cli-pill" onclick="executeTermCommand('sentry mitre')">📚 sentry mitre</button>
+            <button class="cli-pill" onclick="executeTermCommand('sentry quarantine')">🔒 sentry quarantine</button>
+            <button class="cli-pill" onclick="executeTermCommand('clear')">🧹 clear</button>
+          </div>
+
+          <form class="terminal-input-wrap" onsubmit="handleTermInput(event)">
+            <span class="term-line-prompt" style="font-size: 0.8rem;">$</span>
+            <input type="text" id="termCliInput" class="terminal-input" placeholder="Type a command (audit, drm, mitre, quarantine, help, clear)..." autocomplete="off" spellcheck="false">
+          </form>
+        </div>
       </div>
     </section>
 
@@ -1825,8 +2060,8 @@
         logText.innerHTML = `<strong>[${now}] ${name}</strong>: ${detail} <span style="color:var(--accent);">(${latency || '0.2ms'})</span>`;
       }
       if (logDot) {
-        logDot.style.background = '#38bdf8';
-        logDot.style.boxShadow = '0 0 12px #38bdf8';
+        logDot.style.background = '#10b981';
+        logDot.style.boxShadow = '0 0 12px #10b981';
         setTimeout(() => {
           logDot.style.background = '#34d399';
           logDot.style.boxShadow = '0 0 6px #34d399';
@@ -1852,14 +2087,14 @@
 
       const hub = document.getElementById('hubCenter');
       if (hub) {
-        hub.style.boxShadow = '0 0 60px rgba(56, 189, 248, 0.8), inset 0 0 30px rgba(56, 189, 248, 0.5)';
+        hub.style.boxShadow = '0 0 60px rgba(16, 185, 129, 0.8), inset 0 0 30px rgba(16, 185, 129, 0.5)';
         setTimeout(() => hub.style.boxShadow = '', 600);
       }
 
       const logText = document.getElementById('beamLogText');
       if (logText) {
         const now = new Date().toTimeString().split(' ')[0];
-        logText.innerHTML = `<span style="color:#f87171;"><strong>[${now} ADVERSARIAL STORM]</strong></span> Multi-vector assault simulated: MITRE T1059 classified, Call DRM engaged, PID quarantined.`;
+        logText.innerHTML = `<span style="color:#f43f5e;"><strong>[${now} ADVERSARIAL STORM]</strong></span> Multi-vector assault simulated: MITRE T1059 classified, Call DRM engaged, PID quarantined.`;
       }
 
       incrementEvents(12480);
@@ -1879,10 +2114,150 @@
       incrementEvents(Math.floor(Math.random() * 24) + 6);
     }, 2400);
 
-    // Initialize detection and animated beam
+    // -------------------------------------------------------------
+    // 21ST.DEV COMPONENT 2: INTERACTIVE CYBER TERMINAL DRIVER
+    // -------------------------------------------------------------
+    const TERMINAL_PRESETS = {
+      telemetry: [
+        { type: "muted", text: "# Log Sentry Autonomous EDR Engine [Session: TLS 1.3 / AES-256-GCM]" },
+        { type: "muted", text: "# Live behavioral audit attached to kernel stream (os_log / Sysmon)" },
+        { type: "prompt", text: "operator@logsentry:~$ sentry audit --realtime" },
+        { type: "success", text: "[✓] Hooking macOS os_log stream & Windows Sysmon Event 4688... OK" },
+        { type: "success", text: "[✓] Zero-Trust Process Tree Tracker: 42 active lineages monitored" },
+        { type: "warn", text: "[!] Ingesting Canary Tripwire: /private/var/root/.canary_sentinel (SHA-256 intact)" },
+        { type: "success", text: "[✓] Call Privacy Shield: NSWindowSharingNone DRM standby (0 ms latency)" }
+      ],
+      drm: [
+        { type: "muted", text: "# Screen Privacy & Anti-Surveillance Engine [DRM Window Protection]" },
+        { type: "prompt", text: "operator@logsentry:~$ sentry drm-inspect --verbose" },
+        { type: "success", text: "[✓] Cocoa Window Sharing Type: NSWindowSharingNone (0)" },
+        { type: "success", text: "[✓] Windows Display Affinity: WDA_EXCLUDEFROMCAPTURE (0x00000011)" },
+        { type: "success", text: "[✓] Active Video Conferencing Callers: ZERO LEAKAGE" },
+        { type: "warn", text: "[!] Status: Audio stream uninhibited. Video capture renders 100% pitch black." }
+      ],
+      canary: [
+        { type: "muted", text: "# Memory & Ransomware Decoy Trap Subsystem [Entropy Scanner]" },
+        { type: "prompt", text: "operator@logsentry:~$ sentry canary-check" },
+        { type: "success", text: "[✓] Decoy Canary Files Deployed: 16 decoy paths active across system" },
+        { type: "success", text: "[✓] Shannon Disk Entropy Threshold: 7.82 bits/byte baseline" },
+        { type: "success", text: "[✓] Volume Shadow Copy Tamper Traps: VSSADMIN hooks armed" },
+        { type: "success", text: "[✓] Zero Ransomware Mutations Detected. Latency: 0.19ms" }
+      ]
+    };
+
+    function switchTermTab(tabKey) {
+      document.querySelectorAll('.terminal-tab-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`termTab-${tabKey}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const body = document.getElementById('termBody');
+      if (!body) return;
+      body.innerHTML = '';
+
+      const lines = TERMINAL_PRESETS[tabKey] || TERMINAL_PRESETS.telemetry;
+      lines.forEach(line => {
+        appendTermLine(line.text, line.type);
+      });
+      appendTermLine("operator@logsentry:~$ ▌", "prompt");
+    }
+
+    function appendTermLine(text, type = "normal") {
+      const body = document.getElementById('termBody');
+      if (!body) return;
+      const div = document.createElement('div');
+      if (type === "prompt") div.className = "term-line-prompt";
+      else if (type === "success") div.className = "term-line-success";
+      else if (type === "warn") div.className = "term-line-warn";
+      else if (type === "danger") div.className = "term-line-danger";
+      else if (type === "muted") div.className = "term-line-muted";
+      div.textContent = text;
+      body.appendChild(div);
+      body.scrollTop = body.scrollHeight;
+    }
+
+    function executeTermCommand(rawCmd) {
+      const cmd = rawCmd.trim();
+      if (!cmd) return;
+
+      appendTermLine(`operator@logsentry:~$ ${cmd}`, "prompt");
+
+      const low = cmd.toLowerCase();
+      if (low === 'clear') {
+        const body = document.getElementById('termBody');
+        if (body) body.innerHTML = '';
+        appendTermLine("operator@logsentry:~$ ▌", "prompt");
+        return;
+      }
+      if (low.includes('help')) {
+        appendTermLine("Available Commands:", "muted");
+        appendTermLine("  sentry audit        - Run host behavioral threat scan", "success");
+        appendTermLine("  sentry test-drm     - Inspect Netflix-style call privacy shield", "success");
+        appendTermLine("  sentry mitre        - Display MITRE ATT&CK taxonomy mappings", "warn");
+        appendTermLine("  sentry quarantine   - Simulate process SIGKILL and rollback", "danger");
+        appendTermLine("  clear               - Clear terminal window", "muted");
+      } else if (low.includes('audit') || low.includes('scan')) {
+        appendTermLine("[*] Auditing running process lineages against behavioral heuristics...", "muted");
+        setTimeout(() => {
+          appendTermLine("[✓] macOS os_log: 0 unsanctioned host shells detected", "success");
+          appendTermLine("[✓] Process Tree: ollama-agent isolated within container boundary", "success");
+          appendTermLine("[✓] Behavioral Verdict: 100% HEALTHY (Risk Score: 0/100)", "success");
+          appendTermLine("operator@logsentry:~$ ▌", "prompt");
+        }, 180);
+        return;
+      } else if (low.includes('drm') || low.includes('shield')) {
+        appendTermLine("[*] Verifying DRM window affinity across display capture pipelines...", "muted");
+        setTimeout(() => {
+          appendTermLine("[✓] AppKit NSWindowSharingNone: ENGAGED", "success");
+          appendTermLine("[✓] Screen sharing video buffer: RENDERED AS PITCH BLACK", "success");
+          appendTermLine("[✓] Microphone & Audio streams: UNINHIBITED", "success");
+          appendTermLine("operator@logsentry:~$ ▌", "prompt");
+        }, 180);
+        return;
+      } else if (low.includes('mitre')) {
+        appendTermLine("[*] Active MITRE ATT&CK Interception Matrix:", "muted");
+        appendTermLine("  • T1059.004 : Unix Shell / Unauthorized Host Commands", "warn");
+        appendTermLine("  • T1486     : Data Encrypted for Impact (WannaCry entropy trap)", "warn");
+        appendTermLine("  • T1056.001 : Input Capture / Stealth Screengrab Spyware", "warn");
+        appendTermLine("  • T1195.002 : Supply Chain Compromise / Rogue PR altered email", "warn");
+      } else if (low.includes('quarantine') || low.includes('kill')) {
+        appendTermLine("[!] SIMULATED THREAT DETECTED: Rogue script PID 89124", "danger");
+        appendTermLine("[!] Dispatched SIGSTOP -> Process frozen", "warn");
+        appendTermLine("[✓] Dispatched SIGKILL -> Process terminated cleanly", "success");
+        appendTermLine("[✓] Restored canary files from memory snapshot (0.12ms)", "success");
+      } else {
+        appendTermLine(`zsh: command not found: ${cmd}. Type 'help' for available commands.`, "danger");
+      }
+      appendTermLine("operator@logsentry:~$ ▌", "prompt");
+    }
+
+    function handleTermInput(e) {
+      e.preventDefault();
+      const input = document.getElementById('termCliInput');
+      if (!input) return;
+      const val = input.value;
+      input.value = '';
+      executeTermCommand(val);
+    }
+
+    // -------------------------------------------------------------
+    // 21ST.DEV COMPONENT 3: CURSOR SPOTLIGHT PROXIMITY TRACKER
+    // -------------------------------------------------------------
+    function initSpotlightProximity() {
+      document.querySelectorAll('.spotlight-card, .platform-card, .vector-card').forEach(card => {
+        card.classList.add('spotlight-card');
+        card.addEventListener('mousemove', e => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+        });
+      });
+    }
+
+    // Initialize detection, animated beam, and spotlight
     document.addEventListener("DOMContentLoaded", () => {
       detectClientEnvironment();
       updateBeamPaths();
+      initSpotlightProximity();
       setTimeout(updateBeamPaths, 250);
       setTimeout(updateBeamPaths, 800);
     });

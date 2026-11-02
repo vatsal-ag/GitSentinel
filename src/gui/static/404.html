@@ -11,31 +11,36 @@
   <link rel="shortcut icon" href="/favicon.ico">
   <meta name="theme-color" content="#070b12">
 
-  <!-- Typography: Geist + Geist Mono -->
+  <!-- Typography: Geist Sans + Geist Mono (Direct Preload + Google Fonts Fallback) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-sans@5.0.3/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5.0.3/index.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700&family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&family=Geist:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #070b12;
-      --card-bg: #0d1424;
-      --card-border: #162035;
-      --accent: #38bdf8;
-      --accent-muted: rgba(56, 189, 248, 0.12);
-      --accent-border: rgba(56, 189, 248, 0.32);
-      --red: #ef4444;
-      --text-main: #f8fafc;
-      --text-sub: #94a3b8;
-      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --bg: #09090b;
+      --card-bg: #121215;
+      --card-border: #27272a;
+      --accent: #10b981;
+      --accent-muted: rgba(16, 185, 129, 0.12);
+      --accent-border: rgba(16, 185, 129, 0.35);
+      --red: #f43f5e;
+      --text-main: #fafafa;
+      --text-sub: #a1a1aa;
+      --font-sans: 'Geist Sans', 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --font-mono: 'Geist Mono', ui-monospace, Menlo, Monaco, Consolas, monospace;
       --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
     }
 
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html, body, button, input, select, textarea {
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
     }
@@ -58,8 +63,8 @@
       position: fixed;
       inset: 0;
       background-image:
-        linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+        linear-gradient(to right, rgba(16, 185, 129, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
       background-size: 40px 40px;
       pointer-events: none;
       z-index: 0;
@@ -110,7 +115,7 @@
       letter-spacing: -0.06em;
       line-height: 1;
       color: #fff;
-      text-shadow: 0 0 35px rgba(56, 189, 248, 0.25);
+      text-shadow: 0 0 35px rgba(16, 185, 129, 0.25);
     }
 
     h1 {
@@ -164,7 +169,7 @@
       flex: 1;
       min-width: 220px;
       background: var(--accent);
-      color: #080c14;
+      color: #04120a;
       font-weight: 800;
       font-size: 0.95rem;
       padding: 14px 24px;
@@ -174,18 +179,18 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.35);
       transition: background-color 140ms var(--ease-out), transform 140ms var(--ease-out);
     }
     .btn-action-primary:hover {
-      background: #7dd3fc;
+      background: var(--accent-hover);
       transform: translateY(-2px);
     }
     .btn-action-secondary {
       flex: 1;
       min-width: 220px;
-      background: #111a2e;
-      border: 1px solid #1e2d4a;
+      background: #18181b;
+      border: 1px solid var(--card-border);
       color: #fff;
       font-weight: 700;
       font-size: 0.95rem;
@@ -199,7 +204,7 @@
       transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), transform 140ms var(--ease-out);
     }
     .btn-action-secondary:hover {
-      background: #1a2744;
+      background: #27272a;
       border-color: var(--accent);
       transform: translateY(-2px);
     }
