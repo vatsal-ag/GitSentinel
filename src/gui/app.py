@@ -105,6 +105,10 @@ def brag_poster():
 def llmstxt():
     return send_from_directory("static", "llms.txt")
 
+@app.route("/fonts/<path:filename>")
+def fonts_route(filename):
+    return send_from_directory("static/fonts", filename)
+
 @app.after_request
 def apply_security_headers(response):
     response.headers["X-Frame-Options"] = "DENY"
@@ -112,10 +116,11 @@ def apply_security_headers(response):
     response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
     response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
     response.headers["Content-Security-Policy"] = (
-        "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; "
+        "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.jsdelivr.net; "
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; "
         "img-src 'self' data: https:; "
         "media-src 'self' data: https: blob:; "
-        "font-src 'self' https://fonts.gstatic.com data:;"
+        "font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data:;"
     )
     return response
 
