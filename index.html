@@ -593,6 +593,49 @@
       font-size: 1.05rem;
       font-weight: 700;
       color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      line-height: 1.3;
+      margin: 0;
+    }
+    .vector-title-icon {
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .vector-title-icon svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+      fill: currentColor;
+    }
+    .btn-github-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: #18181b;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out);
+    }
+    .btn-github-nav:hover {
+      background: #27272a;
+      border-color: #52525b;
+    }
+    .btn-github-nav svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
     }
     .vector-card p {
       font-size: 0.85rem;
@@ -1372,7 +1415,13 @@
         <a href="#platforms">Platforms</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a href="/dashboard.html" class="btn-header-cta">⚡ Launch App Console ➔</a>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <a href="https://github.com/vatsal-ag/GitSentinel" target="_blank" rel="noopener noreferrer" class="btn-github-nav" title="View Source on GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="/dashboard.html" class="btn-header-cta">⚡ Launch App Console ➔</a>
+      </div>
     </div>
   </header>
 
@@ -1635,7 +1684,7 @@
       <div class="vectors-grid">
         <!-- 1. AI Sandbox Breakouts -->
         <article class="vector-card spotlight-card">
-          <h2>🤖 AI Sandbox & Agent Breakouts</h2>
+          <h2><span class="vector-title-icon" style="color: #2496ed;"><svg viewBox="0 0 24 24" fill="currentColor" aria-label="Container Sandbox"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></span> AI Sandbox & Agent Breakouts</h2>
           <p>Intercepts autonomous LLM agents or containers mounting <code>/var/run/docker.sock</code>, breaking chroot isolation, or spawning unsanctioned host shells.</p>
           <div class="brand-logos-row">
             <span class="brand-logo-pill">
@@ -1651,7 +1700,7 @@
 
         <!-- 2. Ransomware Interception -->
         <article class="vector-card spotlight-card">
-          <h2>🔒 Ransomware & Cryptor Defense</h2>
+          <h2><span class="vector-title-icon" style="color: #ef4444;"><svg viewBox="0 0 24 24" fill="currentColor" aria-label="Ransomware Shield"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-1 6h2v2h-2V7zm0 4h2v6h-2v-6z"/></svg></span> Ransomware & Cryptor Defense</h2>
           <p>Canary tripwires and disk write entropy monitors catch mass encryption bursts and volume shadow copy deletion (<code>vssadmin</code>) before drives lock.</p>
           <div class="brand-logos-row">
             <span class="brand-logo-pill">
@@ -1667,7 +1716,7 @@
 
         <!-- 3. Spyware (Strictly Spyware, no CTRL branding) -->
         <article class="vector-card spotlight-card">
-          <h2>👁️ Spyware</h2>
+          <h2><span class="vector-title-icon" style="color: #f59e0b;"><svg viewBox="0 0 24 24" fill="currentColor" aria-label="Spyware Surveillance Radar"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></span> Spyware</h2>
           <p>Passively flags background screen capture, microphone/webcam snooping, and browser credential theft from <code>~/.ssh</code> and keychain stores.</p>
           <div class="brand-logos-row">
             <span class="brand-logo-pill">
@@ -1681,9 +1730,9 @@
           </div>
         </article>
 
-        <!-- 4. Unauthorized Git & PR Shield -->
+        <!-- 4. Unauthorized Git & PR Shield (OFFICIAL GITHUB LOGO) -->
         <article class="vector-card spotlight-card">
-          <h2>🐙 Unauthorized Git & PR Shield</h2>
+          <h2><span class="vector-title-icon" style="color: #ffffff;"><svg viewBox="0 0 24 24" fill="currentColor" aria-label="GitHub logo"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></span> Unauthorized Git & PR Shield</h2>
           <p>Traces process lineage and TTY states to catch headless background scripts secretly altering <code>user.email</code> and creating unauthorized Pull Requests.</p>
           <div class="brand-logos-row">
             <span class="brand-logo-pill">
@@ -1699,7 +1748,7 @@
 
         <!-- 5. Supply-Chain Dependency Poisoning (NEW VECTOR) -->
         <article class="vector-card spotlight-card">
-          <h2>📦 Supply-Chain Dependency Poisoning</h2>
+          <h2><span class="vector-title-icon" style="color: #cb3837;"><svg viewBox="0 0 24 24" fill="currentColor" aria-label="Supply chain package"><path d="M21 16.5l-9 5.25L3 16.5v-9l9-5.25 9 5.25v9zM12 4.15L5.05 8.2 12 12.25l6.95-4.05L12 4.15zM4.5 9.87v6.33L11 19.98v-6.33L4.5 9.87zm8.5 10.11l6.5-3.78V9.87L13 13.65v6.33z"/></svg></span> Supply-Chain Dependency Poisoning</h2>
           <p>Flags malicious <code>postinstall</code> lifecycle hooks, typosquatting packages, and hidden credential exfiltration during <code>npm install</code> or <code>pip install</code>.</p>
           <div class="brand-logos-row">
             <span class="brand-logo-pill">
@@ -1715,7 +1764,7 @@
 
         <!-- 6. Privilege Escalation & Kernel Exploits (NEW VECTOR) -->
         <article class="vector-card spotlight-card">
-          <h2>⚡ Privilege Escalation & Kernel Exploits</h2>
+          <h2><span class="vector-title-icon" style="color: #fcc624;"><svg viewBox="0 0 24 24" fill="currentColor" aria-label="Kernel exploit"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></span> Privilege Escalation & Kernel Exploits</h2>
           <p>Intercepts unauthorized <code>setuid</code> binaries, sudo token hijacking (<code>sudo -S</code>), dirty pipe mutations, and unsanctioned kernel extension or driver loading.</p>
           <div class="brand-logos-row">
             <span class="brand-logo-pill">
@@ -1735,7 +1784,7 @@
 
         <!-- 7. Anti-Screen Sharing Call Shield (WITH OFFICIAL BRAND LOGOS) -->
         <article class="vector-card spotlight-card" style="border-color: rgba(16, 185, 129, 0.4);">
-          <h2>🛡️ Anti-Screen Sharing Call Shield</h2>
+          <h2><span class="vector-title-icon" style="color: #10b981;"><svg viewBox="0 0 24 24" fill="currentColor" aria-label="Call privacy shield"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></span> Anti-Screen Sharing Call Shield</h2>
           <p>Blacks out your window (Netflix/UPI banking style) when Zoom, Google Meet, Teams, or screen recorders are active. Audio flows normally while sensitive logs remain 100% invisible.</p>
           <div class="brand-logos-row">
             <span class="brand-logo-pill">
@@ -1759,7 +1808,7 @@
 
         <!-- 8. Screenshot Forensics & 3-Step Ingestion -->
         <article class="vector-card spotlight-card" style="border-color: rgba(16, 185, 129, 0.4);">
-          <h2>📸 Screenshot Forensics & 3-Step Ingestion</h2>
+          <h2><span class="vector-title-icon" style="color: #34d399;"><svg viewBox="0 0 24 24" fill="currentColor" aria-label="Forensic Scanner"><path d="M4 4h3l2-2h6l2 2h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm8 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg></span> Screenshot Forensics & 3-Step Ingestion</h2>
           <p>Paste screenshots directly via <code>Cmd+V</code> / <code>Ctrl+V</code>, auto-collect host OS logs in 1-click, and scrub private tokens and passwords before generating forensic incident packages.</p>
           <div class="brand-logos-row">
             <span class="brand-logo-pill">
