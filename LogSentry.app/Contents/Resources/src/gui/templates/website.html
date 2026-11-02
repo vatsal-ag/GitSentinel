@@ -750,6 +750,309 @@
       .nav-links { display: none; }
       .faq-grid { grid-template-columns: 1fr; }
     }
+
+    /* -------------------------------------------------------------
+       21ST.DEV COMPONENT: ANIMATED BEAM TELEMETRY ARCHITECTURE
+       ------------------------------------------------------------- */
+    @property --beam-angle {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+    @keyframes borderBeamRotate {
+      0% { --beam-angle: 0deg; }
+      100% { --beam-angle: 360deg; }
+    }
+    @keyframes beamFlow {
+      0% { stroke-dashoffset: 400; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes sonarPing {
+      0% { transform: scale(0.85); opacity: 0.8; }
+      50% { transform: scale(1.4); opacity: 0; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+    @keyframes hubGlowPulse {
+      0%, 100% { box-shadow: 0 0 25px rgba(56, 189, 248, 0.25), inset 0 0 15px rgba(56, 189, 248, 0.15); }
+      50% { box-shadow: 0 0 45px rgba(56, 189, 248, 0.45), inset 0 0 25px rgba(56, 189, 248, 0.25); }
+    }
+
+    .beam-reactor-wrapper {
+      position: relative;
+      background: #080c14;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85);
+      background-image: radial-gradient(rgba(56, 189, 248, 0.08) 1.2px, transparent 1.2px);
+      background-size: 20px 20px;
+      margin-top: 14px;
+    }
+    .border-beam-glow {
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: conic-gradient(from var(--beam-angle), transparent 0deg, transparent 60deg, #38bdf8 120deg, #34d399 150deg, transparent 200deg, transparent 360deg);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      animation: borderBeamRotate 7s linear infinite;
+      z-index: 5;
+    }
+    .beam-stage {
+      position: relative;
+      display: grid;
+      grid-template-columns: 240px 1fr 240px;
+      align-items: center;
+      gap: 30px;
+      padding: 40px 30px;
+      min-height: 440px;
+      z-index: 2;
+    }
+    .beam-svg-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .beam-path-bg {
+      stroke: rgba(255, 255, 255, 0.07);
+      stroke-width: 2px;
+      fill: none;
+      stroke-linecap: round;
+    }
+    .beam-path-active {
+      stroke: url(#beamGradActive);
+      stroke-width: 2.5px;
+      fill: none;
+      stroke-linecap: round;
+      stroke-dasharray: 60 220;
+      animation: beamFlow 2.6s linear infinite;
+      filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.7));
+    }
+    .beam-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 3;
+    }
+    .beam-node {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.16s var(--ease-out), border-color 0.16s var(--ease-out), box-shadow 0.16s var(--ease-out), background-color 0.16s var(--ease-out);
+    }
+    .beam-node:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      background: #131d35;
+      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.2);
+    }
+    .beam-node:active {
+      transform: scale(0.97);
+    }
+    .beam-node.surge {
+      border-color: #38bdf8 !important;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.6) !important;
+      background: #1e293b !important;
+    }
+    .beam-node-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #111a2e;
+      border: 1px solid #1e2d4a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+    .beam-node-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      overflow: hidden;
+    }
+    .beam-node-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .beam-node-sub {
+      font-size: 0.72rem;
+      color: var(--text-sub);
+      font-family: var(--font-mono);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    /* Central Hub */
+    .beam-center-hub {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 20px;
+      background: #0d1527;
+      border: 1px solid var(--accent-border);
+      border-radius: 18px;
+      animation: hubGlowPulse 4s infinite ease-in-out;
+      z-index: 3;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.16s var(--ease-out);
+    }
+    .beam-center-hub:hover {
+      transform: scale(1.02);
+    }
+    .hub-sonar-ring {
+      position: absolute;
+      inset: -12px;
+      border-radius: 24px;
+      border: 2px solid var(--accent);
+      pointer-events: none;
+      animation: sonarPing 3s infinite ease-out;
+    }
+    .hub-icon {
+      font-size: 2.4rem;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.4));
+    }
+    .hub-title {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .hub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+      padding: 3px 10px;
+      border-radius: 9999px;
+      margin-top: 8px;
+    }
+
+    /* Diagnostics HUD */
+    .beam-hud {
+      background: #090e18;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      z-index: 4;
+      position: relative;
+    }
+    .beam-hud-metrics {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .hud-metric-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .hud-metric-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-family: var(--font-mono);
+      color: var(--text-sub);
+      letter-spacing: 0.05em;
+    }
+    .hud-metric-val {
+      font-size: 0.88rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--accent);
+    }
+    .btn-beam-ping {
+      background: #111a2e;
+      border: 1px solid #1e2d4a;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.16s var(--ease-out), border-color 0.16s var(--ease-out), transform 0.16s var(--ease-out);
+    }
+    .btn-beam-ping:hover {
+      background: var(--accent);
+      color: #080c14;
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .btn-beam-ping:active {
+      transform: scale(0.96);
+    }
+    .beam-log-ticker {
+      width: 100%;
+      background: #05080e;
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+    .beam-log-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 6px #34d399;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .beam-stage {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 24px 16px;
+      }
+      .beam-svg-layer {
+        display: none;
+      }
+      .beam-center-hub {
+        order: -1;
+      }
+    }
   </style>
 </head>
 <body>
@@ -766,6 +1069,7 @@
       </a>
       <nav class="nav-links" aria-label="Main Navigation">
         <a href="#launch-video">Launch Video</a>
+        <a href="#telemetry-beam">Live Architecture</a>
         <a href="#vectors">Threat Vectors</a>
         <a href="#comparison">Why Log Sentry</a>
         <a href="#platforms">All Platforms</a>
@@ -849,6 +1153,176 @@
           <a href="/brag.mp4" download="LogSentry-Launch-Trailer.mp4" class="btn-download-video">
             <span aria-hidden="true">⬇️</span> Download Trailer (MP4)
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 21ST.DEV COMPONENT: ANIMATED BEAM TELEMETRY ARCHITECTURE -->
+    <section class="section-wrap" id="telemetry-beam" aria-labelledby="telemetry-beam-title">
+      <div class="section-header">
+        <div class="hero-badge" style="margin-inline: auto; margin-bottom: 8px;">
+          <div class="pulse-dot" aria-hidden="true"></div>
+          <span>21st.dev Component • Live Telemetry Reactor</span>
+        </div>
+        <h2 class="section-title" id="telemetry-beam-title">Real-Time Signal Routing & Neural Pipeline</h2>
+        <p class="section-sub">Visualizing bidirectional telemetry flows across operating systems, AI agent sandboxes, and video call feeds directly into Log Sentry's zero-latency interception matrix.</p>
+      </div>
+
+      <div class="beam-reactor-wrapper">
+        <!-- 21st.dev Border Beam -->
+        <div class="border-beam-glow" aria-hidden="true"></div>
+
+        <div class="beam-stage" id="beamStage">
+          <!-- Interactive SVG Animated Beams -->
+          <svg class="beam-svg-layer" id="beamSvg" aria-hidden="true">
+            <defs>
+              <linearGradient id="beamGradActive" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
+                <stop offset="50%" stop-color="#38bdf8" stop-opacity="1" />
+                <stop offset="85%" stop-color="#34d399" stop-opacity="1" />
+                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <!-- Background Static Tracks -->
+            <path id="bg-node-mac" class="beam-path-bg" d="" />
+            <path id="bg-node-win" class="beam-path-bg" d="" />
+            <path id="bg-node-linux" class="beam-path-bg" d="" />
+            <path id="bg-node-webrtc" class="beam-path-bg" d="" />
+            <path id="bg-node-mitre" class="beam-path-bg" d="" />
+            <path id="bg-node-drm" class="beam-path-bg" d="" />
+            <path id="bg-node-quarantine" class="beam-path-bg" d="" />
+
+            <!-- Animated Flowing Beams -->
+            <path id="active-node-mac" class="beam-path-active" d="" />
+            <path id="active-node-win" class="beam-path-active" d="" />
+            <path id="active-node-linux" class="beam-path-active" d="" />
+            <path id="active-node-webrtc" class="beam-path-active" d="" />
+            <path id="active-node-mitre" class="beam-path-active" d="" />
+            <path id="active-node-drm" class="beam-path-active" d="" />
+            <path id="active-node-quarantine" class="beam-path-active" d="" />
+          </svg>
+
+          <!-- Left Column: Input Telemetry Sources -->
+          <div class="beam-col">
+            <div class="beam-node" id="node-mac" onclick="triggerTelemetryBurst('node-mac', 'Apple os_log & FSEvents', 'fsevents /private/etc/hosts verified', '0.14ms')" title="Click to test signal flow">
+              <div class="beam-node-icon">
+                <svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin:0;"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+              </div>
+              <div class="beam-node-info">
+                <div class="beam-node-title">macOS Kernel</div>
+                <div class="beam-node-sub">os_log • FSEvents</div>
+              </div>
+            </div>
+
+            <div class="beam-node" id="node-win" onclick="triggerTelemetryBurst('node-win', 'Windows Sysmon & EVTX', 'Sysmon EventID 1 (Process Create) analyzed', '0.21ms')" title="Click to test signal flow">
+              <div class="beam-node-icon">
+                <svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin:0;"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.902-1.8"/></svg>
+              </div>
+              <div class="beam-node-info">
+                <div class="beam-node-title">Windows Kernel</div>
+                <div class="beam-node-sub">Sysmon • Event 4688</div>
+              </div>
+            </div>
+
+            <div class="beam-node" id="node-linux" onclick="triggerTelemetryBurst('node-linux', 'Linux Auditd & eBPF', 'eBPF sys_enter_execve inspected', '0.18ms')" title="Click to test signal flow">
+              <div class="beam-node-icon">
+                <svg class="sys-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin:0;"><path d="M12.308 0c-.347 0-.712.029-1.077.087-3.02.484-4.675 2.946-4.228 6.302.054.406.155.807.284 1.196-.462.434-.87.94-1.207 1.503-1.63 2.73-1.35 6.09.68 8.163-.12.636-.18 1.285-.18 1.94 0 1.21.21 2.37.6 3.44H4.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5h-2.67c.39-1.07.6-2.23.6-3.44 0-.655-.06-1.304-.18-1.94 2.03-2.073 2.31-5.433.68-8.163-.337-.563-.745-1.069-1.207-1.503.129-.389.23-.79.284-1.196.447-3.356-1.208-5.818-4.228-6.302-.365-.058-.73-.087-1.077-.087z"/></svg>
+              </div>
+              <div class="beam-node-info">
+                <div class="beam-node-title">Linux Daemon</div>
+                <div class="beam-node-sub">Auditd • eBPF Hook</div>
+              </div>
+            </div>
+
+            <div class="beam-node" id="node-webrtc" onclick="triggerTelemetryBurst('node-webrtc', 'WebRTC Video Stream', 'Call stream detected: Zoom/Meet/Teams session', '0.08ms')" title="Click to test signal flow">
+              <div class="beam-node-icon">
+                <span aria-hidden="true">📹</span>
+              </div>
+              <div class="beam-node-info">
+                <div class="beam-node-title">WebRTC Call Stream</div>
+                <div class="beam-node-sub">DisplayCapture API</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Center Column: Log Sentry Defense Neural Hub -->
+          <div class="beam-col" style="align-items: center;">
+            <div class="beam-center-hub" id="hubCenter" onclick="triggerAdversarialBurst()" title="Click to simulate adversarial storm">
+              <div class="hub-sonar-ring" aria-hidden="true"></div>
+              <div class="hub-icon" aria-hidden="true">🛡️</div>
+              <div class="hub-title">Log Sentry Core</div>
+              <div style="font-size: 0.76rem; color: var(--text-sub); margin-top: 4px;">Zero-Latency Heuristics</div>
+              <div class="hub-badge">
+                <span class="pulse-dot" style="background:#34d399;box-shadow:0 0 6px #34d399;" aria-hidden="true"></span>
+                <span>PIPELINE ARMED</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Security Action Targets -->
+          <div class="beam-col">
+            <div class="beam-node" id="node-mitre" onclick="triggerTelemetryBurst('node-mitre', 'MITRE ATT&CK Engine', 'Classified: T1059.004 Command & Scripting Interpreter', '0.29ms')" title="Click to test signal flow">
+              <div class="beam-node-icon">
+                <span aria-hidden="true">⚡</span>
+              </div>
+              <div class="beam-node-info">
+                <div class="beam-node-title">MITRE ATT&CK</div>
+                <div class="beam-node-sub">Matrix T1059 • T1486</div>
+              </div>
+            </div>
+
+            <div class="beam-node" id="node-drm" onclick="triggerTelemetryBurst('node-drm', 'DRM Call Privacy Curtain', 'NSWindowSharingNone engaged: Screen rendered pitch black', '0.02ms')" title="Click to test signal flow">
+              <div class="beam-node-icon">
+                <span aria-hidden="true">⬛</span>
+              </div>
+              <div class="beam-node-info">
+                <div class="beam-node-title">DRM Black Screen</div>
+                <div class="beam-node-sub">Zero Video Sharing</div>
+              </div>
+            </div>
+
+            <div class="beam-node" id="node-quarantine" onclick="triggerTelemetryBurst('node-quarantine', 'Auto Remediation Playbook', 'SIGKILL dispatched to PID 89124 • Canary restored', '0.45ms')" title="Click to test signal flow">
+              <div class="beam-node-icon">
+                <span aria-hidden="true">🔒</span>
+              </div>
+              <div class="beam-node-info">
+                <div class="beam-node-title">Auto Quarantine</div>
+                <div class="beam-node-sub">SIGKILL • Rollback</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagnostics HUD -->
+        <div class="beam-hud">
+          <div class="beam-hud-metrics">
+            <div class="hud-metric-item">
+              <span class="hud-metric-label">Events Ingested</span>
+              <span class="hud-metric-val" id="hudEventsCount">1,489,204</span>
+            </div>
+            <div class="hud-metric-item">
+              <span class="hud-metric-label">Signal Latency</span>
+              <span class="hud-metric-val" id="hudLatencyVal">0.32 ms</span>
+            </div>
+            <div class="hud-metric-item">
+              <span class="hud-metric-label">DRM Affinity</span>
+              <span class="hud-metric-val" style="color:#34d399;">ACTIVE</span>
+            </div>
+            <div class="hud-metric-item">
+              <span class="hud-metric-label">Cipher</span>
+              <span class="hud-metric-val" style="color:#94a3b8;font-size:0.75rem;">TLS 1.3 / AES-256</span>
+            </div>
+          </div>
+
+          <button class="btn-beam-ping" onclick="triggerAdversarialBurst()">
+            <span aria-hidden="true">⚡</span>
+            <span>Simulate Adversarial Ingestion Storm</span>
+          </button>
+
+          <div class="beam-log-ticker" role="status" aria-live="polite">
+            <span class="beam-log-dot" id="beamLogDot" aria-hidden="true"></span>
+            <span id="beamLogText">Telemetry stream synchronized across macOS, Windows, Linux, and WebRTC DRM layers. Click any node to fire a live packet burst.</span>
+          </div>
         </div>
       </div>
     </section>
@@ -1264,8 +1738,158 @@
       if (modal) modal.classList.remove('active');
     }
 
-    // Initialize detection
-    document.addEventListener("DOMContentLoaded", detectClientEnvironment);
+    // -------------------------------------------------------------
+    // 21ST.DEV COMPONENT: ANIMATED BEAM DYNAMIC PATH COMPUTATION
+    // -------------------------------------------------------------
+    function updateBeamPaths() {
+      const stage = document.getElementById('beamStage');
+      const svg = document.getElementById('beamSvg');
+      if (!stage || !svg) return;
+
+      const stageRect = stage.getBoundingClientRect();
+      if (stageRect.width === 0 || stageRect.height === 0) return;
+
+      svg.setAttribute('viewBox', `0 0 ${stageRect.width} ${stageRect.height}`);
+
+      const centerNode = document.getElementById('hubCenter');
+      if (!centerNode) return;
+      const centerRect = centerNode.getBoundingClientRect();
+      const cY = (centerRect.top + centerRect.height / 2) - stageRect.top;
+      const cLeftX = centerRect.left - stageRect.left;
+      const cRightX = centerRect.right - stageRect.left;
+
+      const inputs = ['node-mac', 'node-win', 'node-linux', 'node-webrtc'];
+      const outputs = ['node-mitre', 'node-drm', 'node-quarantine'];
+
+      // Left input nodes -> Center hub
+      inputs.forEach(id => {
+        const el = document.getElementById(id);
+        const pathBg = document.getElementById(`bg-${id}`);
+        const pathActive = document.getElementById(`active-${id}`);
+        if (!el || !pathBg || !pathActive) return;
+
+        const r = el.getBoundingClientRect();
+        const x1 = r.right - stageRect.left;
+        const y1 = (r.top + r.height / 2) - stageRect.top;
+        const x2 = cLeftX;
+        const y2 = cY;
+        const dx = Math.max(20, Math.abs(x2 - x1) * 0.55);
+
+        const d = `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+        pathBg.setAttribute('d', d);
+        pathActive.setAttribute('d', d);
+      });
+
+      // Center hub -> Right output nodes
+      outputs.forEach(id => {
+        const el = document.getElementById(id);
+        const pathBg = document.getElementById(`bg-${id}`);
+        const pathActive = document.getElementById(`active-${id}`);
+        if (!el || !pathBg || !pathActive) return;
+
+        const r = el.getBoundingClientRect();
+        const x1 = cRightX;
+        const y1 = cY;
+        const x2 = r.left - stageRect.left;
+        const y2 = (r.top + r.height / 2) - stageRect.top;
+        const dx = Math.max(20, Math.abs(x2 - x1) * 0.55);
+
+        const d = `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2} ${y2}`;
+        pathBg.setAttribute('d', d);
+        pathActive.setAttribute('d', d);
+      });
+    }
+
+    // Telemetry burst simulation on click
+    function triggerTelemetryBurst(nodeId, name, detail, latency) {
+      const node = document.getElementById(nodeId);
+      if (node) {
+        node.classList.add('surge');
+        setTimeout(() => node.classList.remove('surge'), 400);
+      }
+
+      const hub = document.getElementById('hubCenter');
+      if (hub) {
+        hub.style.transform = 'scale(1.05)';
+        setTimeout(() => hub.style.transform = '', 300);
+      }
+
+      // Update HUD
+      const latEl = document.getElementById('hudLatencyVal');
+      if (latEl && latency) latEl.textContent = latency;
+
+      const logText = document.getElementById('beamLogText');
+      const logDot = document.getElementById('beamLogDot');
+      if (logText) {
+        const now = new Date().toTimeString().split(' ')[0];
+        logText.innerHTML = `<strong>[${now}] ${name}</strong>: ${detail} <span style="color:var(--accent);">(${latency || '0.2ms'})</span>`;
+      }
+      if (logDot) {
+        logDot.style.background = '#38bdf8';
+        logDot.style.boxShadow = '0 0 12px #38bdf8';
+        setTimeout(() => {
+          logDot.style.background = '#34d399';
+          logDot.style.boxShadow = '0 0 6px #34d399';
+        }, 500);
+      }
+
+      // Increment event count
+      incrementEvents(1);
+    }
+
+    // Adversarial storm simulation (firing all nodes simultaneously)
+    function triggerAdversarialBurst() {
+      const allNodes = ['node-mac', 'node-win', 'node-linux', 'node-webrtc', 'node-mitre', 'node-drm', 'node-quarantine'];
+      allNodes.forEach((id, idx) => {
+        setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.classList.add('surge');
+            setTimeout(() => el.classList.remove('surge'), 450);
+          }
+        }, idx * 60);
+      });
+
+      const hub = document.getElementById('hubCenter');
+      if (hub) {
+        hub.style.boxShadow = '0 0 60px rgba(56, 189, 248, 0.8), inset 0 0 30px rgba(56, 189, 248, 0.5)';
+        setTimeout(() => hub.style.boxShadow = '', 600);
+      }
+
+      const logText = document.getElementById('beamLogText');
+      if (logText) {
+        const now = new Date().toTimeString().split(' ')[0];
+        logText.innerHTML = `<span style="color:#f87171;"><strong>[${now} ADVERSARIAL STORM]</strong></span> Multi-vector assault simulated: MITRE T1059 classified, Call DRM engaged, PID quarantined.`;
+      }
+
+      incrementEvents(12480);
+    }
+
+    let currentEvents = 1489204;
+    function incrementEvents(amount) {
+      currentEvents += amount;
+      const el = document.getElementById('hudEventsCount');
+      if (el) {
+        el.textContent = currentEvents.toLocaleString();
+      }
+    }
+
+    // Periodic live background events increment
+    setInterval(() => {
+      incrementEvents(Math.floor(Math.random() * 24) + 6);
+    }, 2400);
+
+    // Initialize detection and animated beam
+    document.addEventListener("DOMContentLoaded", () => {
+      detectClientEnvironment();
+      updateBeamPaths();
+      setTimeout(updateBeamPaths, 250);
+      setTimeout(updateBeamPaths, 800);
+    });
+
+    window.addEventListener('resize', () => {
+      updateBeamPaths();
+    });
   </script>
 </body>
 </html>
