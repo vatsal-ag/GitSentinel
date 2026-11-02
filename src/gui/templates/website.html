@@ -139,63 +139,78 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 20px;
+      width: 100%;
     }
     .brand {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 10px;
       text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .brand-icon {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
+      line-height: 1;
+      display: inline-flex;
     }
     .brand-text {
-      font-size: 1.25rem;
+      font-size: 1.22rem;
       font-weight: 800;
       color: #fff;
       letter-spacing: -0.03em;
+      white-space: nowrap;
+      display: inline-block;
     }
     .brand-badge {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       background: var(--accent-muted);
       color: var(--accent);
       border: 1px solid var(--accent-border);
-      padding: 2px 8px;
+      padding: 2px 7px;
       border-radius: 9999px;
       font-weight: 700;
       font-family: var(--font-mono);
       letter-spacing: 0.04em;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 28px;
+      justify-content: center;
+      gap: 22px;
+      margin-inline: auto;
     }
     .nav-links a {
       color: var(--text-sub);
       text-decoration: none;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 600;
+      white-space: nowrap;
       transition: color 140ms var(--ease-out);
     }
     .nav-links a:hover {
       color: #fff;
     }
     .btn-header-cta {
-      background: #18181b;
-      border: 1px solid var(--card-border);
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      text-decoration: none;
-      transition: background-color 140ms var(--ease-out), border-color 140ms var(--ease-out), color 140ms var(--ease-out);
-    }
-    .btn-header-cta:hover {
       background: var(--accent);
       color: #04120a;
-      border-color: var(--accent);
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.84rem;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: 0 0 16px rgba(16, 185, 129, 0.3);
+      transition: background-color 140ms var(--ease-out), transform 140ms var(--ease-out);
+    }
+    .btn-header-cta:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
     }
 
     /* Hero Section */
@@ -205,7 +220,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 20px;
+      max-width: 960px;
+      margin-inline: auto;
     }
     .hero-badge {
       display: inline-flex;
@@ -221,6 +239,7 @@
       font-family: var(--font-mono);
       letter-spacing: 0.04em;
       text-transform: uppercase;
+      margin-inline: auto;
     }
     .pulse-dot {
       width: 7px;
@@ -237,23 +256,30 @@
 
     /* Strictly exactly ONE H1 on the document with descender clearance */
     .hero-headline {
-      font-size: clamp(2.4rem, 5.2vw, 3.9rem);
+      font-size: clamp(2.3rem, 5vw, 3.8rem);
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.035em;
       line-height: 1.15;
       padding-bottom: 6px; /* descender clearance */
-      max-width: 900px;
+      max-width: 920px;
+      margin-inline: auto;
+      text-align: center;
       color: #fff;
+      text-wrap: balance;
     }
     .accent-emphasis {
       color: var(--accent);
       font-style: normal;
+      display: inline-block;
     }
     .hero-subhead {
-      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
       color: var(--text-sub);
-      max-width: 65ch; /* strict readability bounds */
+      max-width: 62ch;
       line-height: 1.7;
+      text-align: center;
+      margin-inline: auto;
+      text-wrap: balance;
     }
 
     /* Intelligent Device CTA Card */
@@ -263,6 +289,23 @@
       box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
       border-radius: 18px;
       padding: 26px 32px;
+      margin-top: 16px;
+      max-width: 580px;
+      width: 100%;
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+    }
+    .smart-device-btns {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      align-items: stretch;
+      justify-content: center;
+    }
       margin-top: 16px;
       max-width: 580px;
       width: 100%;
@@ -532,7 +575,7 @@
       text-align: left;
     }
     th {
-      background: #0b1120;
+      background: #121215;
       color: var(--text-sub);
       font-weight: 700;
       font-size: 0.78rem;
@@ -547,8 +590,13 @@
     /* All Platforms Grid */
     .platforms-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
+    }
+    @media (min-width: 1100px) {
+      .platforms-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
     }
     .platform-card {
       background: var(--card-bg);
@@ -1274,14 +1322,14 @@
       </a>
       <nav class="nav-links" aria-label="Main Navigation">
         <a href="#launch-video">Product Tour</a>
-        <a href="#telemetry-beam">Live Architecture</a>
+        <a href="#telemetry-beam">Architecture</a>
         <a href="#interactive-terminal">SOC Terminal</a>
         <a href="#vectors">Threat Vectors</a>
-        <a href="#comparison">Why Log Sentry</a>
-        <a href="#platforms">All Platforms</a>
+        <a href="#comparison">Comparison</a>
+        <a href="#platforms">Platforms</a>
         <a href="#faq">FAQ</a>
-        <a href="/dashboard.html" class="btn-header-cta" style="background:var(--accent);color:#04120a;font-weight:800;padding:8px 18px;border-radius:8px;text-decoration:none;box-shadow:0 0 15px rgba(16,185,129,0.3);">⚡ Launch App Console ➔</a>
       </nav>
+      <a href="/dashboard.html" class="btn-header-cta">⚡ Launch App Console ➔</a>
     </div>
   </header>
 
@@ -1293,9 +1341,10 @@
         <span>Behavioral Host Telemetry Engine</span>
       </div>
 
-      <!-- Exactly ONE H1 on the whole page, descender-padded -->
+      <!-- Exactly ONE H1 on the whole page, symmetrically formatted -->
       <h1 class="hero-headline" id="hero-title">
-        The Behavioral EDR For The <span class="accent-emphasis">AI & Supply-Chain Era</span>
+        The Behavioral EDR For The<br>
+        <span class="accent-emphasis">AI & Supply-Chain Era</span>
       </h1>
 
       <p class="hero-subhead">
@@ -1309,22 +1358,22 @@
           <span>Detecting your client environment...</span>
         </div>
 
-        <div style="display:flex;gap:12px;width:100%;flex-wrap:wrap;">
-          <a href="/dashboard.html" class="btn-launch-hero" style="flex:1;min-width:230px;">
+        <div class="smart-device-btns">
+          <a href="/dashboard.html" class="btn-launch-hero" style="flex:1 1 0;min-width:0;">
             <span aria-hidden="true">🚀</span>
             <span>Launch Live App in Browser</span>
           </a>
-          <a href="#" class="btn-download-hero" id="smartBtn" style="flex:1;min-width:230px;">
+          <a href="#" class="btn-download-hero" id="smartBtn" style="flex:1 1 0;min-width:0;">
             <span id="smartIcon" aria-hidden="true">⬇️</span>
             <span id="smartText">Download Native App</span>
           </a>
         </div>
 
-        <div class="smart-subtext" id="smartSub">
+        <div class="smart-subtext" id="smartSub" style="text-align:center;width:100%;">
           Verifiable Local Telemetry • Zero Kernel Extensions • Free & Open Source
         </div>
 
-        <div style="font-size: 0.8rem; color: var(--text-sub);">
+        <div style="font-size: 0.8rem; color: var(--text-sub); text-align:center; width:100%;">
           Looking for a different machine? <a href="#platforms" class="alt-platforms-anchor">Browse all 5 platform downloads ↓</a>
         </div>
       </div>
