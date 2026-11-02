@@ -770,7 +770,7 @@
       <div style="font-size: 0.75rem; color: #64748b; font-family: ui-monospace, monospace;">
         macOS Cocoa: NSWindowSharingNone (0) • Web DisplayCapture Intercepted
       </div>
-      <button class="btn-resume-view" onclick="togglePrivacyCallSimulation()">
+      <button class="btn-resume-view" onclick="dismissPrivacyCurtain()">
         Temporarily Deactivate / Resume Screen View ➔
       </button>
     </div>
@@ -1122,6 +1122,14 @@
             metricDisp.textContent = "BLACKOUT ON";
             metricDisp.style.color = "var(--red)";
           }
+        } else if (data.temporarily_dismissed) {
+          curtain.classList.remove('active');
+          shieldBtn.classList.remove('alerting');
+          shieldLabel.textContent = "SHIELD: SNOOZED (CALL ACTIVE)";
+          if (metricDisp) {
+            metricDisp.textContent = "SNOOZED";
+            metricDisp.style.color = "var(--yellow)";
+          }
         } else {
           curtain.classList.remove('active');
           shieldBtn.classList.remove('alerting');
@@ -1133,6 +1141,17 @@
         }
       } catch (e) {
         // Fallback in static / preview mode
+      }
+    }
+
+    async function dismissPrivacyCurtain() {
+      const curtain = document.getElementById('blackoutCurtain');
+      if (curtain) curtain.classList.remove('active');
+      try {
+        await fetch('/api/privacy/dismiss', { method: 'POST' });
+        await checkPrivacyStatus();
+      } catch (e) {
+        if (curtain) curtain.classList.remove('active');
       }
     }
 

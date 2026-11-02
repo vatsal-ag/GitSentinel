@@ -13,6 +13,7 @@ import time
 
 CALL_PROCESSES = {
     "zoom.us": "Zoom Video Conference",
+    "zoom": "Zoom Video Conference",
     "teams": "Microsoft Teams",
     "ms-teams": "Microsoft Teams",
     "skype": "Skype",
@@ -28,10 +29,26 @@ CALL_PROCESSES = {
     "quicktime player": "QuickTime Screen Recorder"
 }
 
+SYSTEM_EXCLUSIONS = [
+    "/system/library/",
+    "/usr/libexec/",
+    "/system/cryptexes/",
+    ".framework/",
+    ".xpc/",
+    ".appex/",
+    "crashpad",
+    "stored",
+    "service",
+    "widget",
+    "extension",
+    "daemon"
+]
+
 class CallPrivacyShield:
     def __init__(self):
         self.enabled = True
         self.manual_override = False
+        self.temporarily_dismissed = False
         self.active_call_detected = False
         self.detected_call_tool = None
         self.last_check_time = 0
@@ -51,12 +68,16 @@ class CallPrivacyShield:
             if current_os in ["darwin", "linux"]:
                 cmd = ["ps", "-eo", "comm="]
                 output = subprocess.check_output(cmd, stderr=subprocess.DEVNULL, timeout=2).decode("utf-8", errors="ignore")
-                lines = [line.strip().lower() for line in output.splitlines()]
+                lines = [line.strip() for line in output.splitlines()]
                 
                 for line in lines:
-                    base = os.path.basename(line)
+                    line_lower = line.lower()
+                    if any(ex in line_lower for ex in SYSTEM_EXCLUSIONS):
+                        continue
+                        
+                    base = os.path.basename(line).lower()
                     for key, name in CALL_PROCESSES.items():
-                        if key in base or key in line:
+                        if base == key or base == f"{key}.exe" or f"/applications/{key}.app/" in line_lower:
                             detected.append(name)
                             break
             elif current_os == "windows":
@@ -64,8 +85,11 @@ class CallPrivacyShield:
                 output = subprocess.check_output(cmd, stderr=subprocess.DEVNULL, timeout=2).decode("utf-8", errors="ignore")
                 for line in output.splitlines():
                     lower_line = line.lower()
+                    parts = lower_line.split(",")
+                    image_name = parts[0].strip('"\r\n ')
+                    base = os.path.splitext(image_name)[0]
                     for key, name in CALL_PROCESSES.items():
-                        if key in lower_line:
+                        if image_name == key or base == key or image_name == f"{key}.exe":
                             detected.append(name)
                             break
         except Exception:
@@ -86,10 +110,12 @@ class CallPrivacyShield:
                 else:
                     self.active_call_detected = False
                     self.detected_call_tool = None
+                    self.temporarily_dismissed = False
                     
                 # Apply native macOS Cocoa window sharing type if on macOS
                 if platform.system() == "Darwin" and was_active != self.active_call_detected:
-                    self.apply_macos_native_drm(not self.active_call_detected)
+                    should_blackout = self.active_call_detected and not self.temporarily_dismissed
+                    self.apply_macos_native_drm(not should_blackout)
                     
             time.sleep(2.0)
 
@@ -115,9 +141,22 @@ class CallPrivacyShield:
             # Fallback gracefully
             return False
 
+    def dismiss_curtain(self):
+        """Temporarily dismisses the blackout curtain for the user."""
+        self.temporarily_dismissed = True
+        self.manual_override = False
+        if platform.system() == "Darwin":
+            self.apply_macos_native_drm(True)
+        return self.get_status()
+
     def toggle_manual_simulation(self):
         """Toggles a simulated online call to test the black screen privacy curtain."""
-        self.manual_override = not self.manual_override
+        if self.temporarily_dismissed:
+            self.temporarily_dismissed = False
+            self.manual_override = True
+        else:
+            self.manual_override = not self.manual_override
+
         if self.manual_override:
             self.active_call_detected = True
             self.detected_call_tool = "Simulated UPI / Banking Call"
@@ -129,11 +168,13 @@ class CallPrivacyShield:
         return self.get_status()
 
     def get_status(self):
+        is_blackout = self.enabled and self.active_call_detected and not self.temporarily_dismissed
         return {
             "shield_enabled": self.enabled,
             "call_detected": self.active_call_detected,
             "active_call_tool": self.detected_call_tool,
-            "blackout_active": self.enabled and self.active_call_detected,
+            "blackout_active": is_blackout,
+            "temporarily_dismissed": self.temporarily_dismissed,
             "native_drm_supported": platform.system() == "Darwin",
             "mode": "DRM_WINDOW_BLACKOUT_NETFLIX_STANDARD"
         }

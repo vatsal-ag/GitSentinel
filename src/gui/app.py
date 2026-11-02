@@ -209,6 +209,11 @@ def privacy_toggle():
     status = call_shield.toggle_manual_simulation()
     return jsonify(status)
 
+@app.route("/api/privacy/dismiss", methods=["POST"])
+def privacy_dismiss():
+    status = call_shield.dismiss_curtain()
+    return jsonify(status)
+
 @app.route("/api/privacy/shield-state", methods=["POST"])
 def privacy_shield_state():
     data = request.json or {}
