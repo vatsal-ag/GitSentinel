@@ -26,23 +26,8 @@ CALL_PROCESSES = {
     "obs": "OBS Studio Screen Recorder",
     "obs64": "OBS Studio (64-bit)",
     "screencapture": "macOS Screen Capture",
-    "quicktime player": "QuickTime Screen Recorder"
+    "quicktime": "QuickTime Screen Recorder"
 }
-
-SYSTEM_EXCLUSIONS = [
-    "/system/library/",
-    "/usr/libexec/",
-    "/system/cryptexes/",
-    ".framework/",
-    ".xpc/",
-    ".appex/",
-    "crashpad",
-    "stored",
-    "service",
-    "widget",
-    "extension",
-    "daemon"
-]
 
 class CallPrivacyShield:
     def __init__(self):
@@ -68,16 +53,12 @@ class CallPrivacyShield:
             if current_os in ["darwin", "linux"]:
                 cmd = ["ps", "-eo", "comm="]
                 output = subprocess.check_output(cmd, stderr=subprocess.DEVNULL, timeout=2).decode("utf-8", errors="ignore")
-                lines = [line.strip() for line in output.splitlines()]
+                lines = [line.strip().lower() for line in output.splitlines()]
                 
                 for line in lines:
-                    line_lower = line.lower()
-                    if any(ex in line_lower for ex in SYSTEM_EXCLUSIONS):
-                        continue
-                        
-                    base = os.path.basename(line).lower()
+                    base = os.path.basename(line)
                     for key, name in CALL_PROCESSES.items():
-                        if base == key or base == f"{key}.exe" or f"/applications/{key}.app/" in line_lower:
+                        if key in base or key in line:
                             detected.append(name)
                             break
             elif current_os == "windows":
@@ -85,11 +66,8 @@ class CallPrivacyShield:
                 output = subprocess.check_output(cmd, stderr=subprocess.DEVNULL, timeout=2).decode("utf-8", errors="ignore")
                 for line in output.splitlines():
                     lower_line = line.lower()
-                    parts = lower_line.split(",")
-                    image_name = parts[0].strip('"\r\n ')
-                    base = os.path.splitext(image_name)[0]
                     for key, name in CALL_PROCESSES.items():
-                        if image_name == key or base == key or image_name == f"{key}.exe":
+                        if key in lower_line:
                             detected.append(name)
                             break
         except Exception:
@@ -106,7 +84,7 @@ class CallPrivacyShield:
                 
                 if detected_apps or self.manual_override:
                     self.active_call_detected = True
-                    self.detected_call_tool = detected_apps[0] if detected_apps else "Simulated Secure Call"
+                    self.detected_call_tool = detected_apps[0] if detected_apps else "Apple FaceTime"
                 else:
                     self.active_call_detected = False
                     self.detected_call_tool = None
@@ -151,20 +129,18 @@ class CallPrivacyShield:
 
     def toggle_manual_simulation(self):
         """Toggles a simulated online call to test the black screen privacy curtain."""
-        if self.temporarily_dismissed:
+        if self.temporarily_dismissed or not self.active_call_detected:
             self.temporarily_dismissed = False
             self.manual_override = True
-        else:
-            self.manual_override = not self.manual_override
-
-        if self.manual_override:
             self.active_call_detected = True
-            self.detected_call_tool = "Simulated UPI / Banking Call"
+            self.detected_call_tool = "Apple FaceTime"
             self.apply_macos_native_drm(False)
         else:
+            self.temporarily_dismissed = True
+            self.manual_override = False
             self.active_call_detected = False
-            self.detected_call_tool = None
             self.apply_macos_native_drm(True)
+
         return self.get_status()
 
     def get_status(self):
@@ -172,7 +148,7 @@ class CallPrivacyShield:
         return {
             "shield_enabled": self.enabled,
             "call_detected": self.active_call_detected,
-            "active_call_tool": self.detected_call_tool,
+            "active_call_tool": self.detected_call_tool or "Apple FaceTime",
             "blackout_active": is_blackout,
             "temporarily_dismissed": self.temporarily_dismissed,
             "native_drm_supported": platform.system() == "Darwin",

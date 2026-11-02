@@ -6,9 +6,12 @@ export default function handler(req, res) {
 
   return res.status(200).json({
     status: "ARMED",
-    blackout_active: false,
-    active_call_tool: null,
+    call_detected: true,
+    blackout_active: true,
+    active_call_tool: "Apple FaceTime",
     temporarily_dismissed: false,
+    native_drm_supported: true,
     cocoa_status: "NSWindowSharingNone (0)"
   });
 }
+

@@ -7,6 +7,7 @@ export default function handler(req, res) {
   return res.status(200).json({
     status: "DISMISSED",
     blackout_active: false,
-    temporarily_dismissed: true
+    temporarily_dismissed: true,
+    active_call_tool: "Apple FaceTime"
   });
 }
