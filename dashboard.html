@@ -1242,12 +1242,22 @@
       }
     }
 
+    let userManuallyDismissed = false;
+
     async function checkPrivacyStatus() {
+      if (userManuallyDismissed) return;
+
+      // On mobile devices, never auto-block the screen with simulated calls unless the user explicitly clicks the simulation button
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+
       try {
         const res = await fetch('/api/privacy/status');
         if (res.ok) {
           const data = await res.json();
-          if (data && data.blackout_active) {
+          if (isMobile && !blackoutActive) {
+            return;
+          }
+          if (data && data.blackout_active && !data.temporarily_dismissed) {
             applyLocalBlackoutState(true, data.active_call_tool || "ONLINE CALL");
           } else if (data && data.temporarily_dismissed) {
             applyLocalBlackoutState(false);
@@ -1269,6 +1279,7 @@
     }
 
     async function dismissPrivacyCurtain() {
+      userManuallyDismissed = true;
       applyLocalBlackoutState(false);
       try {
         await fetch('/api/privacy/dismiss', { method: 'POST' });
@@ -1276,19 +1287,15 @@
     }
 
     async function togglePrivacyCallSimulation() {
-      try {
-        const res = await fetch('/api/privacy/toggle', { method: 'POST' });
-        if (res.ok) {
-          await checkPrivacyStatus();
-          return;
-        }
-      } catch (e) {}
-
-      // Autonomous client-side toggle (instant, works on Vercel, static preview, or offline)
+      userManuallyDismissed = false;
       const nextState = !blackoutActive;
       const detectedTools = ["Apple FaceTime", "Zoom Video Meeting", "Google Meet Session", "Microsoft Teams Meeting", "OBS Studio Recording"];
       const chosenTool = detectedTools[Math.floor(Math.random() * detectedTools.length)];
       applyLocalBlackoutState(nextState, chosenTool);
+
+      try {
+        await fetch('/api/privacy/toggle', { method: 'POST' });
+      } catch (e) {}
     }
 
     // -------------------------------------------------------------

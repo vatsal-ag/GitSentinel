@@ -57,8 +57,20 @@ class CallPrivacyShield:
                 
                 for line in lines:
                     base = os.path.basename(line)
+                    # Filter out macOS background system daemons (e.g. facetimemessagestored)
+                    if "messagestored" in base or "conversationservice" in base or "telephonyutilities" in base:
+                        continue
+
+                    # Exact match for FaceTime app
+                    if "facetime" in base or "facetime" in line:
+                        if base == "facetime" or "/applications/facetime.app/" in line:
+                            detected.append(CALL_PROCESSES["facetime"])
+                        continue
+
                     for key, name in CALL_PROCESSES.items():
-                        if key in base or key in line:
+                        if key == "facetime":
+                            continue
+                        if key in base:
                             detected.append(name)
                             break
             elif current_os == "windows":
