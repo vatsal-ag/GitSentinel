@@ -1311,53 +1311,82 @@
     }
 
     let userManuallyDismissed = false;
+    let lastDismissedTool = null;
 
     async function checkPrivacyStatus() {
+      // True mobile phones only (do not classify resized desktop windows as mobile)
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) && !/Macintosh|Windows/i.test(navigator.userAgent);
+
+      let data = null;
+      // If browsing cloud preview (Vercel), query local host daemon on 127.0.0.1:5050 to catch native tools like AnyDesk
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        try {
+          const localRes = await fetch('http://127.0.0.1:5050/api/privacy/status', { mode: 'cors', signal: AbortSignal.timeout(1200) });
+          if (localRes.ok) {
+            data = await localRes.json();
+          }
+        } catch (e) {}
+      }
+
+      if (!data) {
+        try {
+          const res = await fetch('/api/privacy/status', { signal: AbortSignal.timeout(1500) });
+          if (res.ok) {
+            data = await res.json();
+          }
+        } catch (e) {}
+      }
+
+      if (!data) return;
+
+      // If a different/new tool is detected (e.g. user just opened AnyDesk), automatically re-arm
+      if (data.active_call_tool && data.active_call_tool !== lastDismissedTool) {
+        userManuallyDismissed = false;
+        lastDismissedTool = null;
+      }
+
       if (userManuallyDismissed) return;
 
-      // On mobile devices, never auto-block the screen with simulated calls unless the user explicitly clicks the simulation button
-      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+      if (isMobile && !blackoutActive) {
+        return;
+      }
 
-      try {
-        const res = await fetch('/api/privacy/status');
-        if (res.ok) {
-          const data = await res.json();
-          if (isMobile && !blackoutActive) {
-            return;
-          }
-          if (data && data.blackout_active && !data.temporarily_dismissed) {
-            applyLocalBlackoutState(true, data.active_call_tool || "ONLINE CALL");
-          } else if (data && data.temporarily_dismissed) {
-            applyLocalBlackoutState(false);
-            const shieldLabel = document.getElementById('privacyShieldLabel');
-            if (shieldLabel) shieldLabel.textContent = "SHIELD: SNOOZED (CALL ACTIVE)";
-            const metricDisp = document.getElementById('shieldStateDisplay');
-            if (metricDisp) {
-              metricDisp.textContent = "SNOOZED";
-              metricDisp.style.color = "var(--yellow)";
-            }
-          } else {
-            applyLocalBlackoutState(false);
-          }
-          return;
+      if (data.blackout_active && !data.temporarily_dismissed) {
+        applyLocalBlackoutState(true, data.active_call_tool || "AnyDesk Remote Control");
+      } else if (data.temporarily_dismissed) {
+        applyLocalBlackoutState(false);
+        const shieldLabel = document.getElementById('privacyShieldLabel');
+        if (shieldLabel) shieldLabel.textContent = "SHIELD: SNOOZED (CALL ACTIVE)";
+        const metricDisp = document.getElementById('shieldStateDisplay');
+        if (metricDisp) {
+          metricDisp.textContent = "SNOOZED";
+          metricDisp.style.color = "var(--yellow)";
         }
-      } catch (e) {
-        // Detached or static client mode
+      } else {
+        applyLocalBlackoutState(false);
       }
     }
 
     async function dismissPrivacyCurtain() {
       userManuallyDismissed = true;
+      const toolBadge = document.getElementById('drmDetectedTool');
+      lastDismissedTool = toolBadge ? toolBadge.textContent.replace(" DETECTED // SCREEN BLACKED OUT", "").trim() : "AnyDesk Remote Control";
       applyLocalBlackoutState(false);
       try {
         await fetch('/api/privacy/dismiss', { method: 'POST' });
       } catch (e) {}
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        try {
+          await fetch('http://127.0.0.1:5050/api/privacy/dismiss', { method: 'POST', mode: 'cors' });
+        } catch (e) {}
+      }
     }
 
     async function togglePrivacyCallSimulation() {
       userManuallyDismissed = false;
+      lastDismissedTool = null;
       const nextState = !blackoutActive;
-      const detectedTools = ["Apple FaceTime", "Zoom Video Meeting", "Google Meet Session", "Microsoft Teams Meeting", "OBS Studio Recording"];
+      const detectedTools = ["AnyDesk Remote Control", "Zoom Video Meeting", "Google Meet Session", "Microsoft Teams Meeting", "Apple FaceTime", "OBS Studio Recording"];
       const chosenTool = detectedTools[Math.floor(Math.random() * detectedTools.length)];
       applyLocalBlackoutState(nextState, chosenTool);
 

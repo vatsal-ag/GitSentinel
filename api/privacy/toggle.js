@@ -9,7 +9,7 @@ export default function handler(req, res) {
   privacyState.blackout_active = !privacyState.blackout_active;
   privacyState.call_detected = privacyState.blackout_active;
   privacyState.temporarily_dismissed = false;
-  privacyState.active_call_tool = privacyState.blackout_active ? "Apple FaceTime" : null;
+  privacyState.active_call_tool = privacyState.blackout_active ? (req.body?.tool || "AnyDesk Remote Control") : null;
   privacyState.status = privacyState.blackout_active ? "CALL_DETECTED" : "ARMED";
 
   return res.status(200).json(privacyState);

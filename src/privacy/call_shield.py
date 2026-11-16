@@ -57,8 +57,13 @@ class CallPrivacyShield:
                 
                 for line in lines:
                     base = os.path.basename(line)
-                    # Filter out macOS background system daemons (e.g. facetimemessagestored)
-                    if "messagestored" in base or "conversationservice" in base or "telephonyutilities" in base:
+                    # Filter out macOS background system daemons and widget extensions
+                    if any(ex in base for ex in ["messagestored", "conversationservice", "telephonyutilities", "widgetextension"]):
+                        continue
+
+                    # Direct match for AnyDesk
+                    if "anydesk" in base or "anydesk" in line:
+                        detected.append("AnyDesk Remote Control")
                         continue
 
                     # Exact match for FaceTime app
@@ -68,7 +73,7 @@ class CallPrivacyShield:
                         continue
 
                     for key, name in CALL_PROCESSES.items():
-                        if key == "facetime":
+                        if key in ["facetime", "anydesk"]:
                             continue
                         if key in base:
                             detected.append(name)
@@ -93,10 +98,19 @@ class CallPrivacyShield:
             if self.enabled:
                 detected_apps = self._check_running_processes()
                 was_active = self.active_call_detected
+                old_tool = self.detected_call_tool
                 
                 if detected_apps or self.manual_override:
                     self.active_call_detected = True
-                    self.detected_call_tool = detected_apps[0] if detected_apps else "Apple FaceTime"
+                    # Prioritize AnyDesk Remote Control if active
+                    if "AnyDesk Remote Control" in detected_apps:
+                        self.detected_call_tool = "AnyDesk Remote Control"
+                    else:
+                        self.detected_call_tool = detected_apps[0] if detected_apps else "Apple FaceTime"
+
+                    # If a new tool starts (e.g. AnyDesk opened), re-arm the shield
+                    if old_tool != self.detected_call_tool and not self.manual_override:
+                        self.temporarily_dismissed = False
                 else:
                     self.active_call_detected = False
                     self.detected_call_tool = None
@@ -107,7 +121,7 @@ class CallPrivacyShield:
                     should_blackout = self.active_call_detected and not self.temporarily_dismissed
                     self.apply_macos_native_drm(not should_blackout)
                     
-            time.sleep(2.0)
+            time.sleep(1.0)
 
     def apply_macos_native_drm(self, allow_sharing=True):
         """
