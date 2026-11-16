@@ -44,3 +44,7 @@ Icon
 # Brag video work intermediates
 brag-output/work/
 brag-output/test_frame_*.jpg
+
+# Internal helper and automation scripts (never commit to git)
+Antigravity/
+
